@@ -30,7 +30,7 @@ namespace Paradox.Net
         public const string OfflineMessage = "인터넷에 연결하지 못했어요 — 네트워크를 확인하고 다시 시도하세요";
 
         private const string CodeAlphabet = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-        private const int NameLength = 4;
+        private const int NameLength = 5;   // 방 코드 = 리전 1자 + 이름 5자 = 6자
         // 리전 토큰 <-> 방 코드 첫 글자. 방은 리전 안에서만 보이므로 코드에 리전을 실어 참가자가 같은 리전으로 접속하게 한다.
         private static readonly string[] RegionTokens = { "asia", "au", "cae", "cn", "eu", "hk", "in", "jp", "kr", "mx", "ru", "rue", "sa", "tr", "uae", "us", "usw", "ussc", "za" };
         private const string RegionChars = "ABCDEFGHJKLMNPQRSTU";   // RegionTokens 와 같은 순서
@@ -101,14 +101,14 @@ namespace Paradox.Net
             return Begin(withBots ? GameMode.Single : GameMode.Shared, _joinName, null);
         }
 
-        /// <summary>방 코드로 참가. 코드 5~6자 = 리전 1자 + 이름, 4자 = 이름만(가장 가까운 리전).</summary>
+        /// <summary>방 코드로 참가. 코드 6자 = 리전 1자 + 이름 5자.</summary>
         public bool StartClient(string roomCode)
         {
             if (_active) return false;
             if (!TryParseCode(roomCode, out string name, out string region))
             {
                 LastDisconnectWasConnectFailure = true;
-                SetStatus("방 코드는 영문 대문자·숫자 4~6자예요");
+                SetStatus("방 코드는 영문 대문자·숫자 6자예요");
                 return false;
             }
             _wantBots = false;
@@ -120,15 +120,17 @@ namespace Paradox.Net
             return Begin(GameMode.Shared, name, region);
         }
 
+        /// <summary>방 코드 길이(리전 1자 + 이름 5자).</summary>
+        public const int CodeLength = 6;
+
         public static string Normalize(string code) => (code ?? "").Trim().ToUpperInvariant();
 
         public static bool TryParseCode(string code, out string name, out string region)
         {
             name = null; region = null;
             code = Normalize(code);
-            if (code.Length < 4 || code.Length > 6) return false;
+            if (code.Length != CodeLength) return false;
             foreach (char c in code) if (!((c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9'))) return false;
-            if (code.Length == 4) { name = code; return true; }
             int i = RegionChars.IndexOf(code[0]);
             region = i >= 0 ? RegionTokens[i] : null;
             name = code.Substring(1);

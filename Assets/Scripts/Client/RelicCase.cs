@@ -15,6 +15,7 @@ namespace Paradox.Client
         public int seed = -1;
 
         private RelicPuzzle _puzzle;
+        private int _round = -1;
 
         public override string Label => RelicPanel.Cleared ? null : !Story1Blackout.PowerOn ? "전원이 꺼져 있다 (퓨즈함 먼저)" : "유물 전시대 살펴보기";
 
@@ -23,11 +24,16 @@ namespace Paradox.Client
         public override void Activate()
         {
             if (!Story1Blackout.PowerOn || RelicPanel.Cleared) return;
-            if (_puzzle == null) _puzzle = RelicPuzzle.Generate(seed >= 0 ? seed : Story1Net.Seed(Story1Net.PRelic));
+            int r = Story1Net.RoundOf(Story1Net.PRelic);
+            if (_puzzle == null || r != _round) { _puzzle = RelicPuzzle.Generate(seed >= 0 ? seed : Story1Net.Seed(Story1Net.PRelic)); _round = r; }   // 라운드가 바뀌면 새 문제
             panel.Open(this, _puzzle);
         }
 
-        public void OnSolved() { RelicPanel.MarkCleared(); if (render != null) render.color = new Color(0.7f, 0.8f, 0.7f, 1f); }
+        public void OnSolved()
+        {
+            if (!Story1Net.IsFinal(Story1Net.PRelic)) { Story1Net.AnnounceRound(Story1Net.PRelic); return; }   // 아직 더 풀어야 한다 — 다음 라운드
+            RelicPanel.MarkCleared(); if (render != null) render.color = new Color(0.7f, 0.8f, 0.7f, 1f);
+        }
 
         // 유리 전시대 + 유물 4개 도트(36×20)
         private static Sprite MakeSprite()

@@ -37,8 +37,34 @@ namespace Paradox.Editor
         {
             Story1FlowBuilder.Build();
             LobbySceneBuilder.Build();
+            FixStageSelectHint();
             AssetDatabase.SaveAssets();
             Debug.Log("[BuildClient] UI 재생성 완료");
+        }
+
+        /// <summary>스테이지 선택 하단의 그림 속 "Esc 뒤로" 안내를 글자(X 뒤로)로 바꾼다. 여러 번 실행해도 안전.</summary>
+        public static void FixStageSelectHint()
+        {
+            var sc = UnityEditor.SceneManagement.EditorSceneManager.OpenScene("Assets/Scenes/StageSelect.unity");
+            foreach (var im in UnityEngine.Object.FindObjectsByType<UnityEngine.UI.Image>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+            {
+                if (im.sprite == null || im.sprite.name != "hint" || !im.enabled) continue;
+                var r = im.rectTransform;
+                var go = new GameObject("HintText", typeof(RectTransform));
+                var nr = (RectTransform)go.transform;
+                nr.SetParent(r.parent, false);
+                nr.anchorMin = r.anchorMin; nr.anchorMax = r.anchorMax; nr.pivot = r.pivot;
+                nr.anchoredPosition = r.anchoredPosition;
+                nr.sizeDelta = new Vector2(Mathf.Max(r.sizeDelta.x, 700f), Mathf.Max(r.sizeDelta.y, 30f));
+                nr.localScale = Vector3.one;
+                var t = go.AddComponent<Paradox.Client.PixelText>();
+                t.scale = 2; t.align = TextAnchor.MiddleCenter; t.color = new Color(0.85f, 0.88f, 0.95f, 0.9f);
+                t.text = "A / D 선택     Enter 시작     X 뒤로"; t.raycastTarget = false;
+                im.enabled = false;
+                Debug.Log("[BuildClient] StageSelect 힌트 교체: " + r.anchoredPosition + " " + r.sizeDelta);
+            }
+            UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(sc);
+            UnityEditor.SceneManagement.EditorSceneManager.SaveScene(sc);
         }
 
         public static void Build()

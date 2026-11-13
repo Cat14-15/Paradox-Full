@@ -119,7 +119,7 @@ namespace Paradox.Client
 
             if (op)
             {
-                title.text = "분전반 · 퓨즈함";
+                title.text = "분전반 · 퓨즈함" + Story1Net.RoundLabel(Story1Net.PFuse);
                 hint.text = "← →  칸 고르기     1~4  퓨즈 꽂기     Backspace  비우기     Enter  전원 투입";
                 for (int s = 0; s < 4; s++) slotFuses[s].Set(_slots[s], true);
                 cursor.rectTransform.anchoredPosition = slotRects[_cur].anchoredPosition;
@@ -253,7 +253,7 @@ namespace Paradox.Client
             if (_puzzle.Check(_slots))
             {
                 _solved = true;
-                status.text = "전원 투입 성공!";
+                status.text = Story1Net.RoundOf(Story1Net.PFuse) + 1 < Story1Net.NeedRounds(Story1Net.PFuse) ? "성공! 한 번 더 — 새 퓨즈 문제가 나와요" : "전원 투입 성공!";
                 status.color = new Color(0.45f, 0.95f, 0.6f);
                 _flashCol = new Color(0.5f, 1f, 0.6f); _flashA = 0.55f;
                 Sfx.Play("power_on", 1f);
@@ -266,7 +266,8 @@ namespace Paradox.Client
                 _fails++;
                 status.text = "퓨즈가 터졌다! 단서를 다시 맞춰 보자.";
                 status.color = new Color(1f, 0.5f, 0.45f);
-                if (_fails >= 3) { int hs = (_fails - 3) % 4; status.text = "힌트: " + (hs + 1) + "번 슬롯은 " + FusePuzzle.ColorKo[_puzzle.answer[hs]] + " 퓨즈"; status.color = new Color(0.95f, 0.85f, 0.45f); }
+                int hint = Story1Rules.HintAfter(Story1Net.Difficulty);
+                if (_fails >= hint) { int hs = (_fails - hint) % 4; status.text = "힌트: " + (hs + 1) + "번 슬롯은 " + FusePuzzle.ColorKo[_puzzle.answer[hs]] + " 퓨즈"; status.color = new Color(0.95f, 0.85f, 0.45f); }
                 _flashCol = new Color(1f, 0.35f, 0.3f); _flashA = 0.6f; _shake = 14f;
                 Sfx.Play("fuse_pop", 1f);
                 for (int i = 0; i < 4; i++) _slots[i] = -1;

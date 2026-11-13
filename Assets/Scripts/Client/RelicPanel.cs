@@ -100,7 +100,7 @@ namespace Paradox.Client
 
             if (op)
             {
-                title.text = "수장고 · 유물과 받침대";
+                title.text = "수장고 · 유물과 받침대" + Story1Net.RoundLabel(Story1Net.PRelic);
                 hint.text = "← → ↑ ↓  고르기     Enter  들기 / 올리기     한 번에 하나만 들 수 있어요. 이름표는 필리핀어예요.";
                 for (int s = 0; s < 5; s++)
                 {
@@ -222,7 +222,7 @@ namespace Paradox.Client
                 status.text = "유물이 튕겨 나왔다! 시대와 진품을 다시 확인하자.";
                 status.color = new Color(1f, 0.5f, 0.45f);
                 _fails++;
-                if (_fails >= 2) { status.text = "힌트: 복제품은 " + (_puzzle.fake + 1) + "번 칸이다"; status.color = new Color(0.95f, 0.85f, 0.45f); }
+                if (_fails >= System.Math.Max(1, Story1Rules.HintAfter(Story1Net.Difficulty) - 1)) { status.text = "힌트: 복제품은 " + (_puzzle.fake + 1) + "번 칸이다"; status.color = new Color(0.95f, 0.85f, 0.45f); }
                 _flashCol = new Color(1f, 0.35f, 0.3f); _flashA = 0.6f; _shake = 12f;
                 _stunUntil = Time.unscaledTime + 2.0f;
                 Sfx.Play("fuse_pop", 1f);

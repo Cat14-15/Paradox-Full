@@ -198,6 +198,10 @@ namespace Paradox.Editor
             var bi = Node("Icon", bots.rect); At(bi, -40, 0, 44, 44); Img(bi, Lobby("icon_bot"), Amber);
             bots.label = Txt(bots.rect, "Label", "+봇", 2, Amber, 36, 0, 70, 36);
 
+            // 난이도(방장이 누르면 바뀌고, 다른 사람 화면에도 같은 값이 보인다)
+            var diff = Panel(charR, "DifficultyButton", 450, 440, 380, 76, ctl, 8, 0);
+            diff.label = Txt(diff.rect, "Label", "난이도  보통", 2, Amber, 0, 0, 360, 40);
+
             var charStatus = Txt(charR, "Status", "", 2, Warn, 0, 330, 1500, 36);
             charStatus.rectTransform.anchoredPosition = new Vector2(0, -345);
 
@@ -221,7 +225,7 @@ namespace Paradox.Editor
             ctl.codeBorders = codeBorders; ctl.codeChars = codeChars; ctl.roomStatus = roomStatus;
             ctl.cards = cards;
             ctl.charTitle = charTitle; ctl.charCodeLine = charCode; ctl.charStatus = charStatus;
-            ctl.nickBtn = nick; ctl.nickValue = nickValue; ctl.leaveBtn = leave; ctl.startBtn = start; ctl.botsBtn = bots;
+            ctl.nickBtn = nick; ctl.nickValue = nickValue; ctl.leaveBtn = leave; ctl.startBtn = start; ctl.botsBtn = bots; ctl.diffBtn = diff;
 
             SettingsPanelBuilder.Add(root);
             EditorSceneManager.SaveScene(scene, ScenePath);

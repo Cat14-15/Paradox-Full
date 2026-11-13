@@ -47,7 +47,7 @@ namespace Paradox.Client
         [Header("② 캐릭터 선택")]
         public Card[] cards;
         public PixelText charTitle, charCodeLine, charStatus;
-        public Btn nickBtn, leaveBtn, startBtn, botsBtn;
+        public Btn nickBtn, leaveBtn, startBtn, botsBtn, diffBtn;
         public PixelText nickValue;
 
         public Sprite[] portraits;
@@ -179,6 +179,7 @@ namespace Paradox.Client
                     else if (group == 4) LeaveRoom();
                     else if (group == 5) TryStart();
                     else if (group == 6) FillBots();
+                    else if (group == 8) CycleDifficulty();
                     break;
             }
         }
@@ -348,7 +349,7 @@ namespace Paradox.Client
 
         private void FocusJoin()
         {
-            if (!NetHub.TryParseCode(_code, out _, out _)) { Say(_code.Length == 0 ? "방 코드를 입력하세요" : "방 코드는 4~6자예요", Warn); return; }
+            if (!NetHub.TryParseCode(_code, out _, out _)) { Say(_code.Length == 0 ? "방 코드를 입력하세요" : "방 코드는 6자예요", Warn); return; }
             StartConnect(() => NetHub.Instance.StartClient(_code), "방에 들어가는 중…");
         }
 
@@ -484,6 +485,13 @@ namespace Paradox.Client
 
         private void FillBots() { Session.Send("FillBots"); }
 
+        // 난이도: 방장만 바꾼다(서버가 한 번 더 확인). 다른 사람은 방장이 고른 값을 본다.
+        private void CycleDifficulty()
+        {
+            if (!Session.IsHost) { Paradox.Core.Sfx.Play("ui_back", 0.6f); return; }
+            Story1Net.SetDifficulty((Story1Net.Difficulty + 1) % Story1Rules.Count);
+        }
+
         private void CommitNick()
         {
             _nickFocus = false;
@@ -533,7 +541,7 @@ namespace Paradox.Client
                 c.name.color = mine || p.present ? Ink : Dim;
                 c.role.text = Roles.Name(i);
                 c.role.color = rc;
-                string who = p.present ? (p.isBot ? "봇 (컴퓨터)" : p.name) : "비어 있음";
+                string who = p.present ? (p.isBot ? "봇 · 눌러서 선택" : p.name) : "눌러서 선택";
                 if (mine) who = (string.IsNullOrEmpty(p.name) ? Roles.DefaultName(i) : p.name);
                 c.owner.text = (mine ? "★ " : "") + who;
                 c.owner.color = mine ? Amber : (p.present ? Ink : Dim);
@@ -570,6 +578,10 @@ namespace Paradox.Client
             else startBtn.label.text = "방장 대기 중   " + present + " / 4";
             startBtn.label.scale = can && present >= 4 ? 3 : 2;
             startBtn.label.color = can ? Mint : Dim;
+            int dl = Story1Net.Difficulty;
+            diffBtn.label.text = "난이도  " + Story1Rules.Names[dl];
+            diffBtn.label.color = host ? Amber : Dim;
+            Style(diffBtn, false, host ? Amber : Dim, true);
             bool needBots = host && present < 4;
             botsBtn.rect.gameObject.SetActive(needBots);
             Style(botsBtn, false, Amber, needBots);

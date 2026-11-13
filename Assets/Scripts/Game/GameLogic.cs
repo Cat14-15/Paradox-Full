@@ -253,10 +253,17 @@ namespace Paradox.Game
             switch (c.type)
             {
                 case "S1":   // Story1(월드·퍼즐) 중계: 권한자는 판정하지 않고 보낸 사람 슬롯을 붙여 모두에게 그대로 전달한다
-                    if (c.a == 1 && c.b >= 0 && c.b < 8 && (S.s1Done & (1 << c.b)) == 0) { S.s1Done |= 1 << c.b; Dirty = true; }   // Clear: 푼 퍼즐을 상태에 기록
+                    if (c.a == 1 && c.b >= 0 && c.b < 5 && (S.s1Done & (1 << c.b)) == 0)   // Clear: 푼 횟수를 세고, 필요한 만큼 풀었을 때만 "푼 퍼즐"로 기록
+                    {
+                        int n = Story1Rules.RoundsOf(S.s1Rounds, c.b) + 1;
+                        S.s1Rounds = Story1Rules.WithRounds(S.s1Rounds, c.b, n);
+                        if (n >= Story1Rules.Need(S.difficulty, c.b)) S.s1Done |= 1 << c.b;
+                        Dirty = true;
+                    }
                     Send(new GameEvent { type = "S1", slot = slot, a = c.a, b = c.b, s = c.s ?? "", f = c.f, pos = c.pos });
                     break;
                 case "Slot": ChangeSlot(slot, c.a); break;
+                case "Diff": if (fromHost && S.phase == Phase.Lobby) { S.difficulty = Story1Rules.Clamp(c.a); Dirty = true; } break;
                 case "FillBots": if (fromHost && S.phase == Phase.Lobby) FillBots(S.players[S.hostSlot].clientId); break;
                 case "StartGame":
                     if (fromHost && S.phase == Phase.Lobby)
@@ -441,7 +448,7 @@ namespace Paradox.Game
             S.stats = new Stats();
             S.gameStartClock = Clock;
             S.puzzleSeed = new System.Random().Next(1, 1000000);
-            S.s1Done = 0;
+            S.s1Done = 0; S.s1Rounds = 0;
             S.stage = 1;
             S.st = new StageState();
             foreach (var pl in S.players) pl.campDone = pl.prologueDone = pl.isBot || !pl.present;   // 사람은 프롤로그를 끝내야 true

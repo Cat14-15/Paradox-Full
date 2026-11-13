@@ -36,6 +36,7 @@ namespace Paradox.Client
         private YDepthSort[] _depth;
         private Vector2[] _last;
         private Vector2[] _off;
+        private Vector2[] _vel;
         private int[] _dir;
         private float[] _anim;
         private Sprite[][] _sprites;
@@ -45,7 +46,7 @@ namespace Paradox.Client
             offsets = SpreadOffsets;   // 씬에 저장된 옛 값(서로 겹침) 대신 항상 이 값을 쓴다
             int n = sheets.Length;
             _sr = new SpriteRenderer[n]; _tr = new Transform[n]; _depth = new YDepthSort[n];
-            _last = new Vector2[n]; _off = new Vector2[n]; _dir = new int[n]; _anim = new float[n]; _sprites = new Sprite[n][];
+            _last = new Vector2[n]; _off = new Vector2[n]; _vel = new Vector2[n]; _dir = new int[n]; _anim = new float[n]; _sprites = new Sprite[n][];
             RoleFrames = _sprites;
             for (int i = 0; i < n; i++)
             {
@@ -101,8 +102,17 @@ namespace Paradox.Client
                 p += _off[i];
                 Vector2 d = p - _last[i];
                 if (d.sqrMagnitude > 25f) { _last[i] = p; d = Vector2.zero; }   // 문을 지난 순간이동은 걸어가지 않고 바로
-                bool moving = d.sqrMagnitude > 1e-5f && d.sqrMagnitude < 4f;
-                if (moving) { _dir[i] = PixelSprites.DirectionFor(d.x, d.y, _dir[i]); _anim[i] += Time.deltaTime; } else _anim[i] = 0f;
+                // 속도가 아주 느릴 땐(밀림·보정으로 생기는 미세한 움직임) 걷는 모션/방향 전환을 하지 않는다 → 앞뒤로 흔들려 보이지 않게
+                float speed = d.magnitude / Mathf.Max(Time.deltaTime, 0.0001f);
+                bool moving = speed > 0.6f && d.sqrMagnitude < 4f;
+                if (moving)
+                {
+                    // 이동 방향을 조금 부드럽게 모아서(저역 통과) 방향이 순간적으로 뒤집히는 걸 막는다
+                    _vel[i] = Vector2.Lerp(_vel[i], d / Mathf.Max(Time.deltaTime, 0.0001f), 1f - Mathf.Exp(-10f * Time.deltaTime));
+                    if (_vel[i].magnitude > 0.5f) _dir[i] = PixelSprites.DirectionFor(_vel[i].x, _vel[i].y, _dir[i]);
+                    _anim[i] += Time.deltaTime;
+                }
+                else { _anim[i] = 0f; _vel[i] = Vector2.zero; }
                 _last[i] = p;
                 _tr[i].position = new Vector3(p.x, p.y, 0f);
                 _depth[i].SetReferenceY(refY);

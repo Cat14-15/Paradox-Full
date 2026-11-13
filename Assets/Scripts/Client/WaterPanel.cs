@@ -96,7 +96,7 @@ namespace Paradox.Client
 
             if (op)
             {
-                title.text = "관리실 · 배수 밸브";
+                title.text = "관리실 · 배수 밸브" + Story1Net.RoundLabel(Story1Net.PWater);
                 hint.text = "1~4  밸브 돌리기 (왼쪽부터)     Enter  수문 확인     밸브는 서로 연동돼 있어요. 돌릴 때마다 물이 찹니다.";
                 for (int i = 0; i < 4; i++)
                 {
@@ -226,7 +226,7 @@ namespace Paradox.Client
                 _fails++;
                 status.text = "수문이 막혔다! 물이 더 찼다.";
                 status.color = new Color(1f, 0.5f, 0.45f);
-                if (_fails >= 3) { int hv = -1; for (int i = 0; i < 4; i++) if (_puzzle.solution[i]) { hv = i; break; } if (hv >= 0) { status.text = "힌트: " + (hv + 1) + "번째 밸브를 돌려 보자"; status.color = new Color(0.95f, 0.85f, 0.45f); } }
+                if (_fails >= Story1Rules.HintAfter(Story1Net.Difficulty)) { int hv = -1; for (int i = 0; i < 4; i++) if (_puzzle.solution[i]) { hv = i; break; } if (hv >= 0) { status.text = "힌트: " + (hv + 1) + "번째 밸브를 돌려 보자"; status.color = new Color(0.95f, 0.85f, 0.45f); } }
                 _flashCol = new Color(1f, 0.35f, 0.3f); _flashA = 0.5f; _shake = 10f;
                 Sfx.Play("fuse_pop", 0.8f);
             }

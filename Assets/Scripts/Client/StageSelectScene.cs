@@ -58,7 +58,8 @@ namespace Paradox.Client
                 if (kb.rightArrowKey.wasPressedThisFrame || kb.dKey.wasPressedThisFrame) Select((_sel + 1) % cards.Length);
                 if (kb.leftArrowKey.wasPressedThisFrame || kb.aKey.wasPressedThisFrame) Select((_sel + cards.Length - 1) % cards.Length);
                 if (kb.enterKey.wasPressedThisFrame || kb.spaceKey.wasPressedThisFrame || kb.eKey.wasPressedThisFrame) Activate(_sel);
-                if (kb.escapeKey.wasPressedThisFrame) { Paradox.Core.Sfx.Play("ui_back"); StartCoroutine(Leave(backScene)); }
+                if (kb.escapeKey.wasPressedThisFrame || kb.xKey.wasPressedThisFrame) {   // 웹에서는 Esc 가 전체화면을 풀어서 X 도 쓴다
+                Paradox.Core.Sfx.Play("ui_back"); StartCoroutine(Leave(backScene)); }
             }
             Apply(false);
         }

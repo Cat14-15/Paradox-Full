@@ -15,6 +15,7 @@ namespace Paradox.Client
         public int seed = -1;
 
         private WaterPuzzle _puzzle;
+        private int _round = -1;
 
         public override string Label => WaterPanel.Cleared ? null : !Story1Blackout.PowerOn ? "전원이 꺼져 있다 (퓨즈함 먼저)" : "배수 밸브 조작";
 
@@ -23,11 +24,16 @@ namespace Paradox.Client
         public override void Activate()
         {
             if (!Story1Blackout.PowerOn || WaterPanel.Cleared) return;
-            if (_puzzle == null) _puzzle = WaterPuzzle.Generate(seed >= 0 ? seed : Story1Net.Seed(Story1Net.PWater));
+            int r = Story1Net.RoundOf(Story1Net.PWater);
+            if (_puzzle == null || r != _round) { _puzzle = WaterPuzzle.Generate(seed >= 0 ? seed : Story1Net.Seed(Story1Net.PWater)); _round = r; }   // 라운드가 바뀌면 새 문제
             panel.Open(this, _puzzle);
         }
 
-        public void OnSolved() { WaterPanel.MarkCleared(); if (render != null) render.color = new Color(0.65f, 0.75f, 0.7f, 1f); }
+        public void OnSolved()
+        {
+            if (!Story1Net.IsFinal(Story1Net.PWater)) { Story1Net.AnnounceRound(Story1Net.PWater); return; }   // 아직 더 풀어야 한다 — 다음 라운드
+            WaterPanel.MarkCleared(); if (render != null) render.color = new Color(0.65f, 0.75f, 0.7f, 1f);
+        }
 
         // 파이프 + 밸브 바퀴 도트(32×20)
         private static Sprite MakeSprite()

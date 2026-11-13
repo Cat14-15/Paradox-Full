@@ -49,16 +49,23 @@ namespace Paradox.Client
             roleLine.color = Roles.Color(me);
             group.alpha = 1f; group.blocksRaycasts = true; group.interactable = true;
             bool online = Story1Net.HasHumanPeers;
-            string[] k = { "W A S D", "E", "Q", online ? "마우스" : "Tab", "H" };
+            bool solo = Story1Role.Solo;   // 에디터 혼자 테스트일 때만 Tab 으로 역할을 바꾼다
+            string[] k = { "W A S D", "E", "Q", online ? "마우스" : solo ? "Tab" : "", "H" };
             string[] d =
             {
                 "이동  (방향키도 돼요)",
                 "문이나 물건 앞에서 상호작용",
                 "퍼즐 화면 닫기",
-                online ? "아래 카드로 신호 보내기" : "역할 바꾸기 (혼자 테스트)",
+                online ? "아래 카드로 신호 보내기" : solo ? "역할 바꾸기 (혼자 테스트)" : "",
                 "이 도움말 다시 보기"
             };
-            for (int i = 0; i < keys.Length; i++) { keys[i].text = k[i]; descs[i].text = d[i]; }
+            int row = 0;   // 빈 줄은 건너뛰어 위로 붙인다
+            for (int i = 0; i < keys.Length; i++)
+            {
+                if (string.IsNullOrEmpty(d[i])) continue;
+                keys[row].text = k[i]; descs[row].text = d[i]; row++;
+            }
+            for (; row < keys.Length; row++) { keys[row].text = ""; descs[row].text = ""; }
             hint.text = "";
             Sfx.Play("ui_select", 0.8f);
         }

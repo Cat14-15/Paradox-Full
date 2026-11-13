@@ -120,7 +120,8 @@ namespace Paradox.Editor
             var next = Txt(dlg, "Next", "▼", 2, Amber, 810, -466, 40, 36, TextAnchor.MiddleCenter);
 
             // ---------------- 페이드 + 건너뛰기 안내
-            var hint = Txt(root, "SkipHint", "Esc  건너뛰기", 2, new Color(0.3f, 0.2f, 0.15f, 0.8f), 780, 440, 300, 36, TextAnchor.MiddleRight);
+            { var pill = Img(At(Node("SkipBg", root), 700, 440, 220, 52), null, new Color(0.04f, 0.05f, 0.08f, 0.72f)); pill.raycastTarget = false; }
+            var hint = Txt(root, "SkipHint", "X  건너뛰기", 2, new Color(0.97f, 0.97f, 0.94f, 1f), 700, 440, 200, 36, TextAnchor.MiddleCenter);
             var bl = Node("Black", root); Stretch(bl); Img(bl, null, Color.black);
             var wait = Txt(bl, "WaitText", "", 3, Ink, 0, 0, 1500, 70, TextAnchor.MiddleCenter);
             var title = Txt(bl, "Title", "", 6, Amber, 0, 40, 1700, 100, TextAnchor.MiddleCenter);

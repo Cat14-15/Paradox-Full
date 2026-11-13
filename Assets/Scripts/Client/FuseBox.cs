@@ -16,6 +16,7 @@ namespace Paradox.Client
         public int seed = -1;
 
         private FusePuzzle _puzzle;
+        private int _round = -1;
         private bool _done;
 
         public override string Label => _done || Story1Blackout.PowerOn ? null : "퓨즈함 열기";
@@ -26,6 +27,9 @@ namespace Paradox.Client
             if (led != null && led.sprite == null) led.sprite = MakeLed();
             _done = Story1Blackout.PowerOn;
             UpdateLed();
+            // 벽에 붙은 설치물이라 사람은 항상 그 앞에 서야 한다(사람이 뒤로 가려지지 않게 맨 뒤쪽 순서)
+            if (render != null) render.sortingOrder = -800;
+            if (led != null) led.sortingOrder = -799;
         }
 
         protected override void OnEnable() { base.OnEnable(); Story1Blackout.PowerRestored += OnPower; }
@@ -34,11 +38,16 @@ namespace Paradox.Client
 
         public override void Activate()
         {
-            if (_puzzle == null) _puzzle = FusePuzzle.Generate(seed >= 0 ? seed : Story1Net.Seed(Story1Net.PFuse));
+            int r = Story1Net.RoundOf(Story1Net.PFuse);
+            if (_puzzle == null || r != _round) { _puzzle = FusePuzzle.Generate(seed >= 0 ? seed : Story1Net.Seed(Story1Net.PFuse)); _round = r; }   // 라운드가 바뀌면 새 문제
             panel.Open(this, _puzzle);
         }
 
-        public void OnSolved() { Story1Blackout.RestorePower(); }
+        public void OnSolved()
+        {
+            if (!Story1Net.IsFinal(Story1Net.PFuse)) { Story1Net.AnnounceRound(Story1Net.PFuse); return; }   // 아직 더 풀어야 한다 — 다음 라운드
+            Story1Blackout.RestorePower();
+        }
 
         private void Update()
         {

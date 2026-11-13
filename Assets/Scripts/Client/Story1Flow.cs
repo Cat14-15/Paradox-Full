@@ -72,8 +72,10 @@ namespace Paradox.Client
             _waterObj = FindFirstObjectByType<WaterValves>(); _finalObj = FindFirstObjectByType<FinalFloor>();
         }
 
-        private void OnEnable() { Story1Net.Received += OnNet; Story1Scene.RoomEntered += OnRoom; }
-        private void OnDisable() { Story1Net.Received -= OnNet; Story1Scene.RoomEntered -= OnRoom; }
+        private void OnEnable() { Story1Net.Received += OnNet; Story1Scene.RoomEntered += OnRoom; Story1Net.RoundAdvanced += OnRound; }
+        private void OnDisable() { Story1Net.Received -= OnNet; Story1Scene.RoomEntered -= OnRoom; Story1Net.RoundAdvanced -= OnRound; }
+
+        private void OnRound(int id, int round) { Think("좋아, 한 번 더! (" + round + " / " + Story1Net.NeedRounds(id) + ") 이번엔 새 문제다.", 0.6f); }
 
         // ---- 방 이름(들어갈 때 잠깐)
         [Header("방 이름")]
@@ -103,6 +105,11 @@ namespace Paradox.Client
         private void OnNet(GameEvent e)
         {
             if (e.a != Story1Net.Clear) return;
+            if (e.b >= 0 && e.b < _applied.Length && !Story1Net.IsFinal(e.b))   // 아직 다음 라운드가 남았다: 퍼즐을 끝내지 않고 새 문제만 알린다
+            {
+                if (!Story1Net.IsMine(e)) StartCoroutine(RemoteRound(e.b));
+                return;
+            }
             if (e.b >= 0 && e.b < _applied.Length) { if (Story1Net.IsMine(e)) { _applied[e.b] = true; return; } if (_applied[e.b]) return; _applied[e.b] = true; }
             if (Story1Net.IsMine(e)) return;
             StartCoroutine(RemoteClear(e.b));
@@ -117,6 +124,26 @@ namespace Paradox.Client
                 case Story1Net.PRelic: return RelicPanel.Cleared;
                 case Story1Net.PWater: return WaterPanel.Cleared;
                 default: return FinalPanel.Cleared;
+            }
+        }
+
+        private IEnumerator RemoteRound(int id)
+        {
+            PixelText status = null; bool open = false; System.Action close = null;
+            switch (id)
+            {
+                case Story1Net.PFuse: if (_fuse != null) { open = FusePanel.IsOpen; status = _fuse.panel.status; close = _fuse.panel.Close; } break;
+                case Story1Net.PGallery: if (_galleryObj != null) { open = GalleryPanel.IsOpen; status = _galleryObj.panel.status; close = _galleryObj.panel.Close; } break;
+                case Story1Net.PRelic: if (_relicObj != null) { open = RelicPanel.IsOpen; status = _relicObj.panel.status; close = _relicObj.panel.Close; } break;
+                case Story1Net.PWater: if (_waterObj != null) { open = WaterPanel.IsOpen; status = _waterObj.panel.status; close = _waterObj.panel.Close; } break;
+            }
+            Story1Net.AnnounceRound(id);
+            if (open && status != null)
+            {
+                status.text = "동료가 풀었다! 새 문제가 나와요"; status.color = new Color(0.45f, 0.95f, 0.6f);
+                Sfx.Play("power_on", 0.8f);
+                yield return new WaitForSecondsRealtime(1.2f);
+                close();
             }
         }
 

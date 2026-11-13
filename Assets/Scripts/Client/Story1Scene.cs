@@ -34,7 +34,7 @@ namespace Paradox.Client
         [System.NonSerialized] public bool testUse;
 
         /// <summary>퍼즐 화면이 열려 있는 동안 주인공을 멈춘다.</summary>
-        public static bool InputLocked => FusePanel.IsOpen || GalleryPanel.IsOpen || WaterPanel.IsOpen || FinalPanel.IsOpen || RelicPanel.IsOpen || Story1Flow.Ending || Story1Tutorial.IsOpen;
+        public static bool InputLocked => FusePanel.IsOpen || GalleryPanel.IsOpen || WaterPanel.IsOpen || FinalPanel.IsOpen || RelicPanel.IsOpen || Story1Flow.Ending || Story1Tutorial.IsOpen || Story1Map.IsOpen || Story1Pause.IsOpen;
 
         /// <summary>방에 들어갈 때(방 이름). 화면 위 방 이름 표시가 듣는다.</summary>
         public static event System.Action<string> RoomEntered;

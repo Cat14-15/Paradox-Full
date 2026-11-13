@@ -1,4 +1,5 @@
 using Paradox.Client;
+using Paradox.Game;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -146,9 +147,132 @@ namespace Paradox.Editor
             var tut_c = tut.gameObject.AddComponent<Story1Tutorial>();
             tut_c.group = tgrp; tut_c.keys = tkeys; tut_c.descs = tdesc; tut_c.hint = thint; tut_c.roleLine = troleLine;
 
+            BuildMap(fr, flow.scene);
+            BuildPause(fr);
+
             EditorSceneManager.MarkSceneDirty(scene);
             EditorSceneManager.SaveScene(scene);
             Debug.Log("[Story1FlowBuilder] Story1 에 목표·속마음·엔딩을 만들었습니다");
+        }
+
+        /// <summary>내비게이터 전용 전체 지도(M). 방 칸 위치는 방의 월드 위치에서 따온다.</summary>
+        private static void BuildMap(RectTransform fr, Story1Scene sc)
+        {
+            var rooms = sc.rooms;
+            var root = Node("Map", fr); Stretch(root);
+            var g = Group(root);
+            Img(Node("Dim", root).Also(Stretch), null, new Color(0.02f, 0.03f, 0.05f, 0.78f));
+            const float PW = 1500f, PH = 900f;
+            var panel = Node("Panel", root); At(panel, 0, 0, PW, PH);
+            Sliced(Node("Back", panel).Also(Stretch), PanelFill, new Color(0.05f, 0.07f, 0.1f, 0.97f));
+            Sliced(Node("Border", panel).Also(Stretch), PanelBorder, new Color(0.3f, 0.52f, 0.62f));
+            Txt(panel, "Title", "박물관 지도", 3, Amber, 0, PH / 2 - 17 - 28, PW - 40, 56, TextAnchor.MiddleCenter);
+            Txt(panel, "Close", "X 닫기", 2, Slate, 0, -PH / 2 + 17 + 18, PW - 40, 36, TextAnchor.MiddleCenter);
+
+            // 월드 위치 → 칸 위치
+            float minX = float.MaxValue, maxX = float.MinValue, minY = float.MaxValue, maxY = float.MinValue;
+            foreach (var r in rooms) { var p = r.transform.position; minX = Mathf.Min(minX, p.x); maxX = Mathf.Max(maxX, p.x); minY = Mathf.Min(minY, p.y); maxY = Mathf.Max(maxY, p.y); }
+            float step = float.MaxValue;   // 가장 가까운 두 방 사이 거리(칸 크기 기준)
+            for (int i = 0; i < rooms.Length; i++)
+                for (int j = i + 1; j < rooms.Length; j++)
+                {
+                    var d = rooms[i].transform.position - rooms[j].transform.position;
+                    float a = Mathf.Max(Mathf.Abs(d.x), Mathf.Abs(d.y));
+                    if (a > 0.5f) step = Mathf.Min(step, a);
+                }
+            float areaW = PW - 120f, areaH = PH - 220f;
+            float spanX = Mathf.Max(maxX - minX, 0.01f), spanY = Mathf.Max(maxY - minY, 0.01f);
+            float s = Mathf.Min((areaW - 260f) / spanX, (areaH - 120f) / spanY);
+            float tw = 270f, th = 132f;
+            Debug.Log("[Map] 방 " + rooms.Length + "개 · 가로 " + spanX + " 세로 " + spanY + " · 최소간격 " + step + " · 배율 " + s);
+
+            var tiles = new RectTransform[rooms.Length]; var backs = new Image[rooms.Length];
+            for (int i = 0; i < rooms.Length; i++)
+            {
+                var p = rooms[i].transform.position;
+                float x = (p.x - (minX + maxX) / 2f) * s, y = (p.y - (minY + maxY) / 2f) * s - 15f;
+                var t = Node("Room" + i, panel); At(t, x, y, tw, th);
+                backs[i] = Sliced(Node("Back", t).Also(Stretch), PanelFill, new Color(0.12f, 0.15f, 0.2f, 0.95f));
+                Sliced(Node("Border", t).Also(Stretch), PanelBorder, new Color(0.3f, 0.52f, 0.62f));
+                string nm = string.IsNullOrEmpty(rooms[i].roomName) ? rooms[i].name : rooms[i].roomName;
+                Txt(t, "Name", nm, 2, Ink, 0, 24, tw - 16, 40, TextAnchor.MiddleCenter);
+                string tag = PuzzleTag(rooms, rooms[i]);
+                if (tag != "") Txt(t, "Tag", tag, 2, Amber, 0, -24, tw - 16, 40, TextAnchor.MiddleCenter);
+                tiles[i] = t;
+            }
+            var dots = new RectTransform[Roles.Count]; var dimg = new Image[Roles.Count];
+            for (int r = 0; r < Roles.Count; r++)
+            {
+                var d = Node("Dot" + r, panel); At(d, 0, 0, 20, 20);
+                dimg[r] = Img(d, null, Color.white);
+                dots[r] = d;
+            }
+
+            // 지도 키 안내(내비게이터에게만 보이는 작은 표시, 왼쪽 아래)
+            var bd = Node("MapBadge", fr); At(bd, 855, 262, 180, 56);   // 나가기 단추 바로 아래
+            var bg = Group(bd);
+            Sliced(Node("Back", bd).Also(Stretch), PanelFill, new Color(0.05f, 0.07f, 0.1f, 0.9f));
+            Sliced(Node("Border", bd).Also(Stretch), PanelBorder, new Color(0.62f, 0.5f, 0.3f));
+            Txt(bd, "Text", "M 지도", 2, Amber, 0, 0, 170, 36, TextAnchor.MiddleCenter);
+
+            var map = root.gameObject.AddComponent<Story1Map>();
+            map.scene = sc; map.group = g; map.badge = bg; map.tiles = tiles; map.tileBack = backs; map.dots = dots; map.dotImg = dimg;
+        }
+
+        /// <summary>오른쪽 위 "나가기" 버튼 + 확인 창.</summary>
+        private static void BuildPause(RectTransform fr)
+        {
+            var root = Node("Pause", fr); Stretch(root);
+            var pause = root.gameObject.AddComponent<Story1Pause>();
+
+            var btn = Node("ExitButton", root); At(btn, 855, 330, 180, 56);   // 오른쪽 가장자리 세로 단추 줄(위: 나가기, 아래: 지도)
+            var bg = btn.gameObject.AddComponent<CanvasGroup>();
+            var bimg = Sliced(btn, PanelFill, new Color(0.05f, 0.07f, 0.1f, 0.9f)); bimg.raycastTarget = true;
+            Sliced(Node("Border", btn).Also(Stretch), PanelBorder, new Color(0.62f, 0.3f, 0.3f));
+            Txt(btn, "Text", "나가기 P", 2, Ink, 0, 0, 170, 36, TextAnchor.MiddleCenter);
+            var b = btn.gameObject.AddComponent<Button>(); b.targetGraphic = bimg;
+            UnityEditor.Events.UnityEventTools.AddPersistentListener(b.onClick, pause.OpenFromButton);
+
+            var cf = Node("Confirm", root); Stretch(cf);
+            var cg = Group(cf);
+            var dim = Img(Node("Dim", cf).Also(Stretch), null, new Color(0.02f, 0.03f, 0.05f, 0.78f)); dim.raycastTarget = true;
+            var p = Node("Panel", cf); At(p, 0, 0, 900, 420);
+            Sliced(Node("Back", p).Also(Stretch), PanelFill, new Color(0.05f, 0.07f, 0.1f, 0.97f));
+            Sliced(Node("Border", p).Also(Stretch), PanelBorder, new Color(0.3f, 0.52f, 0.62f));
+            Txt(p, "Title", "스테이지 선택으로 나갈까요?", 3, Amber, 0, 110, 840, 56, TextAnchor.MiddleCenter);
+            Txt(p, "Sub", "지금까지 푼 퍼즐은 저장되지 않아요", 2, Slate, 0, 40, 840, 40, TextAnchor.MiddleCenter);
+
+            var stay = Node("Stay", p); At(stay, -200, -90, 360, 84);
+            var simg = Sliced(stay, PanelFill, new Color(0.1f, 0.2f, 0.2f, 0.95f)); simg.raycastTarget = true;
+            Sliced(Node("Border", stay).Also(Stretch), PanelBorder, new Color(0.3f, 0.82f, 0.7f));
+            Txt(stay, "Text", "계속하기  X", 2, Ink, 0, 0, 340, 36, TextAnchor.MiddleCenter);
+            var sb = stay.gameObject.AddComponent<Button>(); sb.targetGraphic = simg;
+            UnityEditor.Events.UnityEventTools.AddPersistentListener(sb.onClick, pause.Stay);
+
+            var leave = Node("Leave", p); At(leave, 200, -90, 360, 84);
+            var limg = Sliced(leave, PanelFill, new Color(0.2f, 0.1f, 0.1f, 0.95f)); limg.raycastTarget = true;
+            Sliced(Node("Border", leave).Also(Stretch), PanelBorder, new Color(0.85f, 0.4f, 0.4f));
+            Txt(leave, "Text", "나가기  Enter", 2, Ink, 0, 0, 340, 36, TextAnchor.MiddleCenter);
+            var lb = leave.gameObject.AddComponent<Button>(); lb.targetGraphic = limg;
+            UnityEditor.Events.UnityEventTools.AddPersistentListener(lb.onClick, pause.Leave);
+
+            pause.confirm = cg; pause.button = bg;
+        }
+
+        private static string PuzzleTag(MuseumRoom[] rooms, MuseumRoom room)
+        {
+            var tags = new System.Collections.Generic.List<string>();
+            void Add<T>(string label) where T : Component
+            {
+                foreach (var c in Object.FindObjectsByType<T>(FindObjectsInactive.Include))
+                {
+                    MuseumRoom best = null; float bd = float.MaxValue;
+                    foreach (var r in rooms) { float d = ((Vector2)r.transform.position - (Vector2)c.transform.position).sqrMagnitude; if (d < bd) { bd = d; best = r; } }
+                    if (best == room && !tags.Contains(label)) tags.Add(label);
+                }
+            }
+            Add<FuseBox>("퓨즈 퍼즐"); Add<GalleryFloor>("바닥 퍼즐"); Add<RelicCase>("유물 퍼즐"); Add<WaterValves>("밸브 퍼즐");
+            return string.Join(" · ", tags);
         }
 
         private static RectTransform Also(this RectTransform r, System.Func<RectTransform, RectTransform> f) { f(r); return r; }

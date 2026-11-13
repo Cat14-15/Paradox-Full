@@ -70,11 +70,61 @@ namespace Paradox.Client
         /// <summary>퍼즐 id 별 시드. 온라인에서는 방장·게임 시작 시각으로 정해져 모든 PC 가 같다.</summary>
         public static int Seed(int puzzleId)
         {
-            if (!Online) return Environment.TickCount + puzzleId * 31;
+            if (!Online) return Environment.TickCount + puzzleId * 31 + RoundOf(puzzleId) * 7919;
             var S = Session.State;
-            long h = (long)S.puzzleSeed * 104729L + puzzleId * 15485863L + 7919L;
+            long h = (long)S.puzzleSeed * 104729L + puzzleId * 15485863L + RoundOf(puzzleId) * 2750159L + 7919L;   // 라운드가 바뀌면 새 문제
             return (int)(Math.Abs(h) % 1000003L) + 1;
         }
+
+        // ---- 난이도 · 라운드 --------------------------------------------------------
+        private const string DiffKey = "stranger.difficulty";
+        private static int _localDiff = -1;
+
+        /// <summary>지금 난이도. 온라인은 방장이 정한 값(서버 상태), 혼자 테스트는 마지막으로 고른 값.</summary>
+        public static int Difficulty
+        {
+            get
+            {
+                if (Online) return Story1Rules.Clamp(Session.State.difficulty);
+                if (_localDiff < 0) { try { _localDiff = PlayerPrefs.GetInt(DiffKey, Story1Rules.Normal); } catch { _localDiff = Story1Rules.Normal; } }
+                return Story1Rules.Clamp(_localDiff);
+            }
+        }
+
+        /// <summary>로비에서 난이도를 고른다(온라인은 방장만 — 서버가 확인). 혼자 테스트용 값도 기억한다.</summary>
+        public static void SetDifficulty(int d)
+        {
+            d = Story1Rules.Clamp(d);
+            _localDiff = d;
+            try { PlayerPrefs.SetInt(DiffKey, d); PlayerPrefs.Save(); } catch { }
+            if (Online && Session.IsHost) Session.Send(Cmd.Make("Diff", d));
+        }
+
+        /// <summary>이 클라이언트가 센 "푼 횟수"(내가 푼 것 + 동료가 푼 이벤트). 서버 상태와 큰 쪽을 쓴다(이벤트를 놓친 PC 도 따라잡도록).</summary>
+        private static readonly int[] _roundsDone = new int[5];
+
+        public static int RoundOf(int puzzleId)
+        {
+            if (puzzleId < 0 || puzzleId >= _roundsDone.Length) return 0;
+            int r = _roundsDone[puzzleId];
+            if (Online) r = Math.Max(r, Story1Rules.RoundsOf(Session.State.s1Rounds, puzzleId));
+            return r;
+        }
+
+        public static int NeedRounds(int puzzleId) => Story1Rules.Need(Difficulty, puzzleId);
+
+        /// <summary>방금 푼 것으로 이 퍼즐이 완전히 끝났는가(false 면 다음 라운드가 남았다).</summary>
+        public static bool IsFinal(int puzzleId) => RoundOf(puzzleId) >= NeedRounds(puzzleId);
+
+        public static string RoundLabel(int puzzleId)
+        {
+            int need = NeedRounds(puzzleId);
+            return need <= 1 ? "" : "   (" + Math.Min(RoundOf(puzzleId) + 1, need) + " / " + need + ")";
+        }
+
+        /// <summary>다음 라운드가 시작됐다(퍼즐 id, 이제 몇 번째 라운드인지 1부터).</summary>
+        public static event Action<int, int> RoundAdvanced;
+        public static void AnnounceRound(int puzzleId) { RoundAdvanced?.Invoke(puzzleId, Math.Min(RoundOf(puzzleId) + 1, NeedRounds(puzzleId))); }
 
         static Story1Net() { Session.EventReceived -= OnEvent; Session.EventReceived += OnEvent; }   // 에디터 테스트에서도 수신되도록
 
@@ -84,6 +134,7 @@ namespace Paradox.Client
             Received = null;
             for (int i = 0; i < SayText.Length; i++) SayText[i] = "";
             SayVersion = 0; FinalRound = 0; FinalGoing = false; BreakUntil = PumpUntil = 0f;
+            for (int i = 0; i < _roundsDone.Length; i++) _roundsDone[i] = 0; RoundAdvanced = null;
             Feed.Clear(); FeedVersion = 0;
             for (int i = 0; i < Roles.Count; i++) { RemoteSeen[i] = -99f; RemotePos[i] = Vector2.zero; Track[i].Clear(); }
             Session.EventReceived -= OnEvent;
@@ -92,6 +143,7 @@ namespace Paradox.Client
 
         public static void Send(int kind, int b = 0, string s = "", float f = 0f, Vector2? pos = null)
         {
+            if (kind == Clear && b >= 0 && b < _roundsDone.Length) _roundsDone[b]++;   // 내가 푼 횟수는 바로 센다(내 화면은 이미 처리했으니 되돌아온 이벤트는 건너뛴다)
             if (Online)
             {
                 var c = Cmd.Make("S1", kind, b, s, f);
@@ -133,6 +185,7 @@ namespace Paradox.Client
             for (int i = 0; i < _sent.Length; i++) _sent[i] = null;
             for (int i = 0; i < SayText.Length; i++) SayText[i] = "";
             FinalRound = 0; FinalGoing = false; BreakUntil = PumpUntil = 0f;
+            for (int i = 0; i < _roundsDone.Length; i++) _roundsDone[i] = 0;
             Feed.Clear(); FeedVersion++;
         }
 
@@ -141,6 +194,7 @@ namespace Paradox.Client
         private static void OnEvent(GameEvent e)
         {
             if (e == null || e.type != "S1") return;
+            if (e.a == Clear && e.b >= 0 && e.b < _roundsDone.Length && !IsMine(e)) _roundsDone[e.b]++;   // 동료가 푼 횟수
             switch (e.a)
             {
                 case Say:

@@ -33,7 +33,7 @@ namespace Paradox.Client
 
     /// <summary>
     /// 프롤로그(씬 1 점심시간). 씬에 놓인 실루엣 + 대화창을 재생하고, 끝나면 nextScene 으로 넘어간다.
-    /// Enter/Space/E/클릭 = 다음(타이핑 중이면 한 번에 표시), Esc = 건너뛰기.
+    /// Enter/Space/E/클릭 = 다음(타이핑 중이면 한 번에 표시), X(또는 Esc) = 건너뛰기.
     /// </summary>
     public class PrologueScene : MonoBehaviour
     {
@@ -117,7 +117,8 @@ namespace Paradox.Client
 
             if (_ending) return;
             var kb = Keyboard.current; var ms = Mouse.current;
-            if (kb != null && kb.escapeKey.wasPressedThisFrame) { Paradox.Core.Sfx.Play("ui_back"); StartCoroutine(End()); return; }
+            if (kb != null && (kb.xKey.wasPressedThisFrame || kb.escapeKey.wasPressedThisFrame)) {   // 웹에서는 Esc 가 전체화면을 풀어서 X 를 기본으로 안내한다
+                Paradox.Core.Sfx.Play("ui_back"); StartCoroutine(End()); return; }
             bool go = (kb != null && (kb.enterKey.wasPressedThisFrame || kb.spaceKey.wasPressedThisFrame || kb.eKey.wasPressedThisFrame || kb.numpadEnterKey.wasPressedThisFrame))
                       || (ms != null && ms.leftButton.wasPressedThisFrame);
             if (go && !_busy && _i >= 0) { if (_typing) Reveal(); else Next(); }

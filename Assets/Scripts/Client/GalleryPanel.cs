@@ -94,7 +94,7 @@ namespace Paradox.Client
 
             if (op)
             {
-                title.text = "어두운 전시실";
+                title.text = "어두운 전시실" + Story1Net.RoundLabel(Story1Net.PGallery);
                 hint.text = "← →  통로 고르기     ↑ / Space  건너기     손전등 불빛 안만 보입니다. 동료의 신호를 들으세요.";
                 for (int s = 0; s < 3; s++)
                     for (int l = 0; l < 3; l++)
@@ -226,7 +226,7 @@ namespace Paradox.Client
                 Sfx.Play("fuse_pop", 1f);
                 _shocks++;
                 Refresh();
-                if (_shocks >= 2) { status.text = "힌트: " + (_stage + 1) + "구간의 길은 " + GalleryPuzzle.LaneKo[_puzzle.answer[_stage]] + "이다"; status.color = new Color(0.95f, 0.85f, 0.45f); }
+                if (_shocks >= System.Math.Max(1, Story1Rules.HintAfter(Story1Net.Difficulty) - 1)) { status.text = "힌트: " + (_stage + 1) + "구간의 길은 " + GalleryPuzzle.LaneKo[_puzzle.answer[_stage]] + "이다"; status.color = new Color(0.95f, 0.85f, 0.45f); }
                 Story1Net.Tell(Story1Net.PGallery, "조작자: 감전! " + (_stage + 1) + "구간으로 밀려났다");
                 return;
             }
