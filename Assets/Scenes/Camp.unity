@@ -1,0 +1,3236 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!29 &1
+OcclusionCullingSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_OcclusionBakeSettings:
+    smallestOccluder: 5
+    smallestHole: 0.25
+    backfaceThreshold: 100
+  m_SceneGUID: 00000000000000000000000000000000
+  m_OcclusionCullingData: {fileID: 0}
+--- !u!104 &2
+RenderSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 10
+  m_Fog: 0
+  m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  m_FogMode: 3
+  m_FogDensity: 0.01
+  m_LinearFogStart: 0
+  m_LinearFogEnd: 300
+  m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
+  m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
+  m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
+  m_AmbientIntensity: 1
+  m_AmbientMode: 3
+  m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
+  m_SkyboxMaterial: {fileID: 0}
+  m_HaloStrength: 0.5
+  m_FlareStrength: 1
+  m_FlareFadeSpeed: 3
+  m_HaloTexture: {fileID: 0}
+  m_SpotCookie: {fileID: 10001, guid: 0000000000000000e000000000000000, type: 0}
+  m_DefaultReflectionMode: 0
+  m_DefaultReflectionResolution: 128
+  m_ReflectionBounces: 1
+  m_ReflectionIntensity: 1
+  m_CustomReflection: {fileID: 0}
+  m_Sun: {fileID: 0}
+  m_UseRadianceAmbientProbe: 0
+--- !u!157 &3
+LightmapSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 13
+  m_BakeOnSceneLoad: 0
+  m_GISettings:
+    serializedVersion: 2
+    m_BounceScale: 1
+    m_IndirectOutputScale: 1
+    m_AlbedoBoost: 1
+    m_EnvironmentLightingMode: 0
+    m_EnableBakedLightmaps: 0
+    m_EnableRealtimeLightmaps: 0
+  m_LightmapEditorSettings:
+    serializedVersion: 12
+    m_Resolution: 2
+    m_BakeResolution: 40
+    m_AtlasSize: 1024
+    m_AO: 0
+    m_AOMaxDistance: 1
+    m_CompAOExponent: 1
+    m_CompAOExponentDirect: 0
+    m_ExtractAmbientOcclusion: 0
+    m_Padding: 2
+    m_LightmapParameters: {fileID: 0}
+    m_LightmapsBakeMode: 1
+    m_TextureCompression: 1
+    m_ReflectionCompression: 2
+    m_MixedBakeMode: 2
+    m_BakeBackend: 2
+    m_PVRSampling: 1
+    m_PVRDirectSampleCount: 32
+    m_PVRSampleCount: 512
+    m_PVRBounces: 2
+    m_PVREnvironmentSampleCount: 256
+    m_PVREnvironmentReferencePointCount: 2048
+    m_PVRFilteringMode: 1
+    m_PVRDenoiserTypeDirect: 1
+    m_PVRDenoiserTypeIndirect: 1
+    m_PVRDenoiserTypeAO: 1
+    m_PVRFilterTypeDirect: 0
+    m_PVRFilterTypeIndirect: 0
+    m_PVRFilterTypeAO: 0
+    m_PVREnvironmentMIS: 1
+    m_PVRCulling: 1
+    m_PVRFilteringGaussRadiusDirect: 1
+    m_PVRFilteringGaussRadiusIndirect: 1
+    m_PVRFilteringGaussRadiusAO: 1
+    m_PVRFilteringAtrousPositionSigmaDirect: 0.5
+    m_PVRFilteringAtrousPositionSigmaIndirect: 2
+    m_PVRFilteringAtrousPositionSigmaAO: 1
+    m_ExportTrainingData: 0
+    m_TrainingDataDestination: TrainingData
+    m_LightProbeSampleCountMultiplier: 4
+  m_LightingDataAsset: {fileID: 20201, guid: 0000000000000000f000000000000000, type: 0}
+  m_LightingSettings: {fileID: 0}
+--- !u!196 &4
+NavMeshSettings:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_BuildSettings:
+    serializedVersion: 3
+    agentTypeID: 0
+    agentRadius: 0.5
+    agentHeight: 2
+    agentSlope: 45
+    agentClimb: 0.4
+    ledgeDropHeight: 0
+    maxJumpAcrossDistance: 0
+    minRegionArea: 2
+    manualCellSize: 0
+    cellSize: 0.16666667
+    manualTileSize: 0
+    tileSize: 256
+    buildHeightMesh: 0
+    maxJobWorkers: 0
+    preserveTilesOutsideBounds: 0
+    debug:
+      m_Flags: 0
+  m_NavMeshData: {fileID: 0}
+--- !u!1 &14150377
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 14150378}
+  - component: {fileID: 14150379}
+  - component: {fileID: 14150380}
+  m_Layer: 0
+  m_Name: Portrait
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &14150378
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 14150377}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 670551613}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -680, y: -232}
+  m_SizeDelta: {x: 470, y: 514}
+  m_Pivot: {x: 0.5, y: 0}
+--- !u!222 &14150379
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 14150377}
+  m_CullTransparentMesh: 1
+--- !u!114 &14150380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 14150377}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 1
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!1 &331532329
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 331532330}
+  - component: {fileID: 331532332}
+  - component: {fileID: 331532331}
+  m_Layer: 0
+  m_Name: Border
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &331532330
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 331532329}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1744312243}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &331532331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 331532329}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.62, g: 0.5, b: 0.3, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: dc767410858fd1d49b143f1c775a64bb, type: 3}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 0.33333334
+--- !u!222 &331532332
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 331532329}
+  m_CullTransparentMesh: 1
+--- !u!1 &362729428
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 362729429}
+  m_Layer: 0
+  m_Name: Background
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &362729429
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 362729428}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 705071728}
+  m_Father: {fileID: 1489447175}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &538605205
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 538605206}
+  - component: {fileID: 538605208}
+  - component: {fileID: 538605207}
+  m_Layer: 0
+  m_Name: Vignette
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &538605206
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 538605205}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1489447175}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &538605207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 538605205}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.55}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: ef721b52ef5139942819cae3339e3ca6, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &538605208
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 538605205}
+  m_CullTransparentMesh: 1
+--- !u!1 &601845931
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 601845932}
+  - component: {fileID: 601845933}
+  - component: {fileID: 601845934}
+  m_Layer: 0
+  m_Name: Name
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &601845932
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 601845931}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 670551613}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -150, y: -268}
+  m_SizeDelta: {x: 500, y: 56}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &601845933
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 601845931}
+  m_CullTransparentMesh: 1
+--- !u!114 &601845934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 601845931}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a58611b59f0e84a4699d872b3ed080a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Paradox::Paradox.Client.PixelText
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.9, g: 0.95, b: 0.96, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  _text: 
+  _scale: 3
+  _align: 3
+  _spacing: 0
+  _lineGap: 4
+--- !u!1 &651933815
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 651933817}
+  - component: {fileID: 651933816}
+  m_Layer: 0
+  m_Name: CampAmbience
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!82 &651933816
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 651933815}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 0
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!4 &651933817
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 651933815}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &670551611
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 670551613}
+  - component: {fileID: 670551612}
+  m_Layer: 0
+  m_Name: Dialogue
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!225 &670551612
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 670551611}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
+--- !u!224 &670551613
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 670551611}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 14150378}
+  - {fileID: 1744312243}
+  - {fileID: 601845932}
+  - {fileID: 1481999203}
+  - {fileID: 1130294274}
+  - {fileID: 1079835502}
+  m_Father: {fileID: 1489447175}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &705071727
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 705071728}
+  - component: {fileID: 705071729}
+  - component: {fileID: 705071730}
+  m_Layer: 0
+  m_Name: CampYard
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &705071728
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 705071727}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 362729429}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 1920, y: 1280}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &705071729
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 705071727}
+  m_CullTransparentMesh: 1
+--- !u!114 &705071730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 705071727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 18cabefc58aa2d14cb7e967994e63974, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!1 &1009174023
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1009174024}
+  - component: {fileID: 1009174025}
+  - component: {fileID: 1009174026}
+  m_Layer: 0
+  m_Name: WaitText
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1009174024
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1009174023}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1126143757}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 1500, y: 70}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &1009174025
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1009174023}
+  m_CullTransparentMesh: 1
+--- !u!114 &1009174026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1009174023}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a58611b59f0e84a4699d872b3ed080a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Paradox::Paradox.Client.PixelText
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.9, g: 0.95, b: 0.96, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  _text: 
+  _scale: 3
+  _align: 4
+  _spacing: 0
+  _lineGap: 4
+--- !u!1 &1024770196
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1024770197}
+  - component: {fileID: 1024770198}
+  m_Layer: 0
+  m_Name: Blackout
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1024770197
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1024770196}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1321838855}
+  - {fileID: 1283876898}
+  m_Father: {fileID: 1489447175}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &1024770198
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1024770196}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
+--- !u!1 &1027893652
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1027893653}
+  - component: {fileID: 1027893654}
+  - component: {fileID: 1027893655}
+  m_Layer: 0
+  m_Name: Title
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1027893653
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1027893652}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1126143757}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 40}
+  m_SizeDelta: {x: 1700, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &1027893654
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1027893652}
+  m_CullTransparentMesh: 1
+--- !u!114 &1027893655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1027893652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a58611b59f0e84a4699d872b3ed080a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Paradox::Paradox.Client.PixelText
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.949, g: 0.773, b: 0.447, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  _text: 
+  _scale: 6
+  _align: 4
+  _spacing: 0
+  _lineGap: 4
+--- !u!1 &1049407513
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1049407514}
+  - component: {fileID: 1049407516}
+  - component: {fileID: 1049407515}
+  m_Layer: 0
+  m_Name: SkipHint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1049407514
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1049407513}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1489447175}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 780, y: 440}
+  m_SizeDelta: {x: 300, y: 36}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1049407515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1049407513}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a58611b59f0e84a4699d872b3ed080a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Paradox::Paradox.Client.PixelText
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.95, g: 0.95, b: 0.9, a: 0.85}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  _text: "Esc  \uAC74\uB108\uB6F0\uAE30"
+  _scale: 2
+  _align: 5
+  _spacing: 0
+  _lineGap: 4
+--- !u!222 &1049407516
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1049407513}
+  m_CullTransparentMesh: 1
+--- !u!1 &1079835499
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1079835502}
+  - component: {fileID: 1079835501}
+  - component: {fileID: 1079835500}
+  m_Layer: 0
+  m_Name: Next
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1079835500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1079835499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a58611b59f0e84a4699d872b3ed080a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Paradox::Paradox.Client.PixelText
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.949, g: 0.773, b: 0.447, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  _text: "\u25BC"
+  _scale: 2
+  _align: 4
+  _spacing: 0
+  _lineGap: 4
+--- !u!222 &1079835501
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1079835499}
+  m_CullTransparentMesh: 1
+--- !u!224 &1079835502
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1079835499}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 670551613}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 810, y: -466}
+  m_SizeDelta: {x: 40, y: 36}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1096331827
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1096331830}
+  - component: {fileID: 1096331829}
+  - component: {fileID: 1096331828}
+  m_Layer: 0
+  m_Name: Main Camera
+  m_TagString: MainCamera
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!81 &1096331828
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1096331827}
+  m_Enabled: 1
+--- !u!20 &1096331829
+Camera:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1096331827}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 1}
+  m_projectionMatrixMode: 1
+  m_GateFitMode: 2
+  m_FOVAxisMode: 0
+  m_Iso: 200
+  m_ShutterSpeed: 0.005
+  m_Aperture: 16
+  m_FocusDistance: 10
+  m_FocalLength: 50
+  m_BladeCount: 5
+  m_Curvature: {x: 2, y: 11}
+  m_BarrelClipping: 0.25
+  m_Anamorphism: 0
+  m_SensorSize: {x: 36, y: 24}
+  m_LensShift: {x: 0, y: 0}
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.3
+  far clip plane: 1000
+  field of view: 60
+  orthographic: 1
+  orthographic size: 5
+  m_Depth: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 0}
+  m_TargetDisplay: 0
+  m_TargetEye: 3
+  m_HDR: 1
+  m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
+--- !u!4 &1096331830
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1096331827}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1126143756
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1126143757}
+  - component: {fileID: 1126143759}
+  - component: {fileID: 1126143758}
+  - component: {fileID: 1126143760}
+  m_Layer: 0
+  m_Name: Black
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1126143757
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1126143756}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1009174024}
+  - {fileID: 1027893653}
+  - {fileID: 1176987944}
+  m_Father: {fileID: 1489447175}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1126143758
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1126143756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1126143759
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1126143756}
+  m_CullTransparentMesh: 1
+--- !u!225 &1126143760
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1126143756}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
+--- !u!1 &1127766880
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1127766882}
+  - component: {fileID: 1127766881}
+  m_Layer: 0
+  m_Name: CampScene
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1127766881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1127766880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edfa5265b448a024181d94884adef4c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Paradox::Paradox.Client.PrologueScene
+  black: {fileID: 1126143760}
+  sils: []
+  marker: {fileID: 0}
+  dialogue: {fileID: 670551613}
+  dialogueGroup: {fileID: 670551612}
+  portrait: {fileID: 14150380}
+  portraitRect: {fileID: 14150378}
+  portraitSprites:
+  - {fileID: 21300000, guid: 8b2a4f1d901f4678b24c32ea48b1088c, type: 3}
+  - {fileID: 21300000, guid: 407ce00352514c9ebcbc3087a405a3dc, type: 3}
+  - {fileID: 21300000, guid: 8a392868a7344f0a99775e00026cdd7b, type: 3}
+  - {fileID: 21300000, guid: c4884c6c749a4383a686f34944314b65, type: 3}
+  - {fileID: 21300000, guid: 035885b1e72247c4abc37957912c78f6, type: 3}
+  nameText: {fileID: 601845934}
+  tagText: {fileID: 1481999201}
+  bodyText: {fileID: 1130294272}
+  nextMark: {fileID: 1079835500}
+  crowd: {fileID: 651933816}
+  waitText: {fileID: 1009174026}
+  nameRect: {fileID: 601845932}
+  bgImage: {fileID: 705071730}
+  bgSprites:
+  - {fileID: 21300000, guid: 18cabefc58aa2d14cb7e967994e63974, type: 3}
+  - {fileID: 21300000, guid: 7d54ff2511e92a442abc6d900cdb46ad, type: 3}
+  titleText: {fileID: 1027893655}
+  subText: {fileID: 1176987946}
+  darkGroup: {fileID: 1024770198}
+  darkFill: {fileID: 1283876896}
+  nextScene: Story1
+  isCamp: 1
+  startAmbience: ambience_camp
+  startAmbVol: 0.15
+  bgmTrack: camp
+  lines:
+  - speaker: 
+    text: "\uD544\uB9AC\uD540. \uD574\uB9C8\uB2E4 \uD0DC\uD48D\uC774 \uC2A4\uBB34
+      \uAC1C \uAC00\uAE4C\uC774 \uC9C0\uB098\uAC00\uB294 '\uD0DC\uD48D\uC758 \uAE38\uBAA9'\uC774\uB2E4.
+      \uC6B0\uAE30\uAC00 \uC624\uBA74 \uC774 \uB098\uB77C\uB294 \uAC19\uC740 \uD53C\uD574\uB97C
+      \uB418\uD480\uC774\uD574\uC11C \uACAA\uB294\uB2E4."
+    kind: 1
+    portrait: -1
+    note: 
+    focus: -1
+    chatter: 0
+    chapter: "Stage 1 \xB7 BAYANI CAMP"
+    chapterSub: "\uD544\uB9AC\uD540 \xB7 \uAD6D\uC81C \uCCAD\uC18C\uB144 \uAD50\uB958
+      \uCEA0\uD504, \uCCAB\uC9F8 \uB0A0"
+    ambience: 
+    ambVol: 0.3
+    sfx: 
+    sfxVol: 0.8
+    operatorOnly: 0
+    dark: -1
+    bgm: 
+    bg: 0
+  - speaker: 
+    text: "\uADF8\uB9AC\uACE0 \uC624\uB298\uC740 \uAD6D\uC81C \uCCAD\uC18C\uB144
+      \uAD50\uB958 \uCEA0\uD504\uC758 \uCCAB\uB0A0. \uB3C4\uC724\uC744 \uD0DC\uC6B4
+      \uBC84\uC2A4\uAC00 BAYANI CAMP \uC55E\uC5D0 \uCC9C\uCC9C\uD788 \uBA48\uCDB0
+      \uC120\uB2E4."
+    kind: 1
+    portrait: -1
+    note: 
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: 
+    sfxVol: 0.8
+    operatorOnly: 0
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: 
+    text: "\uCE58\uC774\uC775\u2014 \uBC84\uC2A4 \uBB38\uC774 \uC5F4\uB9B0\uB2E4.
+      \uD6C4\uB048\uD55C \uACF5\uAE30\uAC00 \uD6C5 \uB07C\uCCD0 \uC628\uB2E4."
+    kind: 1
+    portrait: -1
+    note: 
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: bus_arrive
+    sfxVol: 0.5
+    operatorOnly: 0
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: "\uB3C4\uC724"
+    text: "\uC640\u2026 \uC9C4\uC9DC \uC678\uAD6D\uC774\uB2E4. \uACF5\uAE30\uBD80\uD130
+      \uB2E4\uB974\uB124. \uB365\uACE0, \uC2B5\uD558\uACE0, \uB098\uBB34\uB294 \uC5C4\uCCAD
+      \uD06C\uACE0."
+    kind: 2
+    portrait: 0
+    note: 
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: 
+    sfxVol: 0.8
+    operatorOnly: 0
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: "\uB3C4\uC724"
+    text: "\uB0B4\uAC00 \uB300\uD45C\uB85C \uBF51\uD78C \uAC70\uB2C8\uAE4C \uCC98\uC74C\uBD80\uD130
+      \uC798\uD574\uC57C\uC9C0. \uC5B4\uAE68 \uD3B4\uACE0, \uC6C3\uC73C\uBA74\uC11C."
+    kind: 2
+    portrait: 0
+    note: 
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: 
+    sfxVol: 0.8
+    operatorOnly: 0
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: 
+    text: "\uB3C4\uC724\uC740 \uCE90\uB9AC\uC5B4\uB97C \uB04C\uACE0 \uBC84\uC2A4\uC5D0\uC11C
+      \uB0B4\uB9B0\uB2E4. \uBCF8\uAD00 \uC785\uAD6C\uC758 \uD604\uC218\uB9C9\uC5D0\uB294
+      'Together for a Brighter Tomorrow' \uB77C\uACE0 \uC801\uD600 \uC788\uB2E4.
+      \uADF8 \uC544\uB798, \uC138 \uBA85\uC774 \uB3C4\uC724\uC744 \uD5A5\uD574 \uC190\uC744
+      \uD754\uB4E4\uACE0 \uC788\uB2E4."
+    kind: 1
+    portrait: -1
+    note: 
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: 
+    sfxVol: 0.8
+    operatorOnly: 0
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: "\uB9C8\uB9AC\uC544"
+    text: Kumusta! Maligayang pagdating!
+    kind: 0
+    portrait: 1
+    note: "\uD658\uD558\uAC8C \uC190\uC744 \uD754\uB4E4\uBA70"
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: 
+    sfxVol: 0.8
+    operatorOnly: 0
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: "\uB3C4\uC724"
+    text: "\u2026\uBB34\uC2A8 \uB9D0\uC774\uC9C0? \uC601\uC5B4\uB294 \uC544\uB2CC\uB370.
+      \uC77C\uB2E8 \uC6C3\uC790."
+    kind: 2
+    portrait: 0
+    note: 
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: 
+    sfxVol: 0.8
+    operatorOnly: 0
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: "\uB3C4\uC724"
+    text: "\uC544, \uC548\uB155! \uB098\uB294 \uB3C4\uC724\uC774\uC57C. \uD55C\uAD6D\uC5D0\uC11C
+      \uC654\uC5B4!"
+    kind: 0
+    portrait: 0
+    note: "\uC790\uAE30 \uAC00\uC2B4\uC744 \uD1A1\uD1A1 \uCE58\uBA70, \uB610\uBC15\uB610\uBC15"
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: 
+    sfxVol: 0.8
+    operatorOnly: 0
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: 
+    text: "\uB9C8\uB9AC\uC544\uAC00 \uACE0\uAC1C\uB97C \uAC38\uC6C3\uD55C\uB2E4.
+      \uB3C4\uC724\uC740 \uD55C \uBC88 \uB354, \uB354 \uCC9C\uCC9C\uD788, \uB354
+      \uD06C\uAC8C \uB9D0\uD55C\uB2E4."
+    kind: 1
+    portrait: -1
+    note: 
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: 
+    sfxVol: 0.8
+    operatorOnly: 0
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: "\uB3C4\uC724"
+    text: "\uB3C4-\uC724. \uB3C4\uC724!"
+    kind: 0
+    portrait: 0
+    note: "\uD070 \uC18C\uB9AC\uB85C"
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: 
+    sfxVol: 0.8
+    operatorOnly: 0
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: "\uB9C8\uB9AC\uC544"
+    text: "Doyoon? \u2026Doyoon!"
+    kind: 0
+    portrait: 1
+    note: "\uB208\uC774 \uCEE4\uC9C0\uBA70"
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: 
+    sfxVol: 0.8
+    operatorOnly: 0
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: "\uB3C4\uC724"
+    text: "\uB9DE\uC544, \uB3C4\uC724! \uB108\uB294?"
+    kind: 0
+    portrait: 0
+    note: "\uB9C8\uB9AC\uC544\uB97C \uAC00\uB9AC\uD0A4\uBA70"
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: 
+    sfxVol: 0.8
+    operatorOnly: 0
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: "\uB9C8\uB9AC\uC544"
+    text: Ako si Maria. Maria!
+    kind: 0
+    portrait: 1
+    note: "\uC790\uAE30\uB97C \uAC00\uB9AC\uD0A4\uBA70"
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: 
+    sfxVol: 0.8
+    operatorOnly: 0
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: "\uB9B0"
+    text: Xin chao! Toi la Lin.
+    kind: 0
+    portrait: 2
+    note: "\uC870\uC6A9\uD788 \uD55C \uAC78\uC74C \uB2E4\uAC00\uC640"
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: 
+    sfxVol: 0.8
+    operatorOnly: 0
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: "\uB3C4\uC724"
+    text: "\uC774\uB984\uC740 \uC54C\uC544\uB4E3\uACA0\uB294\uB370\u2026 \uB4A4\uB294
+      \uD558\uB098\uB3C4 \uBAA8\uB974\uACA0\uB2E4."
+    kind: 2
+    portrait: 0
+    note: 
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: 
+    sfxVol: 0.8
+    operatorOnly: 0
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: "\uC544\uC774\uC0E4"
+    text: Sawubona! Aisha! I am Aisha!
+    kind: 0
+    portrait: 3
+    note: "\uB450 \uD314\uC744 \uD06C\uAC8C \uD754\uB4E4\uBA70"
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: 
+    sfxVol: 0.8
+    operatorOnly: 0
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: 
+    text: "\uC544\uC774\uC0E4\uAC00 \uC190\uC744 \uBC88\uCA4D \uB4E4\uC5B4 \uD558\uC774\uD30C\uC774\uBE0C\uB97C
+      \uCCAD\uD55C\uB2E4. \uB3C4\uC724\uC774 \uB9C8\uC8FC \uCE58\uC790, \uC9DD! \uD558\uACE0
+      \uACBD\uCF8C\uD55C \uC18C\uB9AC\uAC00 \uB09C\uB2E4. \uB9B0\uC740 \uB450 \uC190\uC744
+      \uBAA8\uC73C\uACE0 \uAC00\uBCCD\uAC8C \uACE0\uAC1C\uB97C \uC219\uC778\uB2E4."
+    kind: 1
+    portrait: -1
+    note: 
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: 
+    sfxVol: 0.8
+    operatorOnly: 0
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: "\uB3C4\uC724"
+    text: "\uC190\uC9D3\uC774\uB791 \uD45C\uC815\uC73C\uB85C\uB294 \uC5BC\uCD94 \uD1B5\uD558\uB124.
+      \uC774 \uC815\uB3C4\uBA74 \uD560 \uB9CC\uD55C\uB370?"
+    kind: 2
+    portrait: 0
+    note: 
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: 
+    sfxVol: 0.8
+    operatorOnly: 0
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: "\uB9C8\uB9AC\uC544"
+    text: Tulungan na kita!
+    kind: 0
+    portrait: 1
+    note: "\uB3C4\uC724\uC758 \uCE90\uB9AC\uC5B4 \uC190\uC7A1\uC774\uB97C \uAC00\uB9AC\uD0A4\uBA70"
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: 
+    sfxVol: 0.8
+    operatorOnly: 0
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: "\uB3C4\uC724"
+    text: "\uC544, \uAD1C\uCC2E\uC544 \uAD1C\uCC2E\uC544! \uB0B4\uAC00 \uB4E4 \uC218
+      \uC788\uC5B4!"
+    kind: 0
+    portrait: 0
+    note: "\uC190\uC744 \uD718\uD718 \uC800\uC73C\uBA70"
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: 
+    sfxVol: 0.8
+    operatorOnly: 0
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: 
+    text: "\uB9C8\uB9AC\uC544\uB294 \uBA48\uCE6B\uD558\uB2E4\uAC00 \uC6C3\uC73C\uBA70
+      \uBB3C\uB7EC\uC120\uB2E4. \uC774\uBC88\uC5D0\uB294 \uB9B0\uC774 \uB3C4\uC724\uC758
+      \uBB3C\uBCD1\uC744 \uAC00\uB9AC\uD0A4\uACE0, \uC544\uC774\uC0E4\uAC00 \uBCF8\uAD00\uC744
+      \uAC00\uB9AC\uD0A8\uB2E4. \uC138 \uC0AC\uB78C\uC774 \uC790\uAE30 \uB9D0\uB85C
+      \uD55C\uAEBC\uBC88\uC5D0 \uB9D0\uC744 \uAC78\uC5B4 \uC624\uC9C0\uB9CC, \uB3C4\uC724\uC5D0\uAC8C\uB294
+      \uC5B4\uB290 \uAC83\uB3C4 \uB9D0\uC774 \uB418\uC9C0 \uC54A\uB294\uB2E4."
+    kind: 1
+    portrait: -1
+    note: 
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: 
+    sfxVol: 0.8
+    operatorOnly: 0
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: "\uB3C4\uC724"
+    text: "\uC815\uC2E0\uC5C6\uB2E4\u2026 \uADF8\uB798\uB3C4 \uB2E4\uB4E4 \uBC18\uACA8
+      \uC8FC\uB294 \uAC74 \uC54C\uACA0\uC5B4."
+    kind: 2
+    portrait: 0
+    note: 
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: 
+    sfxVol: 0.8
+    operatorOnly: 0
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: "\uB3C4\uC724"
+    text: "\uBAA8\uB450 \uB9D0\uC774 \uC548 \uD1B5\uD574\uC11C \uBD88\uD3B8\uD560
+      \uD150\uB370. \uB0B4\uAC00 \uBA3C\uC800 \uB098\uC11C\uC11C \uC798 \uCC59\uACA8
+      \uC918\uC57C\uACA0\uB2E4."
+    kind: 2
+    portrait: 0
+    note: 
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: 
+    sfxVol: 0.8
+    operatorOnly: 0
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: 
+    text: "\uADF8\uB54C, \uC57C\uC790\uC218 \uC78E\uC774 \uD06C\uAC8C \uD754\uB4E4\uB9B0\uB2E4.
+      \uD558\uB298 \uD55C\uCABD\uC774 \uC5B4\uB290\uC0C8 \uC7BF\uBE5B\uC774\uB2E4.
+      \uB9C8\uB9AC\uC544\uAC00 \uADF8\uCABD\uC744 \uD55C\uCC38 \uC62C\uB824\uB2E4\uBCF8\uB2E4."
+    kind: 1
+    portrait: -1
+    note: 
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: ambience_camp
+    ambVol: 0.2
+    sfx: 
+    sfxVol: 0.8
+    operatorOnly: 0
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: "\uB3C4\uC724"
+    text: "\uB9C8\uB9AC\uC544? \uC65C \uADF8\uB798? \uD558\uB298\uC5D0 \uBB50 \uC788\uC5B4?"
+    kind: 0
+    portrait: 0
+    note: "\uAC19\uC774 \uC62C\uB824\uB2E4\uBCF4\uBA70"
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: 
+    sfxVol: 0.8
+    operatorOnly: 0
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: "\uB9C8\uB9AC\uC544"
+    text: "\u2026Ayos lang. Halika na."
+    kind: 0
+    portrait: 1
+    note: "\uACE0\uAC1C\uB97C \uC813\uACE0\uB294 \uB2E4\uC2DC \uC6C3\uC73C\uBA70"
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: 
+    sfxVol: 0.8
+    operatorOnly: 0
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: 
+    text: "\uB9C8\uB9AC\uC544\uAC00 \uC190\uC9D3\uC73C\uB85C \uBCF8\uAD00 \uCABD\uC744
+      \uAC00\uB9AC\uD0A8\uB2E4. \uB9C8\uCE68 \uBCF8\uAD00 \uBB38\uC774 \uC5F4\uB9AC\uACE0,
+      \uC2A4\uD0DC\uD504\uAC00 \uC190\uBF09\uC744 \uCE58\uBA70 \uBAA8\uB450\uB97C
+      \uBD88\uB7EC \uBAA8\uC740\uB2E4."
+    kind: 1
+    portrait: -1
+    note: 
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: 
+    sfxVol: 0.8
+    operatorOnly: 0
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: "\uB3C4\uC724"
+    text: "\uC624\uB298\uBD80\uD130 \uC9C4\uC9DC \uC2DC\uC791\uC774\uAD6C\uB098.
+      \uC88B\uC544, \uAC00 \uBCF4\uC790!"
+    kind: 2
+    portrait: 0
+    note: 
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: 
+    sfxVol: 0.8
+    operatorOnly: 0
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: 
+    text: "\uC7A0\uC2DC \uB4A4, \uBCF8\uAD00 \uC55E \uACF5\uD130. \uC2A4\uD0DC\uD504\uAC00
+      \uB124 \uC0AC\uB78C\uC744 \uD55C\uC790\uB9AC\uC5D0 \uBD88\uB7EC \uC138\uC6B4\uB2E4.
+      \uB3C4\uC724, \uB9C8\uB9AC\uC544, \uB9B0, \uC544\uC774\uC0E4. \uC624\uB298\uBD80\uD130
+      \uC774 \uB137\uC774 \uD55C \uD300\uC774\uB2E4."
+    kind: 1
+    portrait: -1
+    note: 
+    focus: -1
+    chatter: 0
+    chapter: "\uBBF8\uC158 \uC548\uB0B4"
+    chapterSub: "BAYANI CAMP \uBCF8\uAD00 \uC55E"
+    ambience: 
+    ambVol: 0.3
+    sfx: 
+    sfxVol: 0.8
+    operatorOnly: 0
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: "\uC2A4\uD0DC\uD504"
+    text: "\uBAA8\uB450 \uBAA8\uC600\uC8E0? \uB9CC\uB098\uC11C \uBC18\uAC11\uC2B5\uB2C8\uB2E4.
+      \uC800\uB294 \uC774\uBC88 \uCEA0\uD504 \uC9C4\uD589\uC744 \uB9E1\uC740 \uC2A4\uD0DC\uD504\uC608\uC694."
+    kind: 0
+    portrait: 4
+    note: 
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: 
+    sfxVol: 0.8
+    operatorOnly: 1
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: "\uC2A4\uD0DC\uD504"
+    text: "\uC624\uB298\uBD80\uD130\uB294 \uD300\uBCC4\uB85C \uBBF8\uC158\uC744 \uC218\uD589\uD569\uB2C8\uB2E4.
+      \uB124 \uBA85\uC774 \uD55C \uD300\uC774\uC5D0\uC694."
+    kind: 0
+    portrait: 4
+    note: 
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: 
+    sfxVol: 0.8
+    operatorOnly: 1
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: "\uB3C4\uC724"
+    text: "\uB2E4\uB4E4 \uD45C\uC815\uC774 \uAD73\uC5C8\uB124. \uC124\uBA85\uC744
+      \uBABB \uC54C\uC544\uB4E3\uB294 \uB208\uCE58\uC57C. \uC774\uB7F4 \uB550 \uB0B4\uAC00
+      \uB098\uC11C\uC57C\uC9C0."
+    kind: 2
+    portrait: 0
+    note: 
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: 
+    sfxVol: 0.8
+    operatorOnly: 0
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: "\uC2A4\uD0DC\uD504"
+    text: "\uCCAB \uBAA9\uC801\uC9C0\uB294 \uBC15\uBB3C\uAD00\uC785\uB2C8\uB2E4.
+      \uC11C\uB85C \uB3C4\uC640 \uAC00\uBA74\uC11C, \uBC18\uB4DC\uC2DC \uD300\uC6D0\uB07C\uB9AC
+      \uD798\uC744 \uD569\uCE58\uC138\uC694."
+    kind: 0
+    portrait: 4
+    note: 
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: 
+    sfxVol: 0.8
+    operatorOnly: 1
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: "\uC2A4\uD0DC\uD504"
+    text: "\uBC15\uBB3C\uAD00 \uC548\uC740 \uBCF5\uC7A1\uD558\uB2C8\uAE4C \uC808\uB300
+      \uD63C\uC790 \uB5A8\uC5B4\uC9C0\uC9C0 \uB9C8\uC138\uC694. \uD558\uB298\uC774
+      \uC2EC\uC0C1\uCE58 \uC54A\uC544\uC11C, \uC77C\uC815\uC740 \uC11C\uB450\uB974\uACA0\uC2B5\uB2C8\uB2E4."
+    kind: 0
+    portrait: 4
+    note: 
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: 
+    sfxVol: 0.8
+    operatorOnly: 1
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: "\uB3C4\uC724"
+    text: "\uCCAB \uBAA9\uC801\uC9C0\uAC00 \uBC15\uBB3C\uAD00\uC774\uB798. \uC598\uB124\uB294
+      \uBABB \uC54C\uC544\uB4E4\uC740 \uAC83 \uAC19\uC740\uB370\u2026 \uADF8\uB0E5
+      \uB0B4\uAC00 \uC54C\uC544\uC11C \uC774\uB04C\uBA74 \uB418\uACA0\uC9C0."
+    kind: 2
+    portrait: 0
+    note: 
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: 
+    sfxVol: 0.8
+    operatorOnly: 0
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: "\uB3C4\uC724"
+    text: "\uBC15\uBB3C\uAD00! \uBBA4\uC9C0\uC5C4! \uC6B0\uB9AC, \uAC19\uC774, \uAC00\uC790!"
+    kind: 0
+    portrait: 0
+    note: "\uC190\uC9D3\uC5D0 \uC11C\uD230 \uC601\uC5B4\uB97C \uC11E\uC5B4 \uD06C\uAC8C"
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: 
+    sfxVol: 0.8
+    operatorOnly: 0
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: "\uB9B0"
+    text: "\u2026Museum?"
+    kind: 0
+    portrait: 2
+    note: "\uACE0\uAC1C\uB97C \uAC38\uC6C3\uD558\uBA70"
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: 
+    sfxVol: 0.8
+    operatorOnly: 0
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: "\uB9C8\uB9AC\uC544"
+    text: Oo, museo. Tara na!
+    kind: 0
+    portrait: 1
+    note: "\uACE0\uAC1C\uB97C \uB044\uB355\uC774\uBA70 \uC55E\uC7A5\uC11C\uC11C"
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: 
+    sfxVol: 0.8
+    operatorOnly: 0
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: 
+    text: "\uB9C8\uB9AC\uC544\uAC00 \uC54C\uACA0\uB2E4\uB294 \uB4EF \uC55E\uC7A5\uC11C
+      \uAC77\uAE30 \uC2DC\uC791\uD55C\uB2E4. \uC544\uC774\uC0E4\uAC00 \uC190\uC744
+      \uBC88\uCA4D \uB4E4\uACE0 \uB4A4\uB97C \uB530\uB974\uACE0, \uB9B0\uB3C4 \uB9D0\uC5C6\uC774
+      \uAC78\uC74C\uC744 \uC62E\uAE34\uB2E4."
+    kind: 1
+    portrait: -1
+    note: 
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: 
+    sfxVol: 0.8
+    operatorOnly: 0
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: "\uB3C4\uC724"
+    text: "\uBD10, \uD1B5\uD588\uC796\uC544. \uC5ED\uC2DC \uB0B4\uAC00 \uC798 \uC774\uB04C\uACE0
+      \uC788\uC5B4."
+    kind: 2
+    portrait: 0
+    note: 
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: 
+    sfxVol: 0.8
+    operatorOnly: 0
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: "\uB3C4\uC724"
+    text: "\uAE38\uC740 \uC7E4\uAC00 \uC544\uB294 \uAC83 \uAC19\uC73C\uB2C8\uAE4C
+      \uB9E1\uAE30\uACE0, \uB098\uB294 \uC804\uCCB4\uB97C \uCC59\uAE30\uBA74 \uB418\uACA0\uC9C0."
+    kind: 2
+    portrait: 0
+    note: 
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: 
+    sfxVol: 0.8
+    operatorOnly: 0
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: 
+    text: "\uBC15\uBB3C\uAD00 \uC911\uC559 \uD640. \uBB34\uAC70\uC6B4 \uBB38\uC744
+      \uBC00\uACE0 \uB4E4\uC5B4\uC11C\uC790 \uBC14\uB78C \uC18C\uB9AC\uAC00 \uD55C
+      \uACB9 \uBA40\uC5B4\uC9C4\uB2E4. \uB192\uC740 \uCC9C\uC7A5 \uC544\uB798, \uC870\uAC01\uC0C1
+      \uD558\uB098\uAC00 \uB124 \uC0AC\uB78C\uC744 \uB0B4\uB824\uB2E4\uBCF4\uACE0
+      \uC788\uB2E4."
+    kind: 1
+    portrait: -1
+    note: 
+    focus: -1
+    chatter: 0
+    chapter: "\uC7AC\uB09C \uBC1C\uC0DD"
+    chapterSub: "\uBC15\uBB3C\uAD00 \uC911\uC559 \uD640"
+    ambience: storm_wind
+    ambVol: 0.16
+    sfx: 
+    sfxVol: 0.8
+    operatorOnly: 0
+    dark: -1
+    bgm: none
+    bg: 1
+  - speaker: "\uB3C4\uC724"
+    text: "\uC6B0\uC640, \uD06C\uB2E4\u2026 \uBC15\uBB3C\uAD00\uC774 \uC774\uB807\uAC8C
+      \uB113\uC744 \uC904\uC740 \uBAB0\uB790\uB124."
+    kind: 2
+    portrait: 0
+    note: 
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: 
+    sfxVol: 0.8
+    operatorOnly: 0
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: 
+    text: "\uC544\uC774\uC0E4\uB294 \uC870\uAC01\uC0C1 \uC55E\uC5D0\uC11C \uC0AC\uC9C4
+      \uCC0D\uB294 \uC2DC\uB289\uC744 \uD558\uACE0, \uB9B0\uC740 \uBCBD\uC758 \uC548\uB0B4\uBB38\uC744
+      \uC0B4\uD540\uB2E4. \uB9C8\uB9AC\uC544\uB9CC \uC790\uAFB8 \uCC3D\uBC16\uC744
+      \uC62C\uB824\uB2E4\uBCF8\uB2E4."
+    kind: 1
+    portrait: -1
+    note: 
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: 
+    sfxVol: 0.8
+    operatorOnly: 0
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: 
+    text: "\uADF8\uB54C, \uBA40\uB9AC\uC11C \uC0AC\uC774\uB80C\uC774 \uAE38\uAC8C
+      \uC6B8\uB9B0\uB2E4. \uCC3D\uBC16\uC758 \uC57C\uC790\uC218\uAC00 \uBBF8\uCE5C
+      \uB4EF\uC774 \uD754\uB4E4\uB9AC\uACE0, \uC720\uB9AC\uCC3D\uC774 \uB35C\uB35C
+      \uB5A8\uB9B0\uB2E4."
+    kind: 1
+    portrait: -1
+    note: 
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: storm_wind
+    ambVol: 0.34
+    sfx: siren_far
+    sfxVol: 0.5
+    operatorOnly: 0
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: "\uB3C4\uC724"
+    text: "\uBB50\uC57C, \uBB34\uC2A8 \uC18C\uB9AC\uC57C? \uD6C8\uB828\uC778\uAC00?"
+    kind: 0
+    portrait: 0
+    note: "\uB450\uB9AC\uBC88\uAC70\uB9AC\uBA70"
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: 
+    sfxVol: 0.8
+    operatorOnly: 0
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: "\uB9C8\uB9AC\uC544"
+    text: Bagyo! May paparating na bagyo!
+    kind: 0
+    portrait: 1
+    note: "\uCC3D\uBC16\uC744 \uAC00\uB9AC\uD0A4\uBA70 \uB2E4\uAE09\uD558\uAC8C"
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: 
+    sfxVol: 0.8
+    operatorOnly: 0
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: "\uB3C4\uC724"
+    text: "\uB2E4\uB4E4 \uD45C\uC815\uC774 \uC2EC\uAC01\uD574\u2026 \uBB34\uC2A8
+      \uC77C\uC774 \uB09C \uAC70\uC9C0?"
+    kind: 2
+    portrait: 0
+    note: 
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: 
+    sfxVol: 0.8
+    operatorOnly: 0
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: 
+    text: "\uB9B0\uC774 \uC785\uAD6C \uCABD\uC744 \uAC00\uB9AC\uD0A8\uB2E4. \uC544\uC774\uC0E4\uAC00
+      \uC81C\uC77C \uBA3C\uC800 \uB6F0\uC5B4\uAC00 \uBB38\uC190\uC7A1\uC774\uB97C
+      \uD798\uAECF \uB2F9\uAE34\uB2E4."
+    kind: 1
+    portrait: -1
+    note: 
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: 
+    sfxVol: 0.8
+    operatorOnly: 0
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: 
+    text: "\uCCA0\uCEF9, \uCCA0\uCEF9. \uBB38\uC774 \uC5F4\uB9AC\uC9C0 \uC54A\uB294\uB2E4.
+      \uBB38\uC774 \uC7A0\uACA8 \uC788\uB2E4."
+    kind: 1
+    portrait: -1
+    note: 
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: door_locked
+    sfxVol: 0.8
+    operatorOnly: 0
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: "\uB3C4\uC724"
+    text: "\uC7A0\uACBC\uB2E4\uACE0? \uBC29\uAE08 \uC6B0\uB9AC\uAC00 \uB4E4\uC5B4\uC628
+      \uBB38\uC778\uB370!"
+    kind: 0
+    portrait: 0
+    note: "\uC190\uC7A1\uC774\uB97C \uD754\uB4E4\uC5B4 \uBCF4\uBA70"
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: 
+    sfxVol: 0.8
+    operatorOnly: 0
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: 
+    text: "\uC138 \uC0AC\uB78C\uC774 \uBC88\uAC08\uC544 \uBB38\uC744 \uBC00\uC5B4
+      \uBCF4\uC9C0\uB9CC \uC18C\uC6A9\uC5C6\uB2E4. \uAC70\uC138\uC9C0\uB294 \uBC14\uB78C\uC774
+      \uBB38\uD2C8\uC73C\uB85C \uBE44\uBA85\uCC98\uB7FC \uC0C8\uC5B4 \uB4E0\uB2E4."
+    kind: 1
+    portrait: -1
+    note: 
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: 
+    sfxVol: 0.8
+    operatorOnly: 0
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: 
+    text: "\uADF8 \uC21C\uAC04, \uCFF5\u2014 \uAC74\uBB3C \uC5B4\uB518\uAC00\uC5D0\uC11C
+      \uB454\uD0C1\uD55C \uC18C\uB9AC\uAC00 \uC6B8\uB9B0\uB2E4."
+    kind: 1
+    portrait: -1
+    note: 
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: museum_thud
+    sfxVol: 0.9
+    operatorOnly: 0
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: 
+    text: "\uCC9C\uC7A5\uC758 \uBD88\uBE5B\uC774 \uB450\uC5B4 \uBC88 \uAE5C\uBE61\uC774\uB2E4\uAC00,
+      \uD22D, \uAEBC\uC9C4\uB2E4. \uC815\uC804\uC774\uB2E4."
+    kind: 1
+    portrait: -1
+    note: 
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: power_cut
+    sfxVol: 0.8
+    operatorOnly: 0
+    dark: 1
+    bgm: 
+    bg: -1
+  - speaker: 
+    text: "\uC644\uC804\uD55C \uC5B4\uB460. \uBC14\uB78C \uC18C\uB9AC\uC640 \uC11C\uB85C\uC758
+      \uC228\uC18C\uB9AC\uB9CC \uB4E4\uB9B0\uB2E4."
+    kind: 1
+    portrait: -1
+    note: 
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: 
+    sfxVol: 0.8
+    operatorOnly: 0
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: 
+    text: "\uB538\uAE4D. \uB204\uAD70\uAC00 \uC190\uC804\uB4F1\uC744 \uCF20\uB2E4.
+      \uC881\uC740 \uBD88\uBE5B \uD558\uB098\uAC00 \uC5B4\uB460 \uC18D\uC5D0\uC11C
+      \uC5BC\uAD74\uB4E4\uC744 \uD558\uB098\uC529 \uBE44\uCD98\uB2E4."
+    kind: 1
+    portrait: -1
+    note: 
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: flashlight_click
+    sfxVol: 0.9
+    operatorOnly: 0
+    dark: 2
+    bgm: 
+    bg: -1
+  - speaker: "\uB3C4\uC724"
+    text: "\uC5B4? \uB098\u2026 \uC544\uBB34\uAC83\uB3C4 \uC548 \uBCF4\uC774\uB294\uB370."
+    kind: 2
+    portrait: 0
+    note: 
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: 
+    sfxVol: 0.8
+    operatorOnly: 0
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: "\uB3C4\uC724"
+    text: "\uBB38\uC740 \uC7A0\uACBC\uACE0, \uBD88\uC740 \uB098\uAC14\uACE0\u2026
+      \uB0B4\uAC00 \uCC59\uACA8 \uC918\uC57C \uD558\uB294 \uC904 \uC54C\uC558\uB294\uB370,
+      \uC598\uB124\uAC00 \uB0A0 \uB3C4\uC640\uC918\uC57C \uD558\uB294 \uAC70\uC600\uC5B4?"
+    kind: 2
+    portrait: 0
+    note: 
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: 
+    sfxVol: 0.8
+    operatorOnly: 0
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: 
+    text: "\uC190\uC804\uB4F1 \uBD88\uBE5B\uC774 \uD754\uB4E4\uB9AC\uBA70 \uBCBD\uC5D0
+      \uBD99\uC740 \uC548\uB0B4\uBB38\uC744 \uBE44\uCD98\uB2E4. \uB9C8\uB9AC\uC544\uAC00
+      \uD55C \uAC78\uC74C \uB2E4\uAC00\uAC00 \uC18C\uB9AC \uB0B4\uC5B4 \uC77D\uAE30
+      \uC2DC\uC791\uD55C\uB2E4."
+    kind: 1
+    portrait: -1
+    note: 
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: 
+    sfxVol: 0.8
+    operatorOnly: 0
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: "\uB9C8\uB9AC\uC544"
+    text: Nasa likod ng reception ang fuse box! Kailangan nating ibalik ang kuryente!
+    kind: 0
+    portrait: 1
+    note: "\uC548\uB0B4\uBB38\uC744 \uC9DA\uC73C\uBA70 \uB2E4\uAE09\uD558\uAC8C"
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: 
+    sfxVol: 0.8
+    operatorOnly: 0
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: "\uB3C4\uC724"
+    text: "\uBB50\uB77C\uACE0 \uD558\uB294 \uAC70\uC9C0? \uD45C\uC815\uC774 \uC5C4\uCCAD
+      \uAE09\uD574 \uBCF4\uC774\uB294\uB370\u2026"
+    kind: 2
+    portrait: 0
+    note: 
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: 
+    sfxVol: 0.8
+    operatorOnly: 0
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: "\uB3C4\uC724"
+    text: "\uC7A0\uAE50, \uC7A0\uAE50\uB9CC! \uC77C\uB2E8 \uC9C4\uC815\uD558\uACE0!
+      \uBB38\uC740 \uC7A0\uACBC\uC73C\uB2C8\uAE4C \uBC18\uB300\uCABD\uC73C\uB85C
+      \uAC00 \uBCF4\uC790!"
+    kind: 0
+    portrait: 0
+    note: "\uC190\uC744 \uD718\uC800\uC73C\uBA70 \uBCF5\uB3C4 \uCABD\uC744 \uAC00\uB9AC\uD0A4\uACE0"
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: 
+    sfxVol: 0.8
+    operatorOnly: 0
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: "\uB9C8\uB9AC\uC544"
+    text: Hindi! Doon! Sa reception!
+    kind: 0
+    portrait: 1
+    note: "\uB3C4\uC724\uC758 \uD314\uC744 \uBD99\uC7A1\uC544 \uB9C9\uC73C\uBA70"
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: 
+    sfxVol: 0.8
+    operatorOnly: 0
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: "\uB3C4\uC724"
+    text: "\uB0B4\uAC00 \uC774\uB04C\uC5B4\uC57C \uD558\uB294\uB370\u2026 \uC65C
+      \uC548 \uB530\uB77C\uC624\uC9C0?"
+    kind: 2
+    portrait: 0
+    note: 
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: 
+    sfxVol: 0.8
+    operatorOnly: 0
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: 
+    text: "\uB9C8\uB9AC\uC544\uAC00 \uC548\uB0B4\uC2E4 \uCABD\uC744 \uAC00\uB9AC\uD0A4\uBA70
+      \uBB34\uC5B8\uAC00\uB97C \uAC15\uD558\uAC8C \uB9D0\uD55C\uB2E4. \uB3C4\uC724\uC5D0\uAC8C\uB294
+      \uADF8\uC800 \uC54C \uC218 \uC5C6\uB294 \uC18C\uB9AC\uB2E4. \uADF8\uB54C \uB9B0\uC774
+      \uC190\uC804\uB4F1\uC744 \uB3CC\uB824 \uBCBD \uD55C\uCABD\uC744 \uBE44\uCD94\uACE0,
+      \uB3C4\uC724\uC758 \uC5B4\uAE68\uB97C \uD1A1\uD1A1 \uB450\uB4DC\uB9B0\uB2E4."
+    kind: 1
+    portrait: -1
+    note: 
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: 
+    sfxVol: 0.8
+    operatorOnly: 0
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: "\uB9B0"
+    text: Nhin nay! Nhin nay!
+    kind: 0
+    portrait: 2
+    note: "\uBCBD\uC758 \uADF8\uB9BC\uC744 \uAC00\uB9AC\uD0A4\uBA70"
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: 
+    sfxVol: 0.8
+    operatorOnly: 0
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: 
+    text: "\uBC30\uC120\uB3C4\uCC98\uB7FC \uBCF4\uC774\uB294 \uADF8\uB9BC\uC774\uB2E4.
+      \uC774\uBC88\uC5D0\uB294 \uC544\uC774\uC0E4\uAC00 \uADF8 \uC704\uC758 \uC0C9\uC0C9
+      \uC120\uC744 \uC9DA\uC73C\uBA70 \uC190\uAC00\uB77D\uC73C\uB85C \uD558\uB098\uC529
+      \uC13C\uB2E4."
+    kind: 1
+    portrait: -1
+    note: 
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: 
+    sfxVol: 0.8
+    operatorOnly: 0
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: "\uC544\uC774\uC0E4"
+    text: Bheka! Imibala! Obomvu, luhlaza... phuzi!
+    kind: 0
+    portrait: 3
+    note: "\uBE68\uAC15, \uD30C\uB791, \uB178\uB791\uC744 \uCC28\uB840\uB85C \uC9DA\uC73C\uBA70"
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: 
+    sfxVol: 0.8
+    operatorOnly: 0
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: "\uB3C4\uC724"
+    text: "\uB9C8\uB9AC\uC544\uB294 \uC800\uCABD \uBC29\uC744, \uB9B0\uC740 \uBCBD\uC758
+      \uADF8\uB9BC\uC744, \uC544\uC774\uC0E4\uB294 \uC0C9\uC744\u2026 \uB2E4\uB4E4
+      \uC11C\uB85C \uB2E4\uB978 \uAC78 \uAC00\uB9AC\uD0A4\uACE0 \uC788\uC5B4."
+    kind: 2
+    portrait: 0
+    note: 
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: 
+    sfxVol: 0.8
+    operatorOnly: 0
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: "\uB3C4\uC724"
+    text: "\u2026\uC598\uB124\uAC00 \uB2E4 \uBB54\uAC00 \uC54C\uACE0 \uC788\uC5B4.
+      \uB098\uB9CC \uC544\uBB34\uAC83\uB3C4 \uBAA8\uB974\uB124."
+    kind: 2
+    portrait: 0
+    note: 
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: 
+    sfxVol: 0.8
+    operatorOnly: 0
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: 
+    text: "\uB124 \uC0AC\uB78C\uC774 \uC11C\uB85C\uB97C \uBC14\uB77C\uBCF8\uB2E4.
+      \uAC19\uC740 \uB9D0\uC744 \uC4F0\uB294 \uC0AC\uB78C\uC740 \uC544\uBB34\uB3C4
+      \uC5C6\uB2E4. \uD558\uC9C0\uB9CC \uC774 \uC5B4\uB460\uC744 \uBC97\uC5B4\uB098\uB824\uBA74,
+      \uAC01\uC790\uAC00 \uBCF8 \uAC83\uC744 \uBAA8\uC544\uC57C \uD55C\uB2E4\uB294
+      \uAC74 \uBAA8\uB450\uAC00 \uC548\uB2E4."
+    kind: 1
+    portrait: -1
+    note: 
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: 
+    sfxVol: 0.8
+    operatorOnly: 0
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: 
+    text: "[ \uBBF8\uC158 1 ]  \uC804\uC6D0 \uBCF5\uAD6C \u2014 \uC548\uB0B4\uC2E4
+      \uBCBD\uC758 \uD4E8\uC988\uD568\uC744 \uCC3E\uC544 \uBC15\uBB3C\uAD00\uC758
+      \uC804\uC6D0\uC744 \uB418\uC0B4\uB9B0\uB2E4."
+    kind: 1
+    portrait: -1
+    note: 
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: ui_select
+    sfxVol: 0.8
+    operatorOnly: 0
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: 
+    text: "[ \uBBF8\uC158 2 ]  \uCE68\uC218 \uC800\uC9C0 \u2014 \uBB3C\uC774 \uCC28\uC62C\uB77C
+      \uBC15\uBB3C\uAD00\uC744 \uB36E\uCE58\uAE30 \uC804\uC5D0 \uBB3C\uAE38\uC744
+      \uB9C9\uB294\uB2E4."
+    kind: 1
+    portrait: -1
+    note: 
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: 
+    ambVol: 0.3
+    sfx: ui_select
+    sfxVol: 0.8
+    operatorOnly: 0
+    dark: -1
+    bgm: 
+    bg: -1
+  - speaker: 
+    text: "\uBC14\uB2E5 \uC544\uB798 \uC5B4\uB518\uAC00\uC5D0\uC11C, \uBB3C\uC774
+      \uCC28\uC624\uB974\uB294 \uC18C\uB9AC\uAC00 \uB4E4\uB824\uC628\uB2E4."
+    kind: 1
+    portrait: -1
+    note: 
+    focus: -1
+    chatter: 0
+    chapter: 
+    chapterSub: 
+    ambience: storm_wind
+    ambVol: 0.4
+    sfx: siren_far
+    sfxVol: 0.35
+    operatorOnly: 0
+    dark: -1
+    bgm: 
+    bg: -1
+--- !u!4 &1127766882
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1127766880}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1130294271
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1130294274}
+  - component: {fileID: 1130294273}
+  - component: {fileID: 1130294272}
+  m_Layer: 0
+  m_Name: Body
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1130294272
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1130294271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a58611b59f0e84a4699d872b3ed080a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Paradox::Paradox.Client.PixelText
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.9, g: 0.95, b: 0.96, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  _text: 
+  _scale: 3
+  _align: 0
+  _spacing: 0
+  _lineGap: 4
+--- !u!222 &1130294273
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1130294271}
+  m_CullTransparentMesh: 1
+--- !u!224 &1130294274
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1130294271}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 670551613}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -415}
+  m_SizeDelta: {x: 1600, y: 200}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1176987943
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1176987944}
+  - component: {fileID: 1176987945}
+  - component: {fileID: 1176987946}
+  m_Layer: 0
+  m_Name: Sub
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1176987944
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1176987943}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1126143757}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -50}
+  m_SizeDelta: {x: 1500, y: 60}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &1176987945
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1176987943}
+  m_CullTransparentMesh: 1
+--- !u!114 &1176987946
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1176987943}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a58611b59f0e84a4699d872b3ed080a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Paradox::Paradox.Client.PixelText
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.6, g: 0.65, b: 0.7, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  _text: 
+  _scale: 3
+  _align: 4
+  _spacing: 0
+  _lineGap: 4
+--- !u!1 &1283876895
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1283876898}
+  - component: {fileID: 1283876897}
+  - component: {fileID: 1283876896}
+  m_Layer: 0
+  m_Name: Fill
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1283876896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1283876895}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.01, g: 0.012, b: 0.02, a: 0}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1283876897
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1283876895}
+  m_CullTransparentMesh: 1
+--- !u!224 &1283876898
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1283876895}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1024770197}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1321838854
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1321838855}
+  - component: {fileID: 1321838857}
+  - component: {fileID: 1321838856}
+  m_Layer: 0
+  m_Name: Spotlight
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1321838855
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1321838854}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1024770197}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 60}
+  m_SizeDelta: {x: 6000, y: 6000}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1321838856
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1321838854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: -1336721926616136490, guid: 87a880b89d3875b428816c9d89a4bd69, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1321838857
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1321838854}
+  m_CullTransparentMesh: 1
+--- !u!1 &1481999200
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1481999203}
+  - component: {fileID: 1481999202}
+  - component: {fileID: 1481999201}
+  m_Layer: 0
+  m_Name: Tag
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1481999201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1481999200}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a58611b59f0e84a4699d872b3ed080a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Paradox::Paradox.Client.PixelText
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.55, g: 0.6, b: 0.66, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  _text: 
+  _scale: 2
+  _align: 3
+  _spacing: 0
+  _lineGap: 4
+--- !u!222 &1481999202
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1481999200}
+  m_CullTransparentMesh: 1
+--- !u!224 &1481999203
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1481999200}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 670551613}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -272}
+  m_SizeDelta: {x: 400, y: 36}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1489447174
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1489447175}
+  - component: {fileID: 1489447178}
+  - component: {fileID: 1489447177}
+  - component: {fileID: 1489447176}
+  m_Layer: 0
+  m_Name: Canvas
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1489447175
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1489447174}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 362729429}
+  - {fileID: 538605206}
+  - {fileID: 1024770197}
+  - {fileID: 670551613}
+  - {fileID: 1049407514}
+  - {fileID: 1126143757}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0, y: 0}
+--- !u!114 &1489447176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1489447174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.GraphicRaycaster
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+--- !u!114 &1489447177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1489447174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.CanvasScaler
+  m_UiScaleMode: 1
+  m_ReferencePixelsPerUnit: 100
+  m_ScaleFactor: 1
+  m_ReferenceResolution: {x: 1920, y: 1080}
+  m_ScreenMatchMode: 0
+  m_MatchWidthOrHeight: 0.5
+  m_PhysicalUnit: 3
+  m_FallbackScreenDPI: 96
+  m_DefaultSpriteDPI: 96
+  m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 0
+--- !u!223 &1489447178
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1489447174}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 0
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
+  m_UseReflectionProbes: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_UpdateRectTransformForStandalone: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
+--- !u!1 &1744312242
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1744312243}
+  - component: {fileID: 1744312245}
+  - component: {fileID: 1744312244}
+  m_Layer: 0
+  m_Name: Box
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1744312243
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1744312242}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 331532330}
+  m_Father: {fileID: 670551613}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -365}
+  m_SizeDelta: {x: 1760, y: 330}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1744312244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1744312242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.05, g: 0.06, b: 0.09, a: 0.95}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 851f257d500e68346903bb61540809f9, type: 3}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 0.33333334
+--- !u!222 &1744312245
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1744312242}
+  m_CullTransparentMesh: 1
+--- !u!1660057539 &9223372036854775807
+SceneRoots:
+  m_ObjectHideFlags: 0
+  m_Roots:
+  - {fileID: 1096331830}
+  - {fileID: 1489447175}
+  - {fileID: 1127766882}
+  - {fileID: 651933817}

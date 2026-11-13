@@ -1,0 +1,19 @@
+UI sounds: "UI Audio" by Kenney (kenney.nl), CC0 1.0 (public domain).
+Source: https://kenney.nl/assets/ui-audio (mirror: https://github.com/Calinou/kenney-ui-audio)
+ui_hover=rollover2, ui_select=click2, ui_next=click4, ui_back=mouserelease1
+
+cafeteria_crowd.mp3 - "Crowd at Cafeteria" by sonically_sound, CC0 1.0 (Freesound 625112, preview-quality mp3)  https://freesound.org/s/625112/
+school_bell.mp3 - "4-tone chime WESTMINSTER" by mpaol2023, CC0 1.0 (Freesound 370178)  https://freesound.org/s/370178/ — 한국 학교 '딩동댕동' 차임
+ambience_classroom.mp3 - "classroom_ambiance" by joedeshon, CC0 1.0 (Freesound 258094)  https://freesound.org/s/258094/
+ambience_street.mp3 - "Small City Birds Distant Vehicles Ambient" by gokalp_gonen, CC0 1.0 (Freesound 640600)  https://freesound.org/s/640600/
+(all Freesound files are the site's preview-quality mp3)
+ui_type.wav / ui_type2.wav / ui_type3.wav - "Computer Keyboard - single key - type 1 / 2 / 3" by yottasounds, CC0 1.0 (Freesound 380142 / 380141 / 380140), trimmed and normalized  https://freesound.org/s/380142/
+
+ambience_camp.mp3 — "Jungle, Tropical birds and insects" by myrinvp (Freesound 423711, CC0), +10dB, fades
+bus_arrive.mp3 — "Bus 26" by claravinleb (Freesound 838794, CC0)
+storm_wind.mp3 — "Strong Winds inside house 02" by khenshom (Freesound 623603, CC0), +14dB, 1.4kHz lowpass
+siren_far.mp3 — "Tornado siren in Streamwood IL" by audible-edge (Freesound 72831, CC0), 25s excerpt
+power_cut.mp3 — "Breaker-1" by Deathscyp (Freesound 404049, CC0), +8dB (조명이 딱 꺼지는 소리)
+door_locked.mp3 — "Locked_Door_Handle_Rattle_multiple" by jcdecha (Freesound 235473, CC0), excerpt +26dB
+flashlight_click.mp3 — "Flashlight Switch (On/Off)" by EskildNP (Freesound 840297, CC0), excerpt
+museum_thud.mp3 — "Crash Thud" by cyborgcollective (Freesound 344677, CC0), excerpt

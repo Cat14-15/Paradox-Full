@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="640" viewBox="0 0 512 640">
+  <defs>
+    <linearGradient id="skin" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffe3cf"/>
+      <stop offset="1" stop-color="#f6c7a8"/>
+    </linearGradient>
+    <linearGradient id="hair" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2d3048"/>
+      <stop offset="0.5" stop-color="#191a29"/>
+      <stop offset="1" stop-color="#101019"/>
+    </linearGradient>
+    <linearGradient id="jacket" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2f3b63"/>
+      <stop offset="1" stop-color="#1f2744"/>
+    </linearGradient>
+    <linearGradient id="shirt" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#bfe3ff"/>
+      <stop offset="1" stop-color="#8fc4ee"/>
+    </linearGradient>
+    <radialGradient id="iris" cx="0.5" cy="0.35" r="0.75">
+      <stop offset="0" stop-color="#7a4a35"/>
+      <stop offset="0.55" stop-color="#3a2219"/>
+      <stop offset="1" stop-color="#1a0f0b"/>
+    </radialGradient>
+    <clipPath id="faceClip">
+      <path d="M256,128 C330,128 360,190 356,255 C352,330 310,402 256,404 C202,402 160,330 156,255 C152,190 182,128 256,128 Z"/>
+    </clipPath>
+  </defs>
+  <g stroke="#241a1c" stroke-width="5" stroke-linejoin="round" stroke-linecap="round">
+    <!-- 뒤 머리 -->
+    <path fill="url(#hair)" d="M256,92 C146,92 104,190 108,300 C111,400 96,480 112,566 C150,584 200,570 232,560 L280,560 C312,570 362,584 400,566 C416,480 401,400 404,300 C408,190 366,92 256,92 Z"/>
+    <g transform="translate(0,-26)">
+    <!-- 몸: 재킷 -->
+    <path fill="url(#jacket)" d="M30,670 L30,590 C30,536 118,484 198,462 L314,462 C394,484 482,516 482,568 L482,670 Z"/>
+    <!-- 셔츠 -->
+    <path fill="url(#shirt)" d="M198,462 L256,586 L314,462 C296,452 216,452 198,462 Z"/>
+    <!-- 목 -->
+    <path fill="#efbb98" d="M226,380 L226,470 C226,490 286,490 286,470 L286,380 Z"/>
+    <path fill="#d99d7c" stroke="none" d="M226,420 C246,446 270,446 286,420 L286,470 C286,490 226,490 226,470 Z" opacity="0.65"/>
+    <!-- 칼라 -->
+    <path fill="#ffffff" d="M198,462 L246,500 L226,540 L176,484 Z"/>
+    <path fill="#ffffff" d="M314,462 L266,500 L286,540 L336,484 Z"/>
+    <!-- 리본 -->
+    <path fill="#d9434b" d="M256,506 L232,494 L232,530 Z M256,506 L280,494 L280,530 Z"/>
+    <circle cx="256" cy="508" r="9" fill="#b92f38"/>
+    <path d="M176,484 C150,510 120,546 104,600" fill="none" stroke="#161d36" stroke-width="5"/>
+    <path d="M336,484 C362,510 392,546 408,600" fill="none" stroke="#161d36" stroke-width="5"/>
+    <circle cx="256" cy="610" r="7" fill="#e8c36a"/>
+    </g>
+    <!-- 얼굴 -->
+    <path fill="url(#skin)" d="M256,128 C330,128 360,190 356,255 C352,330 310,402 256,404 C202,402 160,330 156,255 C152,190 182,128 256,128 Z"/>
+  </g>
+  <!-- 얼굴 음영 -->
+  <g clip-path="url(#faceClip)" stroke="none">
+    <path fill="#e7a98a" opacity="0.5" d="M156,250 C160,340 205,404 256,404 C214,380 192,330 190,250 Z"/>
+    <path fill="#e7a98a" opacity="0.35" d="M356,250 C352,340 307,404 256,404 C298,380 322,330 322,250 Z"/>
+    <path transform="translate(0,16)" fill="#bd8a72" opacity="0.38" d="M146,262 C132,170 184,100 256,98 C336,100 382,172 366,262 C358,222 340,184 308,166 C292,196 236,214 188,214 C166,226 152,246 146,262 Z"/>
+  </g>
+  <!-- 이목구비 -->
+  <g stroke-linecap="round" stroke-linejoin="round">
+    <!-- 눈 -->
+    <g id="eyeL">
+      <ellipse cx="210" cy="282" rx="25" ry="28" fill="#ffffff" stroke="#241a1c" stroke-width="3"/>
+      <ellipse cx="212" cy="284" rx="18" ry="25" fill="url(#iris)"/>
+      <ellipse cx="212" cy="290" rx="9" ry="13" fill="#0f0806" opacity="0.8"/>
+      <circle cx="204" cy="274" r="7.5" fill="#ffffff"/>
+      <circle cx="220" cy="298" r="3.5" fill="#ffffff" opacity="0.85"/>
+      <path d="M182,276 C190,252 232,248 240,274" fill="none" stroke="#1b1214" stroke-width="7"/>
+      <path d="M184,274 L176,282" fill="none" stroke="#1b1214" stroke-width="5"/>
+    </g>
+    <g id="eyeR">
+      <ellipse cx="302" cy="282" rx="25" ry="28" fill="#ffffff" stroke="#241a1c" stroke-width="3"/>
+      <ellipse cx="300" cy="284" rx="18" ry="25" fill="url(#iris)"/>
+      <ellipse cx="300" cy="290" rx="9" ry="13" fill="#0f0806" opacity="0.8"/>
+      <circle cx="292" cy="274" r="7.5" fill="#ffffff"/>
+      <circle cx="308" cy="298" r="3.5" fill="#ffffff" opacity="0.85"/>
+      <path d="M272,274 C280,248 322,252 330,276" fill="none" stroke="#1b1214" stroke-width="7"/>
+      <path d="M328,274 L336,282" fill="none" stroke="#1b1214" stroke-width="5"/>
+    </g>
+    <!-- 눈썹 -->
+    <path d="M186,238 C200,226 224,225 238,232" fill="none" stroke="#1d1517" stroke-width="6"/>
+    <path d="M274,232 C288,225 312,226 326,238" fill="none" stroke="#1d1517" stroke-width="6"/>
+    <!-- 코 -->
+    <path d="M251,322 C254,328 260,328 263,322" fill="none" stroke="#c98a6d" stroke-width="4"/>
+    <!-- 입 -->
+    <path d="M234,356 C246,372 266,372 278,356" fill="#e0707a" stroke="#241a1c" stroke-width="4"/>
+    <path d="M242,361 C250,367 262,367 270,361" fill="#ffffff" stroke="none" opacity="0.9"/>
+    <!-- 볼터치 -->
+    <ellipse cx="186" cy="328" rx="22" ry="12" fill="#ff8f9a" opacity="0.38" stroke="none"/>
+    <ellipse cx="326" cy="328" rx="22" ry="12" fill="#ff8f9a" opacity="0.38" stroke="none"/>
+  </g>
+  <!-- 앞머리 -->
+  <g stroke="#241a1c" stroke-width="5" stroke-linejoin="round" stroke-linecap="round">
+    <path fill="url(#hair)" d="M146,262 C132,170 184,100 256,98 C336,100 382,172 366,262 C358,222 340,184 308,166 C292,196 236,214 188,214 C166,226 152,246 146,262 Z"/>
+    <path fill="url(#hair)" d="M146,262 C136,340 152,404 142,478 C160,474 176,458 182,436 C188,376 182,320 180,262 Z"/>
+    <path fill="url(#hair)" d="M366,262 C376,340 360,404 370,478 C352,474 336,458 330,436 C324,376 330,320 332,262 Z"/>
+  </g>
+  <!-- 머리 하이라이트 -->
+  <g fill="none" stroke="#6a78b4" stroke-linecap="round" opacity="0.85">
+    <path d="M196,130 C222,112 262,108 296,122" stroke-width="7"/>
+    <path d="M176,160 C190,146 206,138 224,134" stroke-width="5"/>
+    <path d="M300,176 C326,186 344,206 352,232" stroke-width="5"/>
+    <path d="M154,330 C152,370 156,410 150,444" stroke-width="5"/>
+    <path d="M360,330 C362,370 358,410 364,444" stroke-width="5"/>
+  </g>
+</svg>

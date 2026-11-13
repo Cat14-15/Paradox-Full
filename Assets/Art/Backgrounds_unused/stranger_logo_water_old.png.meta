@@ -1,0 +1,429 @@
+fileFormatVersion: 2
+guid: 15704c9d3b9b58a448bf8ce0215f866c
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -4871416689073662675
+    second: stranger_logo_water_old_0
+  - first:
+      213: 4121143751704569934
+    second: stranger_logo_water_old_1
+  - first:
+      213: -4504776099854621093
+    second: stranger_logo_water_old_2
+  - first:
+      213: -4004925629839321556
+    second: stranger_logo_water_old_3
+  - first:
+      213: 7303601124727825849
+    second: stranger_logo_water_old_4
+  - first:
+      213: -4897096757482995908
+    second: stranger_logo_water_old_5
+  - first:
+      213: -8643535952564732398
+    second: stranger_logo_water_old_6
+  - first:
+      213: 6883912581892340876
+    second: stranger_logo_water_old_7
+  - first:
+      213: -2856317607649175353
+    second: stranger_logo_water_old_8
+  - first:
+      213: 2577141709376749288
+    second: stranger_logo_water_old_9
+  - first:
+      213: 227060649495491862
+    second: stranger_logo_water_old_10
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: stranger_logo_water_old_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1
+        width: 211
+        height: 240
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d25dad6c450456cb0800000000000000
+      internalID: -4871416689073662675
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stranger_logo_water_old_1
+      rect:
+        serializedVersion: 2
+        x: 221
+        y: 194
+        width: 206
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e48ebac486e313930800000000000000
+      internalID: 4121143751704569934
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stranger_logo_water_old_2
+      rect:
+        serializedVersion: 2
+        x: 451
+        y: 0
+        width: 188
+        height: 241
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b56ee772102db71c0800000000000000
+      internalID: -4504776099854621093
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stranger_logo_water_old_3
+      rect:
+        serializedVersion: 2
+        x: 643
+        y: 1
+        width: 233
+        height: 242
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c26d191db55ab68c0800000000000000
+      internalID: -4004925629839321556
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stranger_logo_water_old_4
+      rect:
+        serializedVersion: 2
+        x: 891
+        y: 1
+        width: 189
+        height: 240
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9b5ab8cd68a9b5560800000000000000
+      internalID: 7303601124727825849
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stranger_logo_water_old_5
+      rect:
+        serializedVersion: 2
+        x: 1104
+        y: 0
+        width: 220
+        height: 243
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c3f328be1740a0cb0800000000000000
+      internalID: -4897096757482995908
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stranger_logo_water_old_6
+      rect:
+        serializedVersion: 2
+        x: 1351
+        y: 194
+        width: 169
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 21ebf08b8ddfb0880800000000000000
+      internalID: -8643535952564732398
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stranger_logo_water_old_7
+      rect:
+        serializedVersion: 2
+        x: 1542
+        y: 0
+        width: 188
+        height: 241
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c8cf88c4502988f50800000000000000
+      internalID: 6883912581892340876
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stranger_logo_water_old_8
+      rect:
+        serializedVersion: 2
+        x: 329
+        y: 1
+        width: 45
+        height: 169
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7c8906ee4425c58d0800000000000000
+      internalID: -2856317607649175353
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stranger_logo_water_old_9
+      rect:
+        serializedVersion: 2
+        x: 1376
+        y: 98
+        width: 120
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8ee7e3bfab8d3c320800000000000000
+      internalID: 2577141709376749288
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stranger_logo_water_old_10
+      rect:
+        serializedVersion: 2
+        x: 1352
+        y: 0
+        width: 169
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 615f5ab257ea62300800000000000000
+      internalID: 227060649495491862
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      stranger_logo_water_old_0: -4871416689073662675
+      stranger_logo_water_old_1: 4121143751704569934
+      stranger_logo_water_old_10: 227060649495491862
+      stranger_logo_water_old_2: -4504776099854621093
+      stranger_logo_water_old_3: -4004925629839321556
+      stranger_logo_water_old_4: 7303601124727825849
+      stranger_logo_water_old_5: -4897096757482995908
+      stranger_logo_water_old_6: -8643535952564732398
+      stranger_logo_water_old_7: 6883912581892340876
+      stranger_logo_water_old_8: -2856317607649175353
+      stranger_logo_water_old_9: 2577141709376749288
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
