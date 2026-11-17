@@ -107,12 +107,6 @@ namespace Paradox.Client
                     renderer.sprite = sprite;
                     if (background != null) renderer.sortingLayerID = background.sortingLayerID;
                     renderer.sortingOrder = YDepthSort.OrderFor((192f - entry.FootY) / 32f, 50f);
-                    if (entry.Resource == "10_Reading_Room__Bench")
-                    {
-                        var benchCenter = child.AddComponent<BoxCollider2D>();
-                        benchCenter.offset = new Vector2((258f - 256f) / 32f, (192f - 323f) / 32f);
-                        benchCenter.size = new Vector2(52f / 32f, 17f / 32f);
-                    }
                     foreach (Vector2 pot in entry.Pots)
                     {
                         var collider = child.AddComponent<BoxCollider2D>();

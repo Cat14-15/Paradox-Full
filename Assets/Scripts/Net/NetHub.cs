@@ -390,6 +390,13 @@ namespace Paradox.Net
         public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason)
         {
             if (runner != Runner) return;   // 우리가 요청한 종료(Teardown)는 Runner 가 이미 null
+            // 접속 도중(아직 방에 못 들어간 상태)의 종료는 "연결 끊김" 이 아니라 접속 실패다: 없는 방 코드면 "그 방을 찾지 못했어요" 를 보여 준다
+            if (!_connected && shutdownReason != ShutdownReason.Ok)
+            {
+                if (!_active || (_creating && shutdownReason == ShutdownReason.GameIdAlreadyExists)) return;   // 후자는 StartRoutine 이 코드를 바꿔 다시 시도한다
+                Fail(MessageFor(shutdownReason));
+                return;
+            }
             Lost(shutdownReason == ShutdownReason.Ok ? HostClosedReason : "서버와 연결이 끊겼어요");
         }
 

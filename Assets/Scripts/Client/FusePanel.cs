@@ -91,10 +91,33 @@ namespace Paradox.Client
             for (int i = 0; i < 4; i++) _slots[i] = -1;
             _cur = 0; _solved = false; _closeAt = -1f; _flashA = 0f;
             group.alpha = 1f; group.blocksRaycasts = true; group.interactable = true;
-            IsOpen = true; _openedFrame = Time.frameCount; _sayVer = -1; _fails = 0; Story1Net.ResetSent(Story1Net.PFuse);
+            IsOpen = true; Story1BotOperator.Opened(Story1Net.PFuse); _openedFrame = Time.frameCount; _sayVer = -1; _fails = 0; Story1Net.ResetSent(Story1Net.PFuse);
             if (status != null) status.text = "";
             Refresh();
             Sfx.Play("ui_select", 0.8f);
+        }
+
+        /// <summary>조작자가 AI 일 때: 동료의 신호를 받아 AI 조작자가 푼다.</summary>
+        private void BotSolve()
+        {
+            if (_solved) return;
+            _solved = true;
+            status.text = "AI 조작자가 신호대로 풀었어요!";
+            status.color = new Color(0.45f, 0.95f, 0.6f);
+            _flashCol = new Color(0.5f, 1f, 0.6f); _flashA = 0.5f;
+            Sfx.Play("power_on", 0.9f);
+            _closeAt = Time.unscaledTime + 1.5f;
+            Story1Net.Send(Story1Net.Clear, Story1Net.PFuse);
+        }
+
+        private float _botNote;
+
+        private void BotOperatorTick()
+        {
+            if (_solved) return;
+            string waiting; int st = Story1BotOperator.Tick(Story1Net.PFuse, out waiting);
+            if (st == 1 && Time.unscaledTime > _botNote) { _botNote = Time.unscaledTime + 1f; status.text = waiting.Length == 0 ? "AI 조작자가 신호대로 푸는 중이에요" : "AI 조작자가 신호를 기다려요: " + waiting + " 의 신호 카드가 필요해요 (C)"; status.color = new Color(0.95f, 0.85f, 0.55f); }
+            else if (st == 2) BotSolve();
         }
 
         public void Close()
@@ -152,7 +175,7 @@ namespace Paradox.Client
                     sootRects[i].anchoredPosition = slotRects[b.slot].anchoredPosition + new Vector2(0f, -55f);
                     sootSpark[i].color = Colors[b.color];
                 }
-                hint.text = "그을음이 난 슬롯과 불꽃의 색을 팀원에게 알려 주세요. (그 색 퓨즈는 그 슬롯에 못 꽂아요)";
+                hint.text = "그을음 슬롯과 불꽃 색을 알려 주세요 (그 색은 그 슬롯에 못 꽂아요)";
             }
             if (nv)
             {
@@ -168,7 +191,7 @@ namespace Paradox.Client
                 hint.text = "이 색의 선만 어느 슬롯에 이어져 있는지 보입니다. 팀원에게 알려 주세요.";
             }
             for (int s = 0; s < 4; s++) slotNums[s].text = (s + 1).ToString();
-            if (hint != null) hint.text += "     Q  닫기";
+            if (hint != null) { hint.maxWidth = 1420f; hint.text += "\nAI 말뜻  풀 → 물 풀이 물 왼쪽 · 불 3 불은 3번 · 2 아니 불 2번 불 금지"; }
             SoloBots.Sync(BotLines.Fuse(_puzzle));
             if (op && !_solved) Story1Net.Tell(Story1Net.PFuse, "조작자: 퓨즈 " + CountFilled() + " / 4칸");
         }
@@ -179,7 +202,7 @@ namespace Paradox.Client
             if (content != null)
             {
                 _shake = Mathf.MoveTowards(_shake, 0f, Time.unscaledDeltaTime * 30f);
-                content.anchoredPosition = _shake > 0.01f ? new Vector2(UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1f, 1f)) * _shake : Vector2.zero;
+                content.anchoredPosition = _shake > 0.01f ? new Vector2(UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1f, 1f)) * _shake + new Vector2(0f, 60f) : new Vector2(0f, 60f);
             }
             if (flash != null)
             {
@@ -188,6 +211,7 @@ namespace Paradox.Client
             }
             if (!IsOpen) return;
             Story1Net.ShowSay(Story1Net.PFuse, status, ref _sayVer);
+            if (Story1BotOperator.Active) BotOperatorTick();
 
             if (_closeAt > 0f && Time.unscaledTime >= _closeAt) { Close(); _box.OnSolved(); return; }
             if (_solved) return;
@@ -195,7 +219,7 @@ namespace Paradox.Client
 
             var kb = Keyboard.current;
             if (kb == null) return;
-            if (kb.escapeKey.wasPressedThisFrame || kb.qKey.wasPressedThisFrame) { Close(); return; }   // 웹에서는 Esc 가 전체화면을 풀어 버려서 Q 도 쓴다
+            if (kb.escapeKey.wasPressedThisFrame || kb.qKey.wasPressedThisFrame || kb.xKey.wasPressedThisFrame) { Close(); return; }   // 웹에서는 Esc 가 전체화면을 풀어 버려서 X·Q 도 쓴다
             if (kb.tabKey.wasPressedThisFrame && Story1Role.Solo) { Story1Role.Cycle(); Sfx.Play("ui_hover", 0.8f); Refresh(); return; }
 
             if (Story1Role.Current != (int)GameRole.Operator) return;
@@ -234,11 +258,17 @@ namespace Paradox.Client
         {
             int from = Array.IndexOf(_slots, color);
             int old = _slots[_cur];
-            if (from >= 0 && from != _cur) _slots[from] = old;
+            bool moved = from >= 0 && from != _cur;
+            if (moved) _slots[from] = old;
             _slots[_cur] = color;
             Sfx.Play("ui_select", 0.7f);
             if (_cur < 3 && !FusePuzzle.IsFull(_slots)) _cur++;
             Refresh();
+            if (moved && status != null)
+            {
+                status.text = FusePuzzle.ColorKo[color] + " 퓨즈는 하나뿐이에요 — " + (from + 1) + "번 칸에서 옮겨 왔어요. 네 색을 한 번씩 꽂아요.";
+                status.color = new Color(0.95f, 0.8f, 0.45f);
+            }
         }
 
         private void Submit()

@@ -218,6 +218,7 @@ namespace Paradox.Net
         public void PosRpc(float x, float y, RpcInfo info = default)
         {
             int slot = Session.State.SlotOfClient(info.Source.PlayerId);
+            if (!Limiter.AllowPos(info.Source.PlayerId, Time.unscaledTime)) return;
             Story1Net.OnRemotePos(slot, new Vector2(x, y));
         }
 
@@ -271,6 +272,7 @@ namespace Paradox.Net
         {
             if (Logic == null) return;
             bool fromHost = sender == Runner.LocalPlayer;
+            if (!fromHost && !Limiter.Allow(sender.PlayerId, c, Time.unscaledTime)) return;   // 도배 차단(권한자가 버린다 — 다른 사람에게 전파되지 않는다)
             int senderSlot = Logic.S.SlotOfClient(sender.PlayerId);
             int slot = c.slot;
             bool allowed = Roles.Valid(slot) && (slot == senderSlot || (fromHost && Logic.IsBot(slot)));
@@ -300,7 +302,7 @@ namespace Paradox.Net
         public void PlayerLeft(PlayerRef player)
         {
             if (!HasStateAuthority || Logic == null) return;
-            Logic.Leave(player.PlayerId);
+            Logic.Leave(player.PlayerId); Limiter.Forget(player.PlayerId);
             Broadcast();
         }
 
@@ -404,5 +406,60 @@ namespace Paradox.Net
             if (Session.Avatars.TryGetValue(slot, out var a) && a != null) return (Vector2)a.transform.position;
             return null;
         }
+    }
+}
+
+
+namespace Paradox.Net
+{
+    /// <summary>
+    /// 보낸 사람별 명령 속도 제한(토큰 버킷). 권한자에서만 쓴다.
+    /// 일반 명령: 초당 20개(순간 30개). 신호 카드: 순간 4개, 이후 초당 1개. 위치: 초당 30개.
+    /// 일반 한도를 거듭 넘기면 8초 동안 그 사람의 명령을 모두 무시한다.
+    /// </summary>
+    public static class Limiter
+    {
+        private class B { public float gen = 30, sig = 4, pos = 40, last, mutedUntil; public int strikes; }
+        private static readonly System.Collections.Generic.Dictionary<int, B> _b = new System.Collections.Generic.Dictionary<int, B>();
+
+        private static B Get(int id, float now)
+        {
+            B b;
+            if (!_b.TryGetValue(id, out b)) { b = new B { last = now }; _b[id] = b; }
+            float dt = Mathf.Clamp(now - b.last, 0f, 5f); b.last = now;
+            b.gen = Mathf.Min(30f, b.gen + dt * 20f);
+            b.sig = Mathf.Min(4f, b.sig + dt * 1f);
+            b.pos = Mathf.Min(40f, b.pos + dt * 30f);
+            if (b.strikes > 0 && dt > 3f) b.strikes = 0;
+            return b;
+        }
+
+        public static bool Allow(int id, Paradox.Game.Cmd c, float now)
+        {
+            var b = Get(id, now);
+            if (now < b.mutedUntil) return false;
+            if (b.gen < 1f)
+            {
+                if (++b.strikes >= 20) { b.mutedUntil = now + 8f; b.strikes = 0; Debug.LogWarning("[Limiter] 도배로 8초간 무시: player " + id); }
+                return false;
+            }
+            b.gen -= 1f;
+            if (c != null && c.type == "S1" && c.a == Paradox.Client.Story1Net.Signal)
+            {
+                if (b.sig < 1f) return false;
+                b.sig -= 1f;
+            }
+            return true;
+        }
+
+        public static bool AllowPos(int id, float now)
+        {
+            var b = Get(id, now);
+            if (b.pos < 1f) return false;
+            b.pos -= 1f; return true;
+        }
+
+        public static void Forget(int id) { _b.Remove(id); }
+        public static void Clear() { _b.Clear(); }
     }
 }

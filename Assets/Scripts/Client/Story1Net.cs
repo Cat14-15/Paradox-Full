@@ -35,9 +35,25 @@ namespace Paradox.Client
         public static int FinalRound;          // 최종 퍼즐에서 마지막으로 알려진 라운드
         public static bool FinalGoing;         // 마지막(동시 입력) 단계가 시작됐는가
 
-        public struct SignalEntry { public int slot, card; public float t; }
+        public struct SignalEntry { public int slot, card; public float t; public string text, key; }
         public static readonly List<SignalEntry> Feed = new List<SignalEntry>();
         public static int FeedVersion;
+
+        /// <summary>봇 동료가 자기 역할로 한마디 한다(기록 창에만 뜬다. 네트워크로 보내지 않는다).</summary>
+        public static void BotSay(int role, string text, string key = null)
+        {
+            if (key != null)
+                for (int i = Feed.Count - 1; i >= 0; i--)
+                    if (Feed[i].slot == role && Feed[i].key == key)
+                    {
+                        var e = Feed[i];
+                        if (e.text == text) return;   // 같은 말은 다시 올리지 않는다
+                        e.text = text; e.t = Time.time; Feed[i] = e;   // 소리 없이 제자리에서 바꾼다
+                        return;
+                    }
+            Feed.Add(new SignalEntry { slot = role, card = -1, t = Time.time, text = text, key = key });   // 봇의 말은 소리를 내지 않는다(FeedVersion 을 올리지 않음)
+            while (Feed.Count > 60) Feed.RemoveAt(0);
+        }
 
         // 신호 카드: 숫자 1~4, 방향 3, 색 4, 예/아니오/여기
         public static readonly string[] CardLabel = { "1", "2", "3", "4", "←", "↑", "→", "불", "물", "별", "풀", "응", "아니", "여기" };
@@ -86,7 +102,7 @@ namespace Paradox.Client
             get
             {
                 if (Online) return Story1Rules.Clamp(Session.State.difficulty);
-                if (_localDiff < 0) { try { _localDiff = PlayerPrefs.GetInt(DiffKey, Story1Rules.Normal); } catch { _localDiff = Story1Rules.Normal; } }
+                if (_localDiff < 0) { try { _localDiff = PlayerPrefs.GetInt(DiffKey, Story1Rules.Easy); } catch { _localDiff = Story1Rules.Easy; } }
                 return Story1Rules.Clamp(_localDiff);
             }
         }
@@ -213,7 +229,7 @@ namespace Paradox.Client
                     break;
                 case Signal:
                     Feed.Add(new SignalEntry { slot = e.slot, card = e.b, t = Time.time });
-                    while (Feed.Count > 8) Feed.RemoveAt(0);
+                    while (Feed.Count > 60) Feed.RemoveAt(0);
                     FeedVersion++;
                     break;
             }

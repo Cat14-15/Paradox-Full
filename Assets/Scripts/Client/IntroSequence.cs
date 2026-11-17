@@ -39,7 +39,7 @@ namespace Paradox.Client
         private float _zoom = 1f;
 
         [Header("설정")]
-        public string nextScene = "StageSelect";
+        public string nextScene = "Lobby";
         public Vector2 logoStartPos = new Vector2(0f, 20f);
         public Vector2 logoTitlePos = new Vector2(0f, 250f);
         public float logoTitleScale = 0.8f;

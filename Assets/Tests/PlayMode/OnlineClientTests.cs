@@ -152,6 +152,7 @@ namespace Paradox.Tests
         [Timeout(120000)]
         public IEnumerator UnknownRoomCode_FailsWithMessage()
         {
+            UnityEngine.TestTools.LogAssert.ignoreFailingMessages = true;   // Photon 이 "Game does not exist" 를 오류 로그로 남기는 건 예상된 동작
             yield return Flow.Boot();
             Assert.IsFalse(NetHub.Instance.StartClient("A1"), "너무 짧은 코드는 시작도 안 함");
             Assert.IsFalse(NetHub.Instance.IsRunning);

@@ -34,7 +34,7 @@ namespace Paradox.Client
         [System.NonSerialized] public bool testUse;
 
         /// <summary>퍼즐 화면이 열려 있는 동안 주인공을 멈춘다.</summary>
-        public static bool InputLocked => FusePanel.IsOpen || GalleryPanel.IsOpen || WaterPanel.IsOpen || FinalPanel.IsOpen || RelicPanel.IsOpen || Story1Flow.Ending || Story1Tutorial.IsOpen || Story1Map.IsOpen || Story1Pause.IsOpen;
+        public static bool InputLocked => FusePanel.IsOpen || GalleryPanel.IsOpen || WaterPanel.IsOpen || FinalPanel.IsOpen || RelicPanel.IsOpen || Story1Flow.Ending || Story1Tutorial.IsOpen || Story1Map.IsOpen || Story1Pause.IsOpen || SignalBar.IsOpen || Story1RoomInfo.IsOpen;
 
         /// <summary>방에 들어갈 때(방 이름). 화면 위 방 이름 표시가 듣는다.</summary>
         public static event System.Action<string> RoomEntered;
@@ -161,17 +161,6 @@ namespace Paradox.Client
             }
             _lastShown = _near;
 
-            // 문 앞에 잠시 서 있으면 키를 안 눌러도 넘어간다. 방금 지나온 문(바로 옆에 도착한다)은 한 번 벗어나야 다시 켜진다.
-            if (_near != null && _nearThing == null && !Busy)
-            {
-                if (_autoArmed)
-                {
-                    _dwell += Time.deltaTime;
-                    if (_dwell >= AutoPassSeconds) { _dwell = 0f; _autoArmed = false; StartCoroutine(Pass(_near)); }
-                }
-            }
-            else { _dwell = 0f; if (_near == null) _autoArmed = true; }
-
             ShowPrompt(_nearThing != null ? "[E]  " + _nearThing.Label : _near != null ? "[E]  " + _near.label + "" : null);
 
             bool use = testUse || (kb != null && (Application.isFocused || Application.platform == RuntimePlatform.WebGLPlayer) && kb.eKey.wasPressedThisFrame);
@@ -180,9 +169,6 @@ namespace Paradox.Client
             else if (use && _near != null) StartCoroutine(Pass(_near));
         }
 
-        private const float AutoPassSeconds = 1.2f;
-        private float _dwell;
-        private bool _autoArmed = true;
         private RoomDoor _lastShown;
         private Story1Interactable _nearThing;
 

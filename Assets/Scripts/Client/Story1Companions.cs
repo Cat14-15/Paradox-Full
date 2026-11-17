@@ -78,6 +78,38 @@ namespace Paradox.Client
             return r;
         }
 
+        // ---- 봇이 자기 역할로 하는 일: 기록 창에 길·단서를 알려 준다(조작자가 사람일 때나 봇일 때나 같다)
+        private float _nextAdvice = 6f;
+        private int _adviceStep;
+
+        private void Advise()
+        {
+            if (Story1Scene.InputLocked || scene.Busy || Time.time < _nextAdvice) return;
+            _nextAdvice = Time.time + 11f;
+            bool g = GalleryPanel.Cleared, r = RelicPanel.Cleared, w = WaterPanel.Cleared;
+            int na = (int)GameRole.Navigator, it = (int)GameRole.Interpreter, ob = (int)GameRole.Observer;
+            string where, what;
+            if (!Story1Blackout.PowerOn) { where = "입구 안내실 퓨즈함"; what = "퓨즈함 앞에서 E"; }
+            else if (g && r && w) { where = "중앙 홀 바닥의 원"; what = "네 명이 같이 밟아요"; }
+            else if (!g) { where = "회화 전시실 물웅덩이"; what = "물웅덩이 건너기"; }
+            else if (!r) { where = "수장고 유물 전시대"; what = "유물 맞추기"; }
+            else { where = "학예실 배수 밸브"; what = "배수 밸브 열기"; }
+            int step = _adviceStep++ % 3;
+            if (step == 0 && Story1Role.IsBot(na)) { Story1Net.BotSay(na, "가야 할 곳  " + where); return; }
+            if (step == 1 && Story1Role.IsBot(it)) { Story1Net.BotSay(it, "외국어 글은 내가 읽어 줄게요"); return; }
+            if (step == 2 && Story1Role.IsBot(ob)) { Story1Net.BotSay(ob, "숨은 단서를 찾는 중이에요"); return; }
+            if (Story1Role.IsBot(na)) Story1Net.BotSay(na, "가야 할 곳  " + where);
+        }
+
+        /// <summary>역할 role 의 동료가 지금 화면에 있다면 그 월드 위치.</summary>
+        public bool TryGetPos(int role, out Vector2 p)
+        {
+            p = default;
+            if (_sr == null || role < 0 || role >= _sr.Length || !_sr[role].gameObject.activeSelf) return false;
+            p = _tr[role].position;
+            return true;
+        }
+
         private void LateUpdate()
         {
             if (_sr == null) return;
@@ -95,11 +127,15 @@ namespace Paradox.Client
                 if (_sr[i].gameObject.activeSelf != show) _sr[i].gameObject.SetActive(show);
                 if (!show) continue;
                 // 사람 동료: 받은 위치들을 조금 늦게(0.2초) 이어서 보여 줘 끊김 없이 부드럽게. 봇: 주인공이 지나온 길을 따라간다.
-                Vector2 p = remote ? Story1Net.RemoteAt(i, now - 0.35f) : At(now - delays[i]) + offsets[i];
-                // 겹침 해소는 한 번에 밀어 버리지 않고 서서히(밀려나는 튀는 느낌 방지)
-                Vector2 want = Separate(i, p, pp) - p;
-                _off[i] = Vector2.Lerp(_off[i], want, 1f - Mathf.Exp(-8f * Time.deltaTime));
-                p += _off[i];
+                Vector2 p;
+                if (remote) p = Story1Net.RemoteAt(i, now - 0.35f);
+                else
+                {
+                    Vector2 basePos = At(now - delays[i]);          // 주인공이 지나온 길(항상 걸을 수 있는 곳)
+                    p = basePos + offsets[i];
+                    if (Blocked(basePos, p)) { p = basePos + offsets[i] * 0.5f; if (Blocked(basePos, p)) p = basePos; }   // 벽 너머로 나가지 않는다
+                }
+                // 밀어내기(겹침 해소)는 하지 않는다: 주인공이 다가가면 동료가 튕겨 나가던 원인. 정해진 간격(offsets)으로만 따라온다.
                 Vector2 d = p - _last[i];
                 if (d.sqrMagnitude > 25f) { _last[i] = p; d = Vector2.zero; }   // 문을 지난 순간이동은 걸어가지 않고 바로
                 // 속도가 아주 느릴 땐(밀림·보정으로 생기는 미세한 움직임) 걷는 모션/방향 전환을 하지 않는다 → 앞뒤로 흔들려 보이지 않게
@@ -140,6 +176,22 @@ namespace Paradox.Client
             if (m >= MinGap) return p;
             Vector2 dir = m > 0.01f ? v / m : SpreadOffsets[i].normalized;
             return other + dir * MinGap;
+        }
+
+        private static readonly RaycastHit2D[] _hits = new RaycastHit2D[8];
+        private ContactFilter2D _filter = new ContactFilter2D { useTriggers = false, useLayerMask = false };
+
+        // from → to 사이에 벽·가구(주인공 말고 막는 콜라이더)가 있는가
+        private bool Blocked(Vector2 from, Vector2 to)
+        {
+            int n = Physics2D.Linecast(from, to, _filter, _hits);
+            for (int k = 0; k < n; k++)
+            {
+                var c = _hits[k].collider;
+                if (c == null || c.attachedRigidbody == scene.player) continue;
+                return true;
+            }
+            return false;
         }
 
         // 시각 t 에 주인공이 있던 자리. 문을 지나 순간이동한 구간은 보간하지 않고 도착 지점으로 바로 간다.

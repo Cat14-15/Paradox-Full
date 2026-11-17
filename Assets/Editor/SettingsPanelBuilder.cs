@@ -87,12 +87,12 @@ namespace Paradox.Editor
             panel.bgmSlider = Slider(root, "BgmSlider", -25, out panel.bgmHandle);
             panel.bgmPct = Txt(root, "BgmPct", "50%", 3, Amber, 360, -25, 140, 56, TextAnchor.MiddleRight);
 
-            Txt(root, "Hint", "↑ ↓  고르기      ← →  조절      Esc  닫기", 2, new Color(0.55f, 0.6f, 0.66f), 0, -150, 800, 36, TextAnchor.MiddleCenter);
+            Txt(root, "Hint", "↑ ↓  고르기      ← →  조절      X  닫기", 2, new Color(0.55f, 0.6f, 0.66f), 0, -150, 800, 36, TextAnchor.MiddleCenter);
 
             var close = Node("Close", root); At(close, 0, -240, 260, 64);
             Frame(close, new Color(0.08f, 0.1f, 0.14f, 1f), new Color(0.62f, 0.5f, 0.3f), true);
             var cb = close.gameObject.AddComponent<Button>(); cb.targetGraphic = close.GetComponent<Image>();
-            Txt(close, "Label", "닫기", 3, Ink, 0, 0, 240, 56, TextAnchor.MiddleCenter);
+            Txt(close, "Label", "X  닫기", 3, Ink, 0, 0, 240, 56, TextAnchor.MiddleCenter);
             UnityEventTools.AddVoidPersistentListener(cb.onClick, panel.Close);
 
             // 오른쪽 위 설정 버튼(패널보다 뒤에 있도록 패널 앞에 배치)

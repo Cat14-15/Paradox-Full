@@ -202,6 +202,10 @@ namespace Paradox.Editor
             var diff = Panel(charR, "DifficultyButton", 450, 440, 380, 76, ctl, 8, 0);
             diff.label = Txt(diff.rect, "Label", "난이도  보통", 2, Amber, 0, 0, 360, 40);
 
+            // 스테이지(방 안에서 방장이 고른다)
+            var stg = Panel(charR, "StageButton", -450, 440, 380, 76, ctl, 9, 0);
+            stg.label = Txt(stg.rect, "Label", "Stage 1", 2, Mint, 0, 0, 360, 40);
+
             var charStatus = Txt(charR, "Status", "", 2, Warn, 0, 330, 1500, 36);
             charStatus.rectTransform.anchoredPosition = new Vector2(0, -345);
 
@@ -225,7 +229,7 @@ namespace Paradox.Editor
             ctl.codeBorders = codeBorders; ctl.codeChars = codeChars; ctl.roomStatus = roomStatus;
             ctl.cards = cards;
             ctl.charTitle = charTitle; ctl.charCodeLine = charCode; ctl.charStatus = charStatus;
-            ctl.nickBtn = nick; ctl.nickValue = nickValue; ctl.leaveBtn = leave; ctl.startBtn = start; ctl.botsBtn = bots; ctl.diffBtn = diff;
+            ctl.nickBtn = nick; ctl.nickValue = nickValue; ctl.leaveBtn = leave; ctl.startBtn = start; ctl.botsBtn = bots; ctl.diffBtn = diff; ctl.stageBtn = stg;
 
             SettingsPanelBuilder.Add(root);
             EditorSceneManager.SaveScene(scene, ScenePath);

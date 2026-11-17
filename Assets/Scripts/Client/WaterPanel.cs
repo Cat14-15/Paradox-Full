@@ -70,10 +70,33 @@ namespace Paradox.Client
             _owner = owner; _puzzle = puzzle;
             ResetValves(); _water = 0f; _solved = false; _closeAt = -1f; _flashA = 0f;
             group.alpha = 1f; group.blocksRaycasts = true; group.interactable = true;
-            IsOpen = true; _openedFrame = Time.frameCount; _sayVer = -1; _fails = 0; _pumpReadyAt = 0f; _seenPump = Story1Net.PumpUntil; Story1Net.ResetSent(Story1Net.PWater);
+            IsOpen = true; Story1BotOperator.Opened(Story1Net.PWater); _openedFrame = Time.frameCount; _sayVer = -1; _fails = 0; _pumpReadyAt = 0f; _seenPump = Story1Net.PumpUntil; Story1Net.ResetSent(Story1Net.PWater);
             status.text = "";
             Refresh();
             Sfx.Play("ui_select", 0.8f);
+        }
+
+        /// <summary>조작자가 AI 일 때: 동료의 신호를 받아 AI 조작자가 푼다.</summary>
+        private void BotSolve()
+        {
+            if (_solved) return;
+            _solved = true;
+            status.text = "AI 조작자가 신호대로 풀었어요!";
+            status.color = new Color(0.45f, 0.95f, 0.6f);
+            _flashCol = new Color(0.5f, 1f, 0.6f); _flashA = 0.5f;
+            Sfx.Play("power_on", 0.9f);
+            _closeAt = Time.unscaledTime + 1.5f;
+            Story1Net.Send(Story1Net.Clear, Story1Net.PWater);
+        }
+
+        private float _botNote;
+
+        private void BotOperatorTick()
+        {
+            if (_solved) return;
+            string waiting; int st = Story1BotOperator.Tick(Story1Net.PWater, out waiting);
+            if (st == 1 && Time.unscaledTime > _botNote) { _botNote = Time.unscaledTime + 1f; status.text = waiting.Length == 0 ? "AI 조작자가 신호대로 푸는 중이에요" : "AI 조작자가 신호를 기다려요: " + waiting + " 의 신호 카드가 필요해요 (C)"; status.color = new Color(0.95f, 0.85f, 0.55f); }
+            else if (st == 2) BotSolve();
         }
 
         public void Close()
@@ -97,7 +120,7 @@ namespace Paradox.Client
             if (op)
             {
                 title.text = "관리실 · 배수 밸브" + Story1Net.RoundLabel(Story1Net.PWater);
-                hint.text = "1~4  밸브 돌리기 (왼쪽부터)     Enter  수문 확인     밸브는 서로 연동돼 있어요. 돌릴 때마다 물이 찹니다.";
+                hint.text = "1~4  밸브 돌리기     Enter  수문 확인     밸브는 서로 연동돼요";
                 for (int i = 0; i < 4; i++)
                 {
                     valveTags[i].text = WaterPuzzle.TagTl[_puzzle.tagOf[i]];
@@ -111,7 +134,7 @@ namespace Paradox.Client
             {
                 title.text = "밸브 이름표 번역 (필리핀어)";
                 for (int i = 0; i < 4; i++) { glossTl[i].text = WaterPuzzle.TagTl[i]; glossKo[i].text = "→ " + WaterPuzzle.TagKo(i); }
-                hint.text = "이 글은 당신만 읽을 수 있어요. 밸브의 이름표가 몇 번인지 팀원에게 알려 주세요.";
+                hint.text = "이 글은 당신만 읽을 수 있어요. 이름표 번호를 팀원에게 알려 주세요.";
             }
             if (nv)
             {
@@ -123,7 +146,7 @@ namespace Paradox.Client
                     mapNodes[i].color = need ? OpenCol : new Color(0.3f, 0.3f, 0.35f);
                     mapLabels[i].text = (i + 1) + "번  " + (need ? "열림" : "닫힘");
                 }
-                hint.text = "이 번호의 밸브만 열려 있어야 해요.     Space  배수 펌프 (4초 동안 수위 정지, 12초마다)";
+                hint.text = "이 번호 밸브만 열려야 해요     Space  배수 펌프 (4초 정지)";
             }
             if (ob)
             {
@@ -131,7 +154,7 @@ namespace Paradox.Client
                 for (int i = 0; i < 4; i++) linkLines[i].text = (i + 1) + "번째를 돌리면 → " + (_puzzle.link[i] + 1) + "번째도 같이 돈다";
                 hint.text = "연동을 모르면 엉뚱한 밸브가 열려요. 팀원에게 알려 주세요.";
             }
-            if (hint != null) hint.text += "     Q  닫기";
+            if (hint != null) { hint.maxWidth = 1420f; hint.text += "\nAI 말뜻  1 → 3 이름표 3번 · 1 → 2 1번 돌리면 2번도"; }
             SoloBots.Sync(BotLines.Water(_puzzle));
         }
 
@@ -140,7 +163,7 @@ namespace Paradox.Client
             if (content != null)
             {
                 _shake = Mathf.MoveTowards(_shake, 0f, Time.unscaledDeltaTime * 30f);
-                content.anchoredPosition = _shake > 0.01f ? new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)) * _shake : Vector2.zero;
+                content.anchoredPosition = _shake > 0.01f ? new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)) * _shake + new Vector2(0f, 60f) : new Vector2(0f, 60f);
             }
             if (flash != null)
             {
@@ -149,18 +172,28 @@ namespace Paradox.Client
             }
             if (!IsOpen) return;
 
+            // 사람 조작자가 따로 있으면 수위는 조작자 값이 기준: 받은 "수위 N%"로 맞추고, 다음 값이 올 때까지만 같은 속도로 올려 본다
+            bool follow = Story1Net.Online && Story1Net.HasHumanPeers && Story1Role.Current != (int)GameRole.Operator && !Story1BotOperator.Active;
+            if (follow && _followVer != Story1Net.SayVersion)
+            {
+                _followVer = Story1Net.SayVersion;
+                int pct = ParsePercent(Story1Net.SayText[Story1Net.PWater]);
+                if (pct >= 0) _water = WaterPuzzle.MaxWater * pct / 100f;
+            }
             if (!_solved && Story1Net.Now >= Story1Net.PumpUntil) _water = Mathf.Min(WaterPuzzle.MaxWater, _water + Time.unscaledDeltaTime * WaterPuzzle.RisePerSecond);
             if (!_solved && Time.unscaledTime >= _tellAt) { _tellAt = Time.unscaledTime + 1.5f; Story1Net.Tell(Story1Net.PWater, "수위 " + Mathf.RoundToInt(_water / WaterPuzzle.MaxWater * 100f) + "% · 열린 밸브 " + OpenCount() + "개"); }
             Story1Net.ShowSay(Story1Net.PWater, status, ref _sayVer);
+            if (Story1BotOperator.Active) BotOperatorTick();
             UpdateBar();
-            if (!_solved && _water >= WaterPuzzle.MaxWater) { Flood(); return; }
+            if (!_solved && _water >= WaterPuzzle.MaxWater && !follow) { Flood(); return; }
+            if (follow) _water = Mathf.Min(_water, WaterPuzzle.MaxWater * 0.99f);
 
             if (_closeAt > 0f && Time.unscaledTime >= _closeAt) { Close(); _owner.OnSolved(); return; }
             if (_solved || Time.frameCount == _openedFrame) return;
 
             var kb = Keyboard.current;
             if (kb == null) return;
-            if (kb.escapeKey.wasPressedThisFrame || kb.qKey.wasPressedThisFrame) { Close(); return; }   // 웹에서는 Esc 가 전체화면을 풀어 버려서 Q 도 쓴다
+            if (kb.escapeKey.wasPressedThisFrame || kb.qKey.wasPressedThisFrame || kb.xKey.wasPressedThisFrame) { Close(); return; }   // 웹에서는 Esc 가 전체화면을 풀어 버려서 X·Q 도 쓴다
             if (kb.tabKey.wasPressedThisFrame && Story1Role.Solo) { Story1Role.Cycle(); Sfx.Play("ui_hover", 0.8f); Refresh(); return; }
             if (Story1Net.PumpUntil != _seenPump)
             {
@@ -187,6 +220,16 @@ namespace Paradox.Client
                 Vector2 p = ms.position.ReadValue();
                 for (int i = 0; i < 4; i++) if (RectTransformUtility.RectangleContainsScreenPoint(valveRects[i], p, null)) { Press(i); return; }
             }
+        }
+
+        private int _followVer = -1;
+
+        private static int ParsePercent(string s)
+        {
+            if (string.IsNullOrEmpty(s)) return -1;
+            int i = s.IndexOf('%'); if (i <= 0) return -1;
+            int j = i; while (j > 0 && char.IsDigit(s[j - 1])) j--;
+            return j < i && int.TryParse(s.Substring(j, i - j), out int v) ? Mathf.Clamp(v, 0, 100) : -1;
         }
 
         private int OpenCount() { int n = 0; foreach (bool b in _state) if (b) n++; return n; }

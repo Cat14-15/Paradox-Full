@@ -73,6 +73,22 @@ namespace Paradox.Client
         public TextAnchor align { get => _align; set { _align = value; SetVerticesDirty(); } }
         public int spacing { get => _spacing; set { _spacing = value; SetVerticesDirty(); } }
 
+        /// <summary>0 보다 크면: 가장 긴 줄이 이 폭(캔버스 단위)을 넘을 때 글씨 배율을 줄여 UI 밖으로 나가지 않게 한다.</summary>
+        public float maxWidth;
+
+        private int EffScale
+        {
+            get
+            {
+                int s = _scale;
+                if (maxWidth <= 0f) return s;
+                int w = 0;
+                foreach (var l in (_text ?? "").Split('\n')) w = Mathf.Max(w, PixelFontData.Measure(l, _spacing));
+                while (s > 1 && w * s > maxWidth) s--;
+                return s;
+            }
+        }
+
         protected override void Awake() { base.Awake(); raycastTarget = false; }
 
         public Vector2 ContentSize
@@ -97,8 +113,9 @@ namespace Paradox.Client
             if (tex == null || string.IsNullOrEmpty(_text)) return;
             string[] lines = _text.Split('\n');
             Rect r = GetPixelAdjustedRect();
-            float lineH = (PixelFontData.Cell + _lineGap) * _scale;
-            float totalH = lines.Length * PixelFontData.Cell * _scale + (lines.Length - 1) * _lineGap * _scale;
+            int sc = EffScale;
+            float lineH = (PixelFontData.Cell + _lineGap) * sc;
+            float totalH = lines.Length * PixelFontData.Cell * sc + (lines.Length - 1) * _lineGap * sc;
             int row = (int)_align / 3;     // 0 위, 1 가운데, 2 아래
             int col = (int)_align % 3;     // 0 왼쪽, 1 가운데, 2 오른쪽
             float top = row == 0 ? r.yMax : row == 1 ? r.center.y + totalH * 0.5f : r.yMin + totalH;
@@ -109,11 +126,11 @@ namespace Paradox.Client
             for (int li = 0; li < lines.Length; li++)
             {
                 string line = lines[li];
-                float w = PixelFontData.Measure(line, _spacing) * _scale;
+                float w = PixelFontData.Measure(line, _spacing) * sc;
                 float x = col == 0 ? r.xMin : col == 1 ? r.center.x - w * 0.5f : r.xMax - w;
-                x = Mathf.Round(x / _scale) * _scale;
-                float y1 = Mathf.Round((top - li * lineH) / _scale) * _scale;
-                float y0 = y1 - cell * _scale;
+                x = Mathf.Round(x / sc) * sc;
+                float y1 = Mathf.Round((top - li * lineH) / sc) * sc;
+                float y0 = y1 - cell * sc;
                 for (int i = 0; i < line.Length; i++)
                 {
                     char ch = line[i];
@@ -124,7 +141,7 @@ namespace Paradox.Client
                         int cx = idx % PixelFontData.Columns, cy = idx / PixelFontData.Columns;
                         float u0 = cx * cell / tw, u1 = (cx + 1) * cell / tw;
                         float v1 = 1f - cy * cell / th, v0 = 1f - (cy + 1) * cell / th;
-                        float x1 = x + cell * _scale;
+                        float x1 = x + cell * sc;
                         vh.AddVert(new Vector3(x, y0), c, new Vector2(u0, v0));
                         vh.AddVert(new Vector3(x, y1), c, new Vector2(u0, v1));
                         vh.AddVert(new Vector3(x1, y1), c, new Vector2(u1, v1));
@@ -133,7 +150,7 @@ namespace Paradox.Client
                         vh.AddTriangle(vi + 2, vi + 3, vi);
                         vi += 4;
                     }
-                    x += (adv + _spacing) * _scale;
+                    x += (adv + _spacing) * sc;
                 }
             }
         }

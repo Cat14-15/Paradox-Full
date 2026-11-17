@@ -2,9 +2,9 @@
   <Project Path="Fusion.Unity.csproj" />
   <Project Path="Photon.Realtime.csproj" />
   <Project Path="Fusion.Unity.Editor.csproj" />
+  <Project Path="Paradox.csproj" />
   <Project Path="Paradox.EditModeTests.csproj" />
   <Project Path="Assembly-CSharp-Editor.csproj" />
-  <Project Path="Paradox.csproj" />
   <Project Path="Paradox.Tests.csproj" />
   <Project Path="Unity.Fusion.CodeGen.csproj" />
 </Solution>

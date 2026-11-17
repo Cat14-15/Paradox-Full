@@ -20,7 +20,7 @@ namespace Paradox.Client
         private static void ResetStatics() { Ending = false; }
 
         public Story1Scene scene;
-        public string nextScene = "StageSelect";
+        public string nextScene = "Lobby";
 
         [Header("목표 표시")]
         public RectTransform hudRect;
@@ -82,6 +82,9 @@ namespace Paradox.Client
         public CanvasGroup roomBanner;
         public PixelText roomBannerText;
         private Coroutine _bannerCo;
+
+        // 방 이름 표는 퍼즐·창이 떠 있는 동안 숨긴다(퍼즐 제목과 겹치지 않게)
+        private void LateUpdate() { if (roomBanner != null && Story1Scene.InputLocked) roomBanner.alpha = 0f; }
 
         private void OnRoom(string name)
         {
@@ -219,7 +222,7 @@ namespace Paradox.Client
             const float top = 17f, titleH = 36f, gap = 6f, lineH = 36f, step = 38f, bottom = 17f;
             float h = top + titleH + gap + lines * step - (step - lineH) + bottom;
             hudRect.sizeDelta = new Vector2(hudRect.sizeDelta.x, h);
-            hudRect.anchoredPosition = new Vector2(hudRect.anchoredPosition.x, 540f - 20f - h / 2f);
+            hudRect.anchoredPosition = new Vector2(24f, -24f);   // 왼쪽 위 모서리 고정(피벗 왼쪽 위)
             hudTitle.rectTransform.anchoredPosition = new Vector2(0f, h / 2f - top - titleH / 2f);
             for (int i = 0; i < hudLines.Length; i++)
             {
@@ -233,7 +236,7 @@ namespace Paradox.Client
             if (!Story1Blackout.PowerOn)
             {
                 hudTitle.text = "목표";
-                hudLines[0].text = "안내실 퓨즈함으로 전원을 되살리자";
+                hudLines[0].text = "입구 안내실의 퓨즈함으로 전원을 켜자";
                 hudLines[1].text = ""; hudLines[2].text = "";
                 LayoutHud(1);
                 return;
@@ -242,16 +245,16 @@ namespace Paradox.Client
             if (g && r && w)
             {
                 hudTitle.text = "목표";
-                hudLines[0].text = "메인 홀 바닥의 원으로 가자";
+                hudLines[0].text = "중앙 홀 바닥의 원으로 가자";
                 hudLines[1].text = "네 명이 동시에 밟아야 한다";
                 hudLines[2].text = "";
                 LayoutHud(2);
                 return;
             }
             hudTitle.text = "목표 · 출구를 열 단서";
-            hudLines[0].text = (g ? "[x] " : "[ ] ") + "전시실 바닥 건너기";
-            hudLines[1].text = (r ? "[x] " : "[ ] ") + "수장고 유물 맞추기";
-            hudLines[2].text = (w ? "[x] " : "[ ] ") + "학예실 배수 밸브 열기";
+            hudLines[0].text = (g ? "[x] " : "[ ] ") + "회화 전시실: 물웅덩이 건너기";
+            hudLines[1].text = (r ? "[x] " : "[ ] ") + "수장고: 유물 전시대 맞추기";
+            hudLines[2].text = (w ? "[x] " : "[ ] ") + "학예실: 배수 밸브 돌리기";
             LayoutHud(3);
         }
 
@@ -325,7 +328,7 @@ namespace Paradox.Client
             resTitle.text = "STAGE 1 CLEAR";
             resTime.text = "클리어 시간   " + ResultScreen.FormatTime(elapsed);
             resBest.text = newBest ? "새 최고 기록!" : "최고 기록   " + ResultScreen.FormatTime(Progress.bestSeconds);
-            resHint.text = "Enter  스테이지 선택으로";
+            resHint.text = "Enter  방으로";
             Sfx.Play("power_on", 0.8f);
             float rs = Time.time;
             yield return null;

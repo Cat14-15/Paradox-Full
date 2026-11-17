@@ -105,6 +105,7 @@ namespace Paradox.Client
                     var me = Session.Me;
                     if (string.IsNullOrEmpty(initial) && me != null) initial = me.name;
                     _name = UI.Input(card, Roles.DefaultName(slot), initial, 20, 10);
+                    _name.onValidateInput = (txt, idx, ch) => PixelFontData.Has(ch) ? ch : '\0';   // 도트 글꼴에 없는 글자는 화면에서 사라지므로 못 입력하게
                     var img = _name.GetComponent<Image>();
                     if (img != null) img.color = Skin.C("0A0F18");
                     UI.LE(_name, -1, 50);

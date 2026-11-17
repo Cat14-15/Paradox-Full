@@ -36,6 +36,17 @@ namespace Paradox.Core
             }
         }
 
+        /// <summary>어느 씬에서 시작하든·씬을 옮기든 클릭이 되도록 EventSystem 이 항상 하나는 있게 한다(씬 안의 것은 씬과 함께 사라진다).</summary>
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
+        private static void HookSceneLoads()
+        {
+            UnityEngine.SceneManagement.SceneManager.sceneLoaded -= OnSceneLoaded;
+            UnityEngine.SceneManagement.SceneManager.sceneLoaded += OnSceneLoaded;
+            EnsureEventSystem();
+        }
+
+        private static void OnSceneLoaded(UnityEngine.SceneManagement.Scene s, UnityEngine.SceneManagement.LoadSceneMode m) { EnsureEventSystem(); }
+
         public static void EnsureEventSystem()
         {
             if (EventSystem.current == null)

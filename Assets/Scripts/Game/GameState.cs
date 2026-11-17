@@ -138,7 +138,7 @@ namespace Paradox.Game
         public Stats stats = new Stats();
         public float gameStartClock;
         public int s1Done;                 // Story1 에서 푼 퍼즐(비트 = 퍼즐 id). 늦게 들어온 PC·씬 전환 중이던 PC 도 같은 상태가 되도록 상태에 둔다
-        public int difficulty = 1;         // 0 쉬움 · 1 보통 · 2 어려움 (방장이 로비에서 고른다)
+        public int difficulty = 0;        // 0 쉬움 · 1 보통 · 2 어려움 (방장이 로비에서 고른다)
         public int s1Rounds;               // 퍼즐별로 푼 횟수(3비트씩, Story1Rules.RoundsOf)
         public int puzzleSeed;           // 게임 시작 때 서버가 한 번 정하는 정수 시드(모든 PC 의 퍼즐이 같아지도록. float 는 JSON 에서 반올림돼 쓰면 안 된다)
         public float readyClock;          // Ready 단계에 들어온 시각(1.5초 뒤 자동 전환)

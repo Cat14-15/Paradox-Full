@@ -41,6 +41,10 @@ namespace Paradox.Editor
         }
 
         internal static RectTransform At(RectTransform r, float x, float y, float w, float h) { r.anchoredPosition = new Vector2(x, y); r.sizeDelta = new Vector2(w, h); return r; }
+        /// <summary>화면 오른쪽 위 모서리에 붙인다(창 비율이 달라도 가장자리에서 항상 같은 간격).</summary>
+        internal static RectTransform TopRight(RectTransform r, float mx, float my, float w, float h)
+        { r.anchorMin = r.anchorMax = r.pivot = new Vector2(1f, 1f); r.anchoredPosition = new Vector2(-mx, -my); r.sizeDelta = new Vector2(w, h); return r; }
+
         internal static RectTransform Stretch(RectTransform r) { r.anchorMin = Vector2.zero; r.anchorMax = Vector2.one; r.offsetMin = r.offsetMax = Vector2.zero; return r; }
 
         internal static Image Img(RectTransform r, Sprite s, Color c)
@@ -120,8 +124,9 @@ namespace Paradox.Editor
             var next = Txt(dlg, "Next", "▼", 2, Amber, 810, -466, 40, 36, TextAnchor.MiddleCenter);
 
             // ---------------- 페이드 + 건너뛰기 안내
-            { var pill = Img(At(Node("SkipBg", root), 700, 440, 220, 52), null, new Color(0.04f, 0.05f, 0.08f, 0.72f)); pill.raycastTarget = false; }
-            var hint = Txt(root, "SkipHint", "X  건너뛰기", 2, new Color(0.97f, 0.97f, 0.94f, 1f), 700, 440, 200, 36, TextAnchor.MiddleCenter);
+            var skipPill = TopRight(Node("SkipBg", root), 32, 32, 240, 56);
+            { var pill = Img(skipPill, null, new Color(0.04f, 0.05f, 0.08f, 0.72f)); pill.raycastTarget = false; }
+            var hint = Txt(skipPill, "SkipHint", "X  건너뛰기", 2, new Color(0.97f, 0.97f, 0.94f, 1f), 0, 0, 220, 36, TextAnchor.MiddleCenter);
             var bl = Node("Black", root); Stretch(bl); Img(bl, null, Color.black);
             var wait = Txt(bl, "WaitText", "", 3, Ink, 0, 0, 1500, 70, TextAnchor.MiddleCenter);
             var title = Txt(bl, "Title", "", 6, Amber, 0, 40, 1700, 100, TextAnchor.MiddleCenter);

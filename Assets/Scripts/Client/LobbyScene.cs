@@ -47,7 +47,7 @@ namespace Paradox.Client
         [Header("② 캐릭터 선택")]
         public Card[] cards;
         public PixelText charTitle, charCodeLine, charStatus;
-        public Btn nickBtn, leaveBtn, startBtn, botsBtn, diffBtn;
+        public Btn nickBtn, leaveBtn, startBtn, botsBtn, diffBtn, stageBtn;
         public PixelText nickValue;
 
         public Sprite[] portraits;
@@ -171,15 +171,17 @@ namespace Paradox.Client
                 case Mode.Room:
                     if (group == 0) { _roomSel = id; if (id == 0) CreateRoom(); else FocusJoin(); }
                     else if (group == 1) { _roomSel = 2; SoloTest(); }
-                    else if (group == 7) StartCoroutine(LeaveScene("StageSelect"));
+                    else if (group == 7) BackToTitle();
                     break;
                 case Mode.Character:
+                    if (_nickFocus && group != 3) CommitNick();   // 마우스로 다른 곳을 누르면 입력 중이던 마지막 글자까지 확정
                     if (group == 2) { _cardSel = id; PickCard(id); }
                     else if (group == 3) { _nickFocus = true; }
                     else if (group == 4) LeaveRoom();
                     else if (group == 5) TryStart();
                     else if (group == 6) FillBots();
                     else if (group == 8) CycleDifficulty();
+                    else if (group == 9) CycleStage();
                     break;
             }
         }
@@ -196,6 +198,7 @@ namespace Paradox.Client
             else if (_mode == Mode.Character && _nickFocus)
             {
                 if (Web && c >= 128) return;   // 웹: 브라우저 입력기 대신 자체 한글 조합기만 쓴다(중복·깨짐 방지)
+                if (Web && !_hgOn && ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9'))) return;   // 웹 영문·숫자는 아래 UpdateCharInput 에서 키로 직접 읽는다(맥 한글 입력기가 켜져 있어도 입력되게)
                 if (c >= 128) { _imeSeen = true; _hgOn = false; _hg.Reset(); }
                 if (_hgOn)
                 {
@@ -235,7 +238,7 @@ namespace Paradox.Client
 
             // 닉네임 입력 중에만 IME(한글 조합)를 켠다
             bool wantIme = _mode == Mode.Character && _nickFocus;
-            if (wantIme && !_imeOn && !_imeSeen) Say("한글이 안 써지면 오른쪽 Alt 를 눌러 한글 입력으로 바꿔요", Dim);
+            if (wantIme && !_imeOn && !_imeSeen) Say("한글 ↔ 영문 전환: 오른쪽 Alt · Caps Lock · F2", Dim);
             if (kb != null && wantIme != _imeOn)
             {
                 _imeOn = wantIme; kb.SetIMEEnabled(wantIme);
@@ -296,7 +299,7 @@ namespace Paradox.Client
                 else if (_roomSel == 1) FocusJoin();
                 else SoloTest();
             }
-            if (esc) StartCoroutine(LeaveScene("StageSelect"));
+            if (esc) BackToTitle();
         }
 
         private void AddCodeChar(char c) { _code += c; _roomSel = 1; _lastRoomSel = 1; TypeSfx(1f); }
@@ -305,7 +308,15 @@ namespace Paradox.Client
         {
             if (_nickFocus)
             {
-                if (!_imeSeen && (kb.rightAltKey.wasPressedThisFrame || kb.rightCtrlKey.wasPressedThisFrame))
+                if (Web && !_hgOn && !kb.ctrlKey.isPressed && !kb.altKey.isPressed && !kb.leftCommandKey.isPressed && !kb.rightCommandKey.isPressed)
+                {
+                    bool sh = kb.shiftKey.isPressed;
+                    for (int k = 0; k < 26; k++)
+                        if (kb[(Key)((int)Key.A + k)].wasPressedThisFrame) { char ch = (char)((sh ? 'A' : 'a') + k); if (PixelFontData.Has(ch) && _nick.Length < MaxNick) { _nick += ch; TypeSfx(1f); } }
+                    for (int k = 0; k < 10; k++)
+                        if (kb[(Key)((int)Key.Digit0 + k)].wasPressedThisFrame && !sh) { char ch = (char)('0' + k); if (_nick.Length < MaxNick) { _nick += ch; TypeSfx(1f); } }
+                }
+                if (!_imeSeen && (kb.rightAltKey.wasPressedThisFrame || kb.rightCtrlKey.wasPressedThisFrame || kb.rightCommandKey.wasPressedThisFrame || kb.capsLockKey.wasPressedThisFrame || kb.f2Key.wasPressedThisFrame))
                 {
                     FlushHangul(); _hgOn = !_hgOn;
                     Say(_hgOn ? "한글 입력  (오른쪽 Alt 로 영문 전환)" : "영문 입력", Mint);
@@ -485,6 +496,21 @@ namespace Paradox.Client
 
         private void FillBots() { Session.Send("FillBots"); }
 
+        private void BackToTitle() { IntroSequence.SkipToMenu = true; StartCoroutine(LeaveScene("Intro")); }
+
+        // 스테이지: 방을 만든 뒤 방장이 고른다. 지금은 Stage 1 만 열려 있다.
+        private static readonly string[] StageNames = { "침수된 박물관", "TOP SECRET", "TOP SECRET", "TOP SECRET" };
+        private static readonly bool[] StageOpen = { true, false, false, false };
+        private int _stage;
+
+        private void CycleStage()
+        {
+            if (!Session.IsHost) { Paradox.Core.Sfx.Play("ui_back", 0.6f); return; }
+            int n = (_stage + 1) % StageNames.Length;
+            if (!StageOpen[n]) { Paradox.Core.Sfx.Play("ui_back", 0.6f); Say("Stage " + (n + 1) + " 은 아직 잠겨 있어요", Warn); return; }
+            _stage = n;
+        }
+
         // 난이도: 방장만 바꾼다(서버가 한 번 더 확인). 다른 사람은 방장이 고른 값을 본다.
         private void CycleDifficulty()
         {
@@ -578,6 +604,9 @@ namespace Paradox.Client
             else startBtn.label.text = "방장 대기 중   " + present + " / 4";
             startBtn.label.scale = can && present >= 4 ? 3 : 2;
             startBtn.label.color = can ? Mint : Dim;
+            stageBtn.label.text = "Stage " + (_stage + 1) + "  " + StageNames[_stage];
+            stageBtn.label.color = host ? Mint : Dim;
+            Style(stageBtn, false, host ? Mint : Dim, true);
             int dl = Story1Net.Difficulty;
             diffBtn.label.text = "난이도  " + Story1Rules.Names[dl];
             diffBtn.label.color = host ? Amber : Dim;

@@ -63,7 +63,7 @@ namespace Paradox.Client
             if (kb == null) return;
             if (!_open) { if (kb.f1Key.wasPressedThisFrame) Open(); return; }
             if (Time.frameCount == _openedFrame) return;
-            if (kb.escapeKey.wasPressedThisFrame || kb.enterKey.wasPressedThisFrame || kb.numpadEnterKey.wasPressedThisFrame || kb.f1Key.wasPressedThisFrame) { Close(); return; }
+            if (kb.escapeKey.wasPressedThisFrame || kb.xKey.wasPressedThisFrame || kb.enterKey.wasPressedThisFrame || kb.numpadEnterKey.wasPressedThisFrame || kb.f1Key.wasPressedThisFrame) { Close(); return; }
             if (kb.upArrowKey.wasPressedThisFrame || kb.downArrowKey.wasPressedThisFrame || kb.tabKey.wasPressedThisFrame) { _sel = 1 - _sel; Sfx.Play("ui_hover", 0.7f); Refresh(); }
             int d = (kb.rightArrowKey.wasPressedThisFrame ? 1 : 0) - (kb.leftArrowKey.wasPressedThisFrame ? 1 : 0);
             if (kb.dKey.wasPressedThisFrame) d++; if (kb.aKey.wasPressedThisFrame) d--;

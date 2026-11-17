@@ -41,7 +41,7 @@ namespace Paradox.Editor
             var pg = pr.gameObject.AddComponent<CanvasGroup>(); pg.alpha = 0f; pg.blocksRaycasts = false; pg.interactable = false;
             var panel = pr.gameObject.AddComponent<WaterPanel>();
             var dim = Node("Dim", pr); Stretch(dim); Img(dim, null, new Color(0, 0, 0, 0.74f)).raycastTarget = true;
-            var content = Node("Content", pr); At(content, 0, 0, 1500, 860);
+            var content = Node("Content", pr); At(content, 0, 60, 1500, 860);   // 오른쪽 아래 기록 창과 겹치지 않게 조금 위로
             var back = Node("Back", content); Stretch(back); Sliced(back, PanelFill, new Color(0.05f, 0.07f, 0.1f, 0.98f));
             var border = Node("Border", content); Stretch(border); Sliced(border, PanelBorder, new Color(0.3f, 0.52f, 0.62f));
 

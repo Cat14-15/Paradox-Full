@@ -30,6 +30,13 @@ namespace Paradox.Client
 
         private void Awake() { Close(); }
 
+        /// <summary>오른쪽 "M 지도" 단추.</summary>
+        public void Toggle()
+        {
+            if (IsOpen) { Close(); return; }
+            if (Allowed && !Story1Scene.InputLocked && !scene.Busy) { Open(); Refresh(); }
+        }
+
         private void Close()
         {
             IsOpen = false;
@@ -49,7 +56,7 @@ namespace Paradox.Client
             if (badge != null)
             {
                 bool showBadge = Allowed && !IsOpen && !Story1Scene.InputLocked && !Story1Flow.Ending;
-                badge.alpha = showBadge ? 1f : 0f;
+                badge.alpha = showBadge ? 1f : 0f; badge.blocksRaycasts = showBadge; badge.interactable = showBadge;
             }
             if (kb == null) return;
             if (IsOpen)

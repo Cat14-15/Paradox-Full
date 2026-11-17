@@ -41,22 +41,20 @@ namespace Paradox.Client
 
         public static void Hide() { if (_i != null) _i.HideNow(); }
 
+        private readonly string[] _lastSaid = new string[4];
+
+        // 별도의 작은 띠는 쓰지 않는다: 봇의 말은 오른쪽 아래 기록 창 하나로 모아 보여 준다(바뀐 말만 한 번씩).
         private void Show(string[] say)
         {
-            int k = 0;
-            for (int i = 0; i < 3 && k < rows.Length; i++)
+            for (int i = 0; i < 3; i++)
             {
                 int role = BotLines.RoleOrder[i];
                 if (!Story1Role.IsBot(role) || string.IsNullOrEmpty(say[i])) continue;
-                names[k].text = Roles.Name(role) + " AI"; names[k].color = Roles.Color(role);
-                lines[k].text = say[i];
-                k++;
+                if (_lastSaid[role] == say[i]) continue;
+                _lastSaid[role] = say[i];
+                Story1Net.BotSay(role, say[i], "puzzle");
             }
-            _count = k;
-            ((RectTransform)transform).anchoredPosition = new Vector2(0f, Story1Net.HasHumanPeers ? 488f : -488f);   // 사람 동료가 있으면 신호 카드 띠가 아래를 쓴다
-            if (k == 0) { HideNow(); return; }
-            if (!_visible) { _visible = true; _t0 = Time.unscaledTime; }
-            Tick();
+            HideNow();
         }
 
         private void HideNow() { _visible = false; if (group != null) group.alpha = 0f; }

@@ -37,9 +37,27 @@ namespace Paradox.Editor
         {
             Story1FlowBuilder.Build();
             LobbySceneBuilder.Build();
+            PrologueSceneBuilder.Build();
+            CampSceneBuilder.Build();
             FixStageSelectHint();
+            LiftPuzzlePanels();
+            SettingsPanelBuilder.AddToScenes();   // 설정 창(X 닫기)을 다시 올린다
             AssetDatabase.SaveAssets();
             Debug.Log("[BuildClient] UI 재생성 완료");
+        }
+
+        /// <summary>퍼즐 화면 5종을 조금 위로(오른쪽 아래 기록 창과 안 겹치게). 여러 번 실행해도 안전.</summary>
+        public static void LiftPuzzlePanels()
+        {
+            var sc = UnityEditor.SceneManagement.EditorSceneManager.OpenScene("Assets/Scenes/Story1.unity");
+            void Lift(RectTransform r) { if (r != null) r.anchoredPosition = new Vector2(0f, 60f); }
+            foreach (var p in UnityEngine.Object.FindObjectsByType<Paradox.Client.FusePanel>(FindObjectsInactive.Include, FindObjectsSortMode.None)) Lift(p.content);
+            foreach (var p in UnityEngine.Object.FindObjectsByType<Paradox.Client.GalleryPanel>(FindObjectsInactive.Include, FindObjectsSortMode.None)) Lift(p.content);
+            foreach (var p in UnityEngine.Object.FindObjectsByType<Paradox.Client.WaterPanel>(FindObjectsInactive.Include, FindObjectsSortMode.None)) Lift(p.content);
+            foreach (var p in UnityEngine.Object.FindObjectsByType<Paradox.Client.RelicPanel>(FindObjectsInactive.Include, FindObjectsSortMode.None)) Lift(p.content);
+            foreach (var p in UnityEngine.Object.FindObjectsByType<Paradox.Client.FinalPanel>(FindObjectsInactive.Include, FindObjectsSortMode.None)) Lift(p.content);
+            UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(sc);
+            UnityEditor.SceneManagement.EditorSceneManager.SaveScene(sc);
         }
 
         /// <summary>스테이지 선택 하단의 그림 속 "Esc 뒤로" 안내를 글자(X 뒤로)로 바꾼다. 여러 번 실행해도 안전.</summary>

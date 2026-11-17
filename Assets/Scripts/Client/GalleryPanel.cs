@@ -65,10 +65,33 @@ namespace Paradox.Client
             _floor = floor; _puzzle = puzzle;
             _stage = 0; _lane = 1; _solved = false; _closeAt = -1f; _flashA = 0f; _stunUntil = 0f;
             group.alpha = 1f; group.blocksRaycasts = true; group.interactable = true;
-            IsOpen = true; _openedFrame = Time.frameCount; _sayVer = -1; _shocks = 0; _breakReadyAt = 0f; _seenBreak = Story1Net.BreakUntil; Story1Net.ResetSent(Story1Net.PGallery);
+            IsOpen = true; Story1BotOperator.Opened(Story1Net.PGallery); _openedFrame = Time.frameCount; _sayVer = -1; _shocks = 0; _breakReadyAt = 0f; _seenBreak = Story1Net.BreakUntil; Story1Net.ResetSent(Story1Net.PGallery);
             status.text = "";
             Refresh();
             Sfx.Play("ui_select", 0.8f);
+        }
+
+        /// <summary>조작자가 AI 일 때: 동료의 신호를 받아 AI 조작자가 푼다.</summary>
+        private void BotSolve()
+        {
+            if (_solved) return;
+            _solved = true;
+            status.text = "AI 조작자가 신호대로 풀었어요!";
+            status.color = new Color(0.45f, 0.95f, 0.6f);
+            _flashCol = new Color(0.5f, 1f, 0.6f); _flashA = 0.5f;
+            Sfx.Play("power_on", 0.9f);
+            _closeAt = Time.unscaledTime + 1.5f;
+            Story1Net.Send(Story1Net.Clear, Story1Net.PGallery);
+        }
+
+        private float _botNote;
+
+        private void BotOperatorTick()
+        {
+            if (_solved) return;
+            string waiting; int st = Story1BotOperator.Tick(Story1Net.PGallery, out waiting);
+            if (st == 1 && Time.unscaledTime > _botNote) { _botNote = Time.unscaledTime + 1f; status.text = waiting.Length == 0 ? "AI 조작자가 신호대로 푸는 중이에요" : "AI 조작자가 신호를 기다려요: " + waiting + " 의 신호 카드가 필요해요 (C)"; status.color = new Color(0.95f, 0.85f, 0.55f); }
+            else if (st == 2) BotSolve();
         }
 
         public void Close()
@@ -95,7 +118,7 @@ namespace Paradox.Client
             if (op)
             {
                 title.text = "어두운 전시실" + Story1Net.RoundLabel(Story1Net.PGallery);
-                hint.text = "← →  통로 고르기     ↑ / Space  건너기     손전등 불빛 안만 보입니다. 동료의 신호를 들으세요.";
+                hint.text = "← →  통로 고르기     ↑ / Space  건너기     손전등 안만 보여요";
                 for (int s = 0; s < 3; s++)
                     for (int l = 0; l < 3; l++)
                     {
@@ -134,11 +157,11 @@ namespace Paradox.Client
             if (ob)
             {
                 title.text = "끊어진 전선 (스파크)";
-                hint.text = "불꽃이 꺼진 동안만 건널 수 있어요.     Space  전원 잠깐 끊기 (2초, 6초마다)";
+                hint.text = "불꽃이 꺼진 동안만 건너요     Space  전원 끊기 (2초, 6초마다)";
                 for (int s = 0; s < 3; s++) lampLabels[s].text = "구간 " + (s + 1);
             }
             _lastSpark = Spark(_stage);
-            if (hint != null) hint.text += "     Q  닫기";
+            if (hint != null) { hint.maxWidth = 1420f; hint.text += "\nAI 말뜻  2 아니 ← 2구간 왼쪽 막힘 · 2 ← ↑ 이어진 길 · 응 건너도 돼"; }
             SoloBots.Sync(BotLines.Gallery(_puzzle, _stage, _lastSpark));
             if (op && !_solved) Story1Net.Tell(Story1Net.PGallery, "조작자: " + (_stage + 1) + "구간을 건너는 중");
         }
@@ -155,7 +178,7 @@ namespace Paradox.Client
             if (content != null)
             {
                 _shake = Mathf.MoveTowards(_shake, 0f, Time.unscaledDeltaTime * 30f);
-                content.anchoredPosition = _shake > 0.01f ? new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)) * _shake : Vector2.zero;
+                content.anchoredPosition = _shake > 0.01f ? new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)) * _shake + new Vector2(0f, 60f) : new Vector2(0f, 60f);
             }
             if (flash != null)
             {
@@ -164,6 +187,7 @@ namespace Paradox.Client
             }
             if (!IsOpen) return;
             Story1Net.ShowSay(Story1Net.PGallery, status, ref _sayVer);
+            if (Story1BotOperator.Active) BotOperatorTick();
 
             // 관측자의 스파크 신호등 (현재 구간 강조)
             if (Story1Role.Current == (int)GameRole.Observer)
@@ -185,7 +209,7 @@ namespace Paradox.Client
 
             var kb = Keyboard.current;
             if (kb == null) return;
-            if (kb.escapeKey.wasPressedThisFrame || kb.qKey.wasPressedThisFrame) { Close(); return; }   // 웹에서는 Esc 가 전체화면을 풀어 버려서 Q 도 쓴다
+            if (kb.escapeKey.wasPressedThisFrame || kb.qKey.wasPressedThisFrame || kb.xKey.wasPressedThisFrame) { Close(); return; }   // 웹에서는 Esc 가 전체화면을 풀어 버려서 X·Q 도 쓴다
             if (kb.tabKey.wasPressedThisFrame && Story1Role.Solo) { Story1Role.Cycle(); Sfx.Play("ui_hover", 0.8f); Refresh(); return; }
             if (Story1Net.BreakUntil != _seenBreak)
             {

@@ -109,3 +109,4 @@ InitTestScene*.unity*
 # 스크린샷(에디터 캡처)
 /Assets/Screenshots/
 /Assets/Screenshots.meta
+Tools/UnityAIResearch/

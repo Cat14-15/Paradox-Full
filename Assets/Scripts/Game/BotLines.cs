@@ -84,5 +84,63 @@ namespace Paradox.Game
         {
             return new[] { Yes, Yes, Yes };
         }
+
+        // ================================================================ 읽기 쉬운 한국어 버전(화면에 보이는 AI 의 말)
+        // 위 카드 버전은 규칙·테스트용으로 남겨 두고, 같은 정보를 문장으로 풀어 쓴다. 정답은 같은 퍼즐 데이터에서 그대로 뽑는다.
+
+        private static readonly string[] Lane = { "왼쪽", "가운데", "오른쪽" };
+
+        public static string[] FuseSay(FusePuzzle p)
+        {
+            string C(int c) => FusePuzzle.ColorKo[c];
+            var tr = C(p.order[0].left) + "은 " + C(p.order[0].right) + "보다 왼쪽,  " + C(p.order[1].left) + "은 " + C(p.order[1].right) + "보다 왼쪽";
+            var nv = C(p.wired.color) + "은 " + (p.wired.slot + 1) + "번 칸에 꽂아요";
+            var ob = (p.banned[0].slot + 1) + "번 칸에 " + C(p.banned[0].color) + " 안 돼요,  " + (p.banned[1].slot + 1) + "번 칸에 " + C(p.banned[1].color) + " 안 돼요";
+            return new[] { tr, nv, ob };
+        }
+
+        public static string[] GallerySay(GalleryPuzzle p, int stage, bool sparkOn)
+        {
+            stage = Math.Max(0, Math.Min(GalleryPuzzle.Stages - 1, stage));
+            string n = (stage + 1) + "번째 구간  ";
+            var tr = n + Lane[p.decoy[stage]] + " 길은 막혔어요";
+            var open = new List<string>();
+            for (int l = 0; l < GalleryPuzzle.Lanes; l++) if (p.Connected(stage, l)) open.Add(Lane[l]);
+            var nv = n + string.Join(", ", open.ToArray()) + " 길이 이어져 있어요";
+            var ob = sparkOn ? "불꽃이 튀어요. 기다려요" : "불꽃이 꺼졌어요. 지금 건너요";
+            return new[] { tr, nv, ob };
+        }
+
+        public static string[] WaterSay(WaterPuzzle p)
+        {
+            var tags = new List<string>(); var links = new List<string>();
+            for (int i = 0; i < WaterPuzzle.Valves; i++) { tags.Add((i + 1) + "→" + (p.tagOf[i] + 1)); links.Add((i + 1) + "→" + (p.link[i] + 1)); }
+            var tr = "밸브→이름표 번호   " + string.Join("  ", tags.ToArray());
+            var nums = new List<string>();
+            foreach (int n in p.TargetNumbers()) nums.Add(n.ToString());
+            var nv = "열어야 할 이름표   " + string.Join(", ", nums.ToArray()) + "번";
+            var ob = "돌리면 같이 도는 밸브   " + string.Join("  ", links.ToArray());
+            return new[] { tr, nv, ob };
+        }
+
+        public static string[] RelicSay(RelicPuzzle p)
+        {
+            var eras = new List<string>(); var ped = new List<string>();
+            for (int i = 0; i < RelicPuzzle.Slots; i++) eras.Add((i + 1) + "→" + (p.eraOf[i] + 1));
+            for (int i = 0; i < RelicPuzzle.Pedestals; i++) ped.Add((i + 1) + "→" + (p.pedestalEra[i] + 1));
+            var tr = "칸→오래된 순서   " + string.Join("  ", eras.ToArray());
+            var nv = "받침대→오래된 순서   " + string.Join("  ", ped.ToArray());
+            var ob = (p.fake + 1) + "번 칸은 복제품이에요";
+            return new[] { tr, nv, ob };
+        }
+
+        public static string[] FinalRoundSay(FinalPuzzle p, int round)
+        {
+            var r = new string[3];
+            for (int i = 0; i < 3; i++) r[i] = "내 원은 " + (p.RankOf(round, RoleOrder[i]) + 1) + "번째로 켜져요";
+            return r;
+        }
+
+        public static string[] FinalGoSay() => new[] { "지금이에요. 같이 밟아요", "지금이에요. 같이 밟아요", "지금이에요. 같이 밟아요" };
     }
 }

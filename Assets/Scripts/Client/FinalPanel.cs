@@ -171,7 +171,7 @@ namespace Paradox.Client
             }
             else hint.text = Bots ? "카운트 뒤 \"지금!\" 에 1 또는 Space 를 누르세요. AI 동료는 알아서 밟아요."
                 : Story1Role.Solo ? "카운트 뒤 \"지금!\" 에 1 2 3 4 를 한꺼번에 누르세요." : "카운트 뒤 \"지금!\" 에 자기 원을 밟으세요. 한 명이라도 늦으면 처음부터.";
-            if (hint != null) hint.text += "     Q  닫기";
+            if (hint != null) { hint.maxWidth = 1420f; hint.text += "\nAI 말뜻  숫자 = 내 원이 켜지는 순서 · 응 = 지금 같이 밟아요"; }
             SoloBots.Sync(rounds ? BotLines.FinalRound(_puzzle, Mathf.Min(_round, FinalPuzzle.Rounds - 1)) : BotLines.FinalGo());
         }
 
@@ -194,7 +194,7 @@ namespace Paradox.Client
             if (content != null)
             {
                 _shake = Mathf.MoveTowards(_shake, 0f, Time.unscaledDeltaTime * 30f);
-                content.anchoredPosition = _shake > 0.01f ? new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)) * _shake : Vector2.zero;
+                content.anchoredPosition = _shake > 0.01f ? new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)) * _shake + new Vector2(0f, 60f) : new Vector2(0f, 60f);
             }
             if (flash != null)
             {
@@ -211,7 +211,7 @@ namespace Paradox.Client
             if (_phase == Phase.Done || Time.frameCount == _openedFrame) return;
             var kb = Keyboard.current;
             if (kb == null) return;
-            if (kb.escapeKey.wasPressedThisFrame || kb.qKey.wasPressedThisFrame) { Close(); return; }   // 웹에서는 Esc 가 전체화면을 풀어 버려서 Q 도 쓴다
+            if (kb.escapeKey.wasPressedThisFrame || kb.qKey.wasPressedThisFrame || kb.xKey.wasPressedThisFrame) { Close(); return; }   // 웹에서는 Esc 가 전체화면을 풀어 버려서 X·Q 도 쓴다
             if (kb.tabKey.wasPressedThisFrame && Story1Role.Solo) { Story1Role.Cycle(); Sfx.Play("ui_hover", 0.8f); Refresh(); return; }
 
             for (int i = 0; i < 4; i++)

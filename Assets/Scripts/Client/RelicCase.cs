@@ -19,7 +19,11 @@ namespace Paradox.Client
 
         public override string Label => RelicPanel.Cleared ? null : !Story1Blackout.PowerOn ? "전원이 꺼져 있다 (퓨즈함 먼저)" : "유물 전시대 살펴보기";
 
-        private void Awake() { if (render != null && render.sprite == null) render.sprite = MakeSprite(); }
+        private void Awake()
+        {
+            if (render != null && render.sprite == null) render.sprite = MakeSprite();
+            if (render != null) render.sortingOrder = -800;   // 캐릭터가 전시대 "뒤"로 가려지지 않게(퓨즈함과 같다)
+        }
 
         public override void Activate()
         {
@@ -35,23 +39,25 @@ namespace Paradox.Client
             RelicPanel.MarkCleared(); if (render != null) render.color = new Color(0.7f, 0.8f, 0.7f, 1f);
         }
 
-        // 유리 전시대 + 유물 4개 도트(36×20)
+        // 유리 전시대(다리 + 바닥 그림자 포함) + 유물 4개 도트(36×30): 공중에 떠 보이지 않게 바닥에 닿는다
         private static Sprite MakeSprite()
         {
-            const int W = 36, H = 20;
+            const int W = 36, H = 30, O = 8;   // O = 다리·그림자 높이
             var t = new Texture2D(W, H, TextureFormat.RGBA32, false) { filterMode = FilterMode.Point, wrapMode = TextureWrapMode.Clamp };
             var px = new Color[W * H];
             for (int i = 0; i < px.Length; i++) px[i] = new Color(0, 0, 0, 0);
             void Rect(int x, int y, int w, int h, Color c) { for (int yy = y; yy < y + h; yy++) for (int xx = x; xx < x + w; xx++) if (xx >= 0 && xx < W && yy >= 0 && yy < H) px[yy * W + xx] = c; }
-            Color ol = new Color(0.1f, 0.09f, 0.1f), wood = new Color(0.4f, 0.28f, 0.2f), glass = new Color(0.65f, 0.78f, 0.82f, 0.55f), gold = new Color(0.9f, 0.72f, 0.3f), clay = new Color(0.7f, 0.42f, 0.3f), jade = new Color(0.4f, 0.7f, 0.55f);
-            Rect(0, 0, 36, 7, ol); Rect(1, 1, 34, 5, wood);
-            Rect(0, 7, 36, 12, ol); Rect(1, 8, 34, 10, glass);
-            Rect(4, 8, 4, 5, clay); Rect(5, 13, 2, 1, clay);
-            Rect(12, 8, 5, 3, gold); Rect(13, 11, 3, 2, gold);
-            Rect(20, 8, 4, 6, jade);
-            Rect(28, 8, 5, 2, gold); Rect(29, 10, 3, 3, gold);
+            Color ol = new Color(0.1f, 0.09f, 0.1f), wood = new Color(0.4f, 0.28f, 0.2f), glass = new Color(0.65f, 0.78f, 0.82f, 0.55f), gold = new Color(0.9f, 0.72f, 0.3f), clay = new Color(0.7f, 0.42f, 0.3f), jade = new Color(0.4f, 0.7f, 0.55f), shadow = new Color(0f, 0f, 0f, 0.35f);
+            Rect(2, 0, 32, 2, shadow); Rect(0, 1, 36, 1, shadow);          // 바닥 그림자
+            Rect(3, 2, 3, O - 2, ol); Rect(30, 2, 3, O - 2, ol);           // 다리
+            Rect(0, O, 36, 7, ol); Rect(1, O + 1, 34, 5, wood);
+            Rect(0, O + 7, 36, 12, ol); Rect(1, O + 8, 34, 10, glass);
+            Rect(4, O + 8, 4, 5, clay); Rect(5, O + 13, 2, 1, clay);
+            Rect(12, O + 8, 5, 3, gold); Rect(13, O + 11, 3, 2, gold);
+            Rect(20, O + 8, 4, 6, jade);
+            Rect(28, O + 8, 5, 2, gold); Rect(29, O + 10, 3, 3, gold);
             t.SetPixels(px); t.Apply();
-            return Sprite.Create(t, new Rect(0, 0, W, H), new Vector2(0.5f, 0.5f), 24f);
+            return Sprite.Create(t, new Rect(0, 0, W, H), new Vector2(0.5f, (O + 10f) / H), 24f);   // 전시대 몸통이 원래 자리에 오도록
         }
     }
 }

@@ -19,7 +19,8 @@ namespace Paradox.Client
 
         public CanvasGroup confirm;
         public CanvasGroup button;
-        public string leaveScene = "StageSelect";
+        public CanvasGroup[] extra;   // 같은 줄의 다른 단추들(같이 보이고 같이 숨는다)
+        public string leaveScene = "Lobby";
 
         private bool _leaving;
 
@@ -51,6 +52,7 @@ namespace Paradox.Client
             {
                 bool show = !IsOpen && !Story1Scene.InputLocked && !Story1Flow.Ending;
                 button.alpha = show ? 1f : 0f; button.blocksRaycasts = show; button.interactable = show;
+                if (extra != null) foreach (var e in extra) if (e != null) { e.alpha = show ? 1f : 0f; e.blocksRaycasts = show; e.interactable = show; }
             }
             var kb = Keyboard.current;
             if (kb == null) return;

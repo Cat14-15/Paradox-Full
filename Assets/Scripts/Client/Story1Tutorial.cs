@@ -40,6 +40,9 @@ namespace Paradox.Client
             if (!seen) Open();
         }
 
+        /// <summary>오른쪽 "H 조작" 단추.</summary>
+        public void Reopen() { if (!IsOpen && !Story1Scene.InputLocked) Open(); }
+
         private void Open()
         {
             IsOpen = true; _shownAt = Time.unscaledTime;
@@ -48,15 +51,13 @@ namespace Paradox.Client
             roleLine.text = "당신의 역할   " + Roles.Name(me) + "  ·  " + RoleDesc(me);
             roleLine.color = Roles.Color(me);
             group.alpha = 1f; group.blocksRaycasts = true; group.interactable = true;
-            bool online = Story1Net.HasHumanPeers;
-            bool solo = Story1Role.Solo;   // 에디터 혼자 테스트일 때만 Tab 으로 역할을 바꾼다
-            string[] k = { "W A S D", "E", "Q", online ? "마우스" : solo ? "Tab" : "", "H" };
+            string[] k = { "W A S D", "E", "X", "C", "H" };
             string[] d =
             {
                 "이동  (방향키도 돼요)",
                 "문이나 물건 앞에서 상호작용",
                 "퍼즐 화면 닫기",
-                online ? "아래 카드로 신호 보내기" : solo ? "역할 바꾸기 (혼자 테스트)" : "",
+                "동료에게 신호 보내기",
                 "이 도움말 다시 보기"
             };
             int row = 0;   // 빈 줄은 건너뛰어 위로 붙인다
