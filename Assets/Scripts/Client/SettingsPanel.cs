@@ -19,6 +19,7 @@ namespace Paradox.Client
 
         public CanvasGroup group, buttonGroup;
         private IntroSequence _intro;
+        private CanvasGroup[] _covers = new CanvasGroup[0];   // 화면을 덮는 검은 막·연결 중 막: 이게 보이는 동안은 설정 버튼도 숨긴다
         public PixelSlider sfxSlider, bgmSlider;
         public PixelText sfxLabel, bgmLabel, sfxPct, bgmPct;
         public Image sfxHandle, bgmHandle;
@@ -37,8 +38,36 @@ namespace Paradox.Client
             sfxSlider.changed = v => { _sel = 0; AudioPrefs.Sfx = v; Tick(); Refresh(); };
             bgmSlider.changed = v => { _sel = 1; AudioPrefs.Bgm = v; Refresh(); };
             _intro = Object.FindFirstObjectByType<IntroSequence>();
+            var covers = new System.Collections.Generic.List<CanvasGroup>();
+            var lobby = Object.FindFirstObjectByType<LobbyScene>(); if (lobby != null) { covers.Add(lobby.black); covers.Add(lobby.busy); }
+            var stage = Object.FindFirstObjectByType<StageSelectScene>(); if (stage != null) covers.Add(stage.black);
+            if (_intro != null) covers.Add(_intro.black);
+            covers.RemoveAll(c => c == null);
+            _covers = covers.ToArray();
+            AddCreditsButton();
             SetShown(false);
             Refresh();
+        }
+
+        /// <summary>"만든 사람들" 단추: 씬의 닫기 단추를 복제해 왼쪽에 둔다(씬 빌더를 다시 돌리지 않아도 되게).</summary>
+        private void AddCreditsButton()
+        {
+            var close = group != null ? group.transform.Find("Close") as RectTransform : null;
+            if (close == null || group.transform.Find("Credits") != null) return;
+            var go = Instantiate(close.gameObject, close.parent);
+            go.name = "Credits";
+            var r = (RectTransform)go.transform;
+            r.anchoredPosition = new Vector2(-170f, close.anchoredPosition.y); r.sizeDelta = new Vector2(300f, close.sizeDelta.y);
+            close.anchoredPosition = new Vector2(170f, close.anchoredPosition.y);
+            var b = go.GetComponent<Button>();
+            if (b != null) { b.onClick = new Button.ButtonClickedEvent(); b.onClick.AddListener(() => { Sfx.Play("ui_select"); CreditsPanel.Open(); }); }
+            var label = go.transform.Find("Label");
+            if (label != null)
+            {
+                var t = label.GetComponent<PixelText>();
+                if (t != null) { t.text = "만든 사람들"; t.scale = 2; t.maxWidth = 280f; }
+                ((RectTransform)label).sizeDelta = new Vector2(280f, ((RectTransform)label).sizeDelta.y);
+            }
         }
 
         public void Open() { if (_open) return; _open = true; _openedFrame = Time.frameCount; _sel = 0; SetShown(true); Sfx.Play("ui_select"); Refresh(); }
@@ -55,12 +84,15 @@ namespace Paradox.Client
         {
             if (buttonGroup != null)
             {
-                float want = _intro == null && !_open ? 1f : 0f;   // 인트로에서는 메뉴의 "설정" 항목으로 연다
-                buttonGroup.alpha = Mathf.MoveTowards(buttonGroup.alpha, want, Time.unscaledDeltaTime * 4f);
+                bool covered = false;
+                foreach (var c in _covers) if (c.alpha > 0.02f) { covered = true; break; }
+                float want = _intro == null && !_open && !covered ? 1f : 0f;   // 인트로에서는 메뉴의 "설정" 항목으로 연다
+                buttonGroup.alpha = covered ? 0f : Mathf.MoveTowards(buttonGroup.alpha, want, Time.unscaledDeltaTime * 4f);   // 검은 막이 덮이는 순간 같이 사라진다
                 buttonGroup.blocksRaycasts = buttonGroup.alpha > 0.5f;
             }
             var kb = Keyboard.current;
             if (kb == null) return;
+            if (CreditsPanel.IsOpen || Time.frameCount <= CreditsPanel.ClosedFrame + 1) return;   // 만든 사람들 창이 키를 쓴다(그 X 로 설정까지 닫히지 않게)
             if (!_open) { if (kb.f1Key.wasPressedThisFrame) Open(); return; }
             if (Time.frameCount == _openedFrame) return;
             if (kb.escapeKey.wasPressedThisFrame || kb.xKey.wasPressedThisFrame || kb.enterKey.wasPressedThisFrame || kb.numpadEnterKey.wasPressedThisFrame || kb.f1Key.wasPressedThisFrame) { Close(); return; }

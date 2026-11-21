@@ -139,6 +139,7 @@ namespace Paradox.Game
         public float gameStartClock;
         public int s1Done;                 // Story1 에서 푼 퍼즐(비트 = 퍼즐 id). 늦게 들어온 PC·씬 전환 중이던 PC 도 같은 상태가 되도록 상태에 둔다
         public int difficulty = 0;        // 0 쉬움 · 1 보통 · 2 어려움 (방장이 로비에서 고른다)
+        public bool speedrun;             // 스피드런: 이야기를 건너뛰고 기록만 잰다(방장이 로비에서 고른다)
         public int s1Rounds;               // 퍼즐별로 푼 횟수(3비트씩, Story1Rules.RoundsOf)
         public int puzzleSeed;           // 게임 시작 때 서버가 한 번 정하는 정수 시드(모든 PC 의 퍼즐이 같아지도록. float 는 JSON 에서 반올림돼 쓰면 안 된다)
         public float readyClock;          // Ready 단계에 들어온 시각(1.5초 뒤 자동 전환)
@@ -158,6 +159,22 @@ namespace Paradox.Game
         public bool AllReady
         {
             get { foreach (var p in players) if (!p.present || !p.ready) return false; return true; }
+        }
+
+        /// <summary>들어온 사람(봇 제외)이 1명 이상이고 모두 준비했는가. 빈 자리는 시작할 때 AI 가 채운다(2~3명 플레이).</summary>
+        public bool HumansReady
+        {
+            get
+            {
+                int humans = 0;
+                foreach (var p in players)
+                {
+                    if (!p.present || p.isBot) continue;
+                    humans++;
+                    if (!p.ready) return false;
+                }
+                return humans > 0;
+            }
         }
 
         public int SlotOfClient(long clientId)

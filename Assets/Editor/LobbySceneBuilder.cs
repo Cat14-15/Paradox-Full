@@ -157,7 +157,7 @@ namespace Paradox.Editor
 
             var soloBtn = Panel(roomR, "SoloButton", -700, -460, 360, 64, ctl, 1, 0);
             var si = Node("Icon", soloBtn.rect); At(si, -140, 0, 44, 44); Img(si, Lobby("icon_bot"), Amber);
-            Txt(soloBtn.rect, "Label", "혼자 테스트", 2, Amber, 24, 0, 260, 36);
+            Txt(soloBtn.rect, "Label", "혼자 하기", 2, Amber, 24, 0, 260, 36);
 
             var backBtn = Panel(roomR, "BackButton", -760, 440, 200, 76, ctl, 7, 0);
             backBtn.label = Txt(backBtn.rect, "Label", "뒤로", 2, Warn, 0, 0, 190, 40);

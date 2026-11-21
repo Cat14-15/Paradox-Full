@@ -9,7 +9,7 @@ using UnityEngine.UI;
 namespace Paradox.Client
 {
     /// <summary>
-    /// Story1 의 "흐름" 담당(씬에 놓인 UI): 왼쪽 위 목표 표시, 퍼즐을 끝낼 때마다 뜨는 도윤의 속마음, 최종 퍼즐 뒤의 엔딩(셔터 개방 → 컷씬 → 클리어 결과 → 스테이지 선택 복귀).
+    /// Story1 의 "흐름" 담당(씬에 놓인 UI): 왼쪽 위 목표 표시, 퍼즐을 끝낼 때마다 뜨는 서하린의 속마음, 최종 퍼즐 뒤의 엔딩(셔터 개방 → 컷씬 → 클리어 결과 → 스테이지 선택 복귀).
     /// 퍼즐 판정은 건드리지 않고 각 퍼즐의 Cleared / 전원 상태만 읽는다.
     /// </summary>
     public sealed class Story1Flow : MonoBehaviour
@@ -28,7 +28,7 @@ namespace Paradox.Client
         public PixelText hudTitle;
         public PixelText[] hudLines = new PixelText[3];
 
-        [Header("도윤의 속마음")]
+        [Header("서하린의 속마음")]
         public CanvasGroup thought;
         public PixelText thoughtName, thoughtText;
 
@@ -185,8 +185,8 @@ namespace Paradox.Client
             // 단계가 끝난 순간 속마음 한 줄
             if (Story1Blackout.PowerOn && !_p0) { _p0 = true; Think("불이 켜졌다. 말은 안 통해도… 같이 해냈다.", 1.6f); }
             if (GalleryPanel.Cleared && !_gallery) { _gallery = true; Think("내 신호는 안 통했는데, 린이 길을 알려줬다.", 0.8f); }
-            if (RelicPanel.Cleared && !_relic) { _relic = true; Think("복제품을 알아본 건 아이샤였다. 나 혼자선 몰랐을 거다.", 0.8f); }
-            if (WaterPanel.Cleared && !_water) { _water = true; Think("마리아가 읽어 주지 않았다면 밸브도 못 돌렸을 거다.", 0.8f); }
+            if (RelicPanel.Cleared && !_relic) { _relic = true; Think("복제품을 알아본 건 카이였다. 나 혼자선 몰랐을 거다.", 0.8f); }
+            if (WaterPanel.Cleared && !_water) { _water = true; Think("이안이 읽어 주지 않았다면 밸브도 못 돌렸을 거다.", 0.8f); }
 
             // 다른 사람이 이미 푼 퍼즐(내가 씬에 늦게 들어왔거나 이벤트를 놓친 경우)은 서버 상태에서 따라잡는다
             if (Story1Net.Online)
@@ -268,7 +268,7 @@ namespace Paradox.Client
         private IEnumerator ThinkRoutine(string text, float delay)
         {
             yield return new WaitForSeconds(delay);
-            thoughtName.text = "도윤의 속마음"; thoughtName.color = Roles.Color((int)GameRole.Operator);
+            thoughtName.text = "서하린의 속마음"; thoughtName.color = Roles.Color((int)GameRole.Operator);
             thoughtText.text = text;
             for (float t = 0f; t < 0.3f; t += Time.deltaTime) { thought.alpha = t / 0.3f; yield return null; }
             thought.alpha = 1f;
@@ -283,8 +283,8 @@ namespace Paradox.Client
         {
             new[] { "", "셔터가 올라가고, 바깥의 빛이 홀 안으로 들어왔다." },
             new[] { "", "서로의 말은 끝내 몰랐지만, 우리는 함께 해냈다." },
-            new[] { "도윤", "생각해 보니까… 나 처음으로 뭘 몰라서 답답한 게 뭔지 알 것 같아." },
-            new[] { "도윤", "얘네는 맨날 이런 기분이었나?" },
+            new[] { "서하린", "생각해 보니까… 나 처음으로 뭘 몰라서 답답한 게 뭔지 알 것 같아." },
+            new[] { "서하린", "얘네는 맨날 이런 기분이었나?" },
         };
 
         private static bool Pressed()

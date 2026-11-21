@@ -12,8 +12,12 @@ ui_type.wav / ui_type2.wav / ui_type3.wav - "Computer Keyboard - single key - ty
 ambience_camp.mp3 — "Jungle, Tropical birds and insects" by myrinvp (Freesound 423711, CC0), +10dB, fades
 bus_arrive.mp3 — "Bus 26" by claravinleb (Freesound 838794, CC0)
 storm_wind.mp3 — "Strong Winds inside house 02" by khenshom (Freesound 623603, CC0), +14dB, 1.4kHz lowpass
-siren_far.mp3 — "Tornado siren in Streamwood IL" by audible-edge (Freesound 72831, CC0), 25s excerpt
+siren_far.mp3 — "Tornado siren in Streamwood IL" by audible-edge (Freesound 72831, CC0), 5s excerpt with fades
 power_cut.mp3 — "Breaker-1" by Deathscyp (Freesound 404049, CC0), +8dB (조명이 딱 꺼지는 소리)
 door_locked.mp3 — "Locked_Door_Handle_Rattle_multiple" by jcdecha (Freesound 235473, CC0), excerpt +26dB
 flashlight_click.mp3 — "Flashlight Switch (On/Off)" by EskildNP (Freesound 840297, CC0), excerpt
 museum_thud.mp3 — "Crash Thud" by cyborgcollective (Freesound 344677, CC0), excerpt
+
+step_1..5, door_open, door_open2, door_close, door_close2, book_open, book_close - "RPG Audio" by Kenney (kenney.nl), CC0 1.0, https://opengameart.org/content/50-rpg-sound-effects (renamed only)
+museum_metal_click, museum_valve_turn, museum_tile_place — Kenney, RPG Audio, CC0 1.0. Original files metalClick.ogg, creak1.ogg and bookPlace1.ogg, respectively. https://opengameart.org/content/50-rpg-sound-effects
+museum_switch, museum_power_restore, museum_water — original synthesized recordings created for STRANGER, released under CC0 1.0. https://creativecommons.org/publicdomain/zero/1.0/

@@ -147,7 +147,7 @@ namespace Paradox.Client
             if (_t < 0.25f) return; // 화면이 뜨자마자 눌린 키는 무시
             var kb = Keyboard.current;
             var mouse = Mouse.current;
-            if ((kb != null && kb.anyKey.wasPressedThisFrame) || (mouse != null && mouse.leftButton.wasPressedThisFrame)) Finish();
+            if ((kb != null && kb.anyKey.wasPressedThisFrame) || StoryText.Tap()) Finish();   // 마우스·터치 공통
         }
     }
 }

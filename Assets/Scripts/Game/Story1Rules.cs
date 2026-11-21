@@ -12,7 +12,7 @@ namespace Paradox.Game
         public const int Easy = 0, Normal = 1, Hard = 2, Count = 3;
         public const int FinalPuzzle = 4;
         public static readonly string[] Names = { "쉬움", "보통", "어려움" };
-        public static readonly string[] Blurbs = { "한 번씩 풀어요 · 힌트가 빨리 나와요", "퍼즐마다 2번 풀어요", "퍼즐마다 3번 풀어요 · 힌트가 늦게 나와요" };
+        public static readonly string[] Blurbs = { "단서에 숫자·화살표가 늘 붙어요 · 틀리면 몇 개 맞았는지 알려 줘요", "배운 낱말엔 신호가 안 붙어요(수첩 N) · 실수 +5초", "단서는 외국어만 · ? 로 다시 물어야 신호 · 실수 +15초" };
 
         public static int Clamp(int d) => d < 0 ? 0 : d >= Count ? Count - 1 : d;
 

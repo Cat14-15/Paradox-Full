@@ -65,7 +65,7 @@ namespace Paradox.Client
             }
         }
 
-        internal static Sprite[] Slice(Texture2D tex)
+        public static Sprite[] Slice(Texture2D tex)
         {
             var r = new Sprite[PixelSprites.Rows * PixelSprites.Cols];
             if (tex == null) return r;

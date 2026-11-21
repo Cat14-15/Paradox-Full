@@ -15,7 +15,7 @@ namespace Paradox.Client
         public string speaker = "";   // 빈 문자열 = 내레이션
         [TextArea] public string text = "";
         public int kind;              // 0 대사, 1 내레이션, 2 속마음
-        public int portrait = -1;     // -1 없음, 0 도윤(그림), 1~ 그림 없는 인물(실루엣 자리표시)
+        public int portrait = -1;     // -1 없음, 0 서하린(그림), 1~ 그림 없는 인물(실루엣 자리표시)
         public string note = "";      // 지문(이름 옆 작은 글씨: "어색하게 웃으며")
         public int focus = -1;       // 장면 속 실루엣 번호(0~3 식탁, 4 지호) — 말할 때 살짝 올라온다
         public float chatter = 0.35f; // 식탁의 들썩임 세기(0 정지 ~ 1 왁자지껄)
@@ -25,7 +25,7 @@ namespace Paradox.Client
         public float ambVol = 0.3f;
         public string sfx = "";       // 이 줄이 뜰 때 한 번 울릴 효과음(학교 종 등)
         public float sfxVol = 0.8f;
-        public bool operatorOnly;     // true 면 조작자(도윤) 화면에만 글이 보이고, 나머지 역할에는 ??? 로 보인다(언어 장벽)
+        public bool operatorOnly;     // true 면 조작자(서하린) 화면에만 글이 보이고, 나머지 역할에는 ??? 로 보인다(언어 장벽)
         public float dark = -1f;      // 이 줄부터의 어둠: -1 그대로, 0 밝게, 1 완전한 암전, 2 손전등 불빛만 남은 어둠
         public string bgm = "";       // 이 줄부터 바꿀 배경 음악. "none" = 끄기, "" = 그대로
         public int bg = -1;           // 제목 카드 뒤에 바꿀 배경(bgSprites 번호), -1 = 그대로
@@ -44,7 +44,7 @@ namespace Paradox.Client
         public CanvasGroup dialogueGroup;
         public Image portrait;                // 말하는 사람 초상
         public RectTransform portraitRect;
-        public Sprite[] portraitSprites;      // 0 도윤 / 1~ 자리표시(실루엣)
+        public Sprite[] portraitSprites;      // 0 서하린 / 1~ 자리표시(실루엣)
         public PixelText nameText, tagText, bodyText, nextMark;
         public AudioSource crowd;             // 점심시간 왁자지껄(첫 글을 넘기기 전까지)
         public PixelText waitText;            // 모두 끝나길 기다리는 동안 검은 화면에 뜨는 글
@@ -73,13 +73,27 @@ namespace Paradox.Client
         private const float CharsPerSec = 32f;
         private const int WrapDots = 500;     // 본문 폭(도트) — scale 3 기준 약 1500px
 
+        private RectTransform _skipRect;
+        private Image _skipBg;
+        private float _sceneStart;
+
         private void Start()
         {
+            _sceneStart = Time.unscaledTime;
+            lines = StoryText.Trim(lines, isCamp);   // 시작 전 이야기 줄이기(덜 중요한 줄은 뺀다)
+            var sk = GameObject.Find("SkipBg");     // 오른쪽 위 건너뛰기: 마우스로도 누를 수 있게
+            if (sk != null)
+            {
+                _skipRect = sk.GetComponent<RectTransform>();
+                _skipBg = sk.GetComponent<Image>();
+                StoryText.StyleSkip(_skipRect, sk.GetComponentInChildren<PixelText>(true), _skipBg);
+            }
             _base = new Vector2[sils.Length];
             for (int i = 0; i < sils.Length; i++) _base[i] = sils[i].anchoredPosition;
             dialogueGroup.alpha = 0f;
             black.alpha = 1f;
-            Bgm.Play(bgmTrack, 0.3f);   // 음악 위에 왁자지껄이 은은하게 깔린다
+            Bgm.Play(bgmTrack, 0.3f);
+            Bgm.Preload(bgmTrack == "prologue" ? "camp" : "story1");   // 다음 장면 곡을 미리 불러 둔다   // 음악 위에 왁자지껄이 은은하게 깔린다
             if (crowd != null) { crowd.loop = true; crowd.volume = 0f; if (!string.IsNullOrEmpty(startAmbience)) SetAmbience(startAmbience, startAmbVol); }
             StartCoroutine(Intro());
         }
@@ -101,6 +115,11 @@ namespace Paradox.Client
         private void Update()
         {
             _t += Time.deltaTime;
+            StoryText.FitWidth(dialogue, 1800f);   // 좁은 화면 · 다른 비율에서도 대화창이 화면 밖으로 잘리지 않게
+            float cw = StoryText.CanvasWidth(dialogue) - 48f;   // 장면 제목 · 기다림 글씨도 화면 폭 안에(글씨를 줄인다)
+            if (titleText != null) titleText.maxWidth = Mathf.Min(1700f, cw);
+            if (subText != null) subText.maxWidth = Mathf.Min(1500f, cw);
+            if (waitText != null) waitText.maxWidth = Mathf.Min(1500f, cw);
             AnimateCast();
             if (darkGroup != null && !_flickering) { _darkValue = Mathf.MoveTowards(_darkValue, _darkTarget, Time.deltaTime * 1.5f); darkGroup.alpha = _darkValue; }
             if (darkFill != null) { var fc = darkFill.color; fc.a = Mathf.MoveTowards(fc.a, _fillTarget, Time.deltaTime * (_fillTarget > fc.a ? 6f : 3f)); darkFill.color = fc; }
@@ -117,10 +136,12 @@ namespace Paradox.Client
 
             if (_ending) return;
             var kb = Keyboard.current; var ms = Mouse.current;
-            if (kb != null && (kb.xKey.wasPressedThisFrame || kb.escapeKey.wasPressedThisFrame)) {   // 웹에서는 Esc 가 전체화면을 풀어서 X 를 기본으로 안내한다
-                Paradox.Core.Sfx.Play("ui_back"); StartCoroutine(End()); return; }
+            StoryText.HoverSkip(_skipRect, _skipBg);
+            // 건너뛰기: X · Esc 또는 버튼 클릭(웹에서는 Esc 가 전체화면을 풀어서 X 를 기본으로 안내한다). 이전 장면에서 연타한 X 는 무시한다
+            if (StoryText.SkipPressed(_skipRect, Time.unscaledTime - _sceneStart)) { Paradox.Core.Sfx.Play("ui_back"); StartCoroutine(End()); return; }
+            bool onSkip = StoryText.Over(_skipRect);
             bool go = (kb != null && (kb.enterKey.wasPressedThisFrame || kb.spaceKey.wasPressedThisFrame || kb.eKey.wasPressedThisFrame || kb.numpadEnterKey.wasPressedThisFrame))
-                      || (ms != null && ms.leftButton.wasPressedThisFrame);
+                      || (StoryText.Tap() && !onSkip);   // 마우스·터치 공통
             if (go && !_busy && _i >= 0) { if (_typing) Reveal(); else Next(); }
 
             if (_typing)
@@ -200,8 +221,9 @@ namespace Paradox.Client
             dialogueGroup.alpha = 1f;
 
             bool narr = l.kind == 1;
-            nameText.text = narr ? "" : l.speaker;
-            string note = l.kind == 2 ? "속마음" : l.note;
+            string speaker = StoryText.Speaker(l.speaker);   // 로비에서 정한 이름으로
+            nameText.text = narr ? "" : speaker;
+            string note = l.kind == 2 ? "속마음" : StoryText.Apply(l.note);
             tagText.text = note ?? "";
             nameText.color = l.portrait == 0 || l.kind == 2 ? new Color(0.95f, 0.77f, 0.45f) : new Color(0.9f, 0.95f, 0.96f);
             bodyText.color = narr ? new Color(0.78f, 0.8f, 0.84f) : l.kind == 2 ? new Color(0.72f, 0.86f, 1f) : new Color(0.96f, 0.96f, 0.94f);
@@ -215,12 +237,16 @@ namespace Paradox.Client
                 var sp = portraitSprites[l.portrait];
                 float ph = 514f;
                 portraitRect.sizeDelta = new Vector2(ph * sp.rect.width / sp.rect.height, ph);
+                // 내 캐릭터는 왼쪽, 상대는 오른쪽(오른쪽은 좌우를 뒤집어 안쪽을 보게)
+                bool left = StoryText.IsMine(l.portrait, isCamp);
+                portraitRect.anchoredPosition = new Vector2(left ? -680f : 680f, portraitRect.anchoredPosition.y);
+                portraitRect.localScale = new Vector3(left ? 1f : -1f, 1f, 1f);
             }
 
             // 초상이 없으면(내레이션) 글을 왼쪽 끝부터 시작한다
             // 초상은 대화창 위에 얹히므로 글은 항상 대화창 왼쪽 끝(여백 80)부터 시작한다
             const float shift = -220f;
-            string shown = l.text;
+            string shown = StoryText.Apply(l.text);   // 이름 · 조사("서하린아" → "하린아")
             if (l.operatorOnly && Session.Connected && Session.MySlot >= 0 && Session.MySlot != (int)Paradox.Game.GameRole.Operator)
             {
                 var sb = new StringBuilder();
@@ -228,16 +254,11 @@ namespace Paradox.Client
                 shown = sb.ToString();
             }
             _full = Wrap(shown);
-            // 이름+본문 덩어리를 대화창(가운데 y=-365) 위아래 여백이 같게 세로 가운데에 놓는다
-            const float BoxCenter = -365f, NameH = 48f, Gap = 16f, LineH = 48f, LineGap = 12f;
-            int n = 1; foreach (char ch in _full) if (ch == '\n') n++;
-            bool hasName = !narr && !string.IsNullOrEmpty(l.speaker);
-            float textH = n * LineH + (n - 1) * LineGap;
-            float blockH = (hasName ? NameH + Gap : 0f) + textH;
-            float top = BoxCenter + blockH * 0.5f;
-            bodyText.rectTransform.anchoredPosition = new Vector2(220f + shift, top - (hasName ? NameH + Gap : 0f) - bodyText.rectTransform.sizeDelta.y * 0.5f);
-            nameRect.anchoredPosition = new Vector2(-550f, top - NameH * 0.5f);
-            if (!string.IsNullOrEmpty(note)) tagText.rectTransform.anchoredPosition = new Vector2(nameRect.anchoredPosition.x - nameRect.sizeDelta.x * 0.5f + PixelFontData.Measure(l.speaker) * 3 + 30f + tagText.rectTransform.sizeDelta.x * 0.5f, nameRect.anchoredPosition.y - 4f);
+            // 이름표 · 대사 자리는 고정(말하는 사람이나 줄 수가 바뀌어도 움직이지 않는다)
+            bodyText.maxWidth = 1600f;   // 혹시 넘치는 줄은 글씨를 줄여 상자 안에
+            bodyText.rectTransform.anchoredPosition = new Vector2(220f + shift, StoryText.BodyTop - bodyText.rectTransform.sizeDelta.y * 0.5f);
+            nameRect.anchoredPosition = new Vector2(-550f, StoryText.NameY);
+            if (!string.IsNullOrEmpty(note)) tagText.rectTransform.anchoredPosition = new Vector2(nameRect.anchoredPosition.x - nameRect.sizeDelta.x * 0.5f + PixelFontData.Measure(speaker) * 3 + 30f + tagText.rectTransform.sizeDelta.x * 0.5f, nameRect.anchoredPosition.y - 4f);
 
             _typed = 0f; _typing = true; bodyText.text = "";
         }
@@ -289,6 +310,8 @@ namespace Paradox.Client
         {
             if (_ending) yield break;
             _ending = true;
+            if (isCamp) Progress.prologueSeen = true;   // 타이틀 "이어하기"가 켜진다(혼자 하기는 다음부터 박물관으로 바로)
+            if (_skipRect != null) _skipRect.gameObject.SetActive(false);
             _ambVol = 0f;
             Bgm.Stop();   // 화면이 어두워지는 동안 음악도 같이 줄어든다
             dialogueGroup.alpha = 0f;
@@ -311,7 +334,7 @@ namespace Paradox.Client
                 }
             }
             Bgm.Stop();
-            SceneManager.LoadScene(nextScene);
+            SceneManager.LoadSceneAsync(nextScene);
         }
     }
 }

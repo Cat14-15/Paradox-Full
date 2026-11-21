@@ -232,6 +232,7 @@ namespace Paradox.Game
                 S.players[from] = new PlayerInfo();
             }
             a.character = to;
+            a.ready = false;
             // 이전 역할의 기본 이름을 쓰고 있었다면 새 역할의 기본 이름으로
             if (Roles.SlotOfDefaultName(a.name) >= 0 || string.IsNullOrWhiteSpace(a.name)) a.name = DefaultName(to);
             if (S.hostSlot == from) S.hostSlot = to;
@@ -263,7 +264,16 @@ namespace Paradox.Game
                     Send(new GameEvent { type = "S1", slot = slot, a = c.a, b = c.b, s = c.s ?? "", f = c.f, pos = c.pos });
                     break;
                 case "Slot": ChangeSlot(slot, c.a); break;
+                case "Launch":
+                    // 2~3명이어도 시작: 사람이 모두 준비했으면 빈 자리를 AI 로 채우고 시작한다
+                    if (fromHost && S.phase == Phase.Lobby && S.HumansReady)
+                    {
+                        if (S.PresentCount < 4) FillBots(S.players[S.hostSlot].clientId);
+                        if (S.AllReady) StartGame();
+                    }
+                    break;
                 case "Diff": if (fromHost && S.phase == Phase.Lobby) { S.difficulty = Story1Rules.Clamp(c.a); Dirty = true; } break;
+                case "Speed": if (fromHost && S.phase == Phase.Lobby) { S.speedrun = c.a != 0; Dirty = true; } break;
                 case "FillBots": if (fromHost && S.phase == Phase.Lobby) FillBots(S.players[S.hostSlot].clientId); break;
                 case "StartGame":
                     if (fromHost && S.phase == Phase.Lobby)
@@ -283,13 +293,13 @@ namespace Paradox.Game
                     }
                     break;
                 case "Ready":
-                    if (S.phase == Phase.NameSetup)
+                    if ((S.phase == Phase.NameSetup || S.phase == Phase.Lobby) && S.players[slot].present && !S.players[slot].isBot)
                     {
                         var p = S.players[slot];
                         if (string.IsNullOrWhiteSpace(p.name)) p.name = DefaultName(slot);
                         p.ready = c.a != 0;
                         Dirty = true;
-                        if (S.AllReady) BeginReady();
+                        if (S.phase == Phase.NameSetup && S.AllReady) BeginReady();
                     }
                     break;
                 case "PrologueDone":
