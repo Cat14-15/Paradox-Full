@@ -127,7 +127,7 @@ namespace Paradox.Game
 
         private static StoryLine Sys(string text) => new StoryLine { text = text, system = true };
 
-        private static StoryLine Inner(string text, bool dark = false) => new StoryLine { speaker = "도윤 (속마음)", text = text, portrait = Op, dark = dark };
+        private static StoryLine Inner(string text, bool dark = false) => new StoryLine { speaker = "서하린 (속마음)", text = text, portrait = Op, dark = dark };
 
         // ------------------------------------------------------------------
         // 프롤로그 — 한국, 학교 (로컬 재생, 3씬)
@@ -136,25 +136,25 @@ namespace Paradox.Game
             var c = new Cutscene { id = "prologue", title = "프롤로그 — 한국, 학교", top = new Color(0.93f, 0.86f, 0.70f), bottom = new Color(0.72f, 0.62f, 0.48f) };
 
             // 씬 1 — 교실 점심시간
-            c.lines.Add(N("한국의 어느 중학교, 점심시간. 도윤은 친구들과 왁자지껄 점심을 먹고 있다. 몇 자리 떨어진 곳에 지호가 혼자 앉아 있다.", "교실 점심시간", "classroom"));
+            c.lines.Add(N("한국의 어느 중학교, 점심시간. 서하린은 친구들과 왁자지껄 점심을 먹고 있다. 몇 자리 떨어진 곳에 지호가 혼자 앉아 있다.", "교실 점심시간", "classroom"));
             c.lines.Add(L("친구 1", "야, 지호 너 근데 진짜 한국말 잘한다ㅋㅋ 태어날 때부터 한국 살았다며?", Npc.Friend1));
             var jiho = L("지호", "어... 나 한국에서 태어났는데.", Npc.Jiho);
             jiho.direction = "어색하게 웃으며";   // QA D-A10: 지문은 본문 밖 이름표 아래
             c.lines.Add(jiho);
             c.lines.Add(L("친구 2", "근데 너희 엄마는 어느 나라 사람이야? 베트남?", Npc.Friend2));
-            c.lines.Add(N("도윤은 옆에서 듣고 있지만 딱히 문제라고 느끼지 않고, 웃으며 자연스럽게 대화에 섞인다."));
+            c.lines.Add(N("서하린은 옆에서 듣고 있지만 딱히 문제라고 느끼지 않고, 웃으며 자연스럽게 대화에 섞인다."));
             c.lines.Add(Inner("다들 그냥 궁금해서 물어보는 거잖아. 지호도 웃고 있고, 딱히 기분 나빠 보이지 않는데."));
 
             // 씬 2 — 조별 과제
-            c.lines.Add(N("조별 과제를 정하는 시간. 도윤의 조에 지호가 배정된다.", "다음 날 · 조별 과제", "classroom"));
-            c.lines.Add(L("도윤", "지호야, 너는 그냥... 자료만 정리해줄래? 발표는 내가 할게.", Op));
-            c.lines.Add(N("지호는 별말 없이 고개를 끄덕이지만, 표정에 옅은 실망이 스친다. 도윤은 눈치채지 못한다."));
+            c.lines.Add(N("조별 과제를 정하는 시간. 서하린의 조에 지호가 배정된다.", "다음 날 · 조별 과제", "classroom"));
+            c.lines.Add(L("서하린", "지호야, 너는 그냥... 자료만 정리해줄래? 발표는 내가 할게.", Op));
+            c.lines.Add(N("지호는 별말 없이 고개를 끄덕이지만, 표정에 옅은 실망이 스친다. 서하린은 눈치채지 못한다."));
             c.lines.Add(Inner("발표는 내가 하는 게 더 낫지, 뭐. 지호도 딱히 하고 싶어 하는 눈치는 아니었고."));
 
             // 씬 3 — 며칠 후 · 하굣길
-            c.lines.Add(N("집으로 가는 길, 담임 선생님이 도윤을 불러 세운다.", "며칠 후 · 하굣길", "school"));
+            c.lines.Add(N("집으로 가는 길, 담임 선생님이 서하린을 불러 세운다.", "며칠 후 · 하굣길", "school"));
             c.lines.Add(L("담임 선생님", "이번에 국제 청소년 교류 캠프 대표로 네가 뽑혔어. 여러 나라 친구들이랑 한 팀이 될 거야.", Npc.Teacher));
-            c.lines.Add(N("도윤은 별생각 없이 좋아하며 집으로 향한다."));
+            c.lines.Add(N("서하린은 별생각 없이 좋아하며 집으로 향한다."));
             c.lines.Add(Inner("외국인 친구들이랑 팀이 된다고? 뭐, 말은 안 통해도 내가 잘 챙겨주면 되겠지."));
             return c;
         }
@@ -167,7 +167,7 @@ namespace Paradox.Game
 
             // 씬 1 — 캠프 첫 만남
             c.lines.Add(N("필리핀 — 해마다 20개 안팎의 태풍이 지나가는 '태풍의 길목'. 우기(6~11월)마다 태풍 피해가 되풀이되는 나라.", "캠프 첫 만남", "camp"));
-            var meet = N("BAYANI CAMP. 캠프장에 도착한 도윤이 버스에서 내린다. 마리아, 린, 아이샤가 먼저 도착해 있다가 손을 흔들며 인사한다. 서로 말이 통하지 않아 몸짓으로만 인사가 오간다.");
+            var meet = N("BAYANI CAMP. 캠프장에 도착한 서하린이 버스에서 내린다. 이안, 린, 카이가 먼저 도착해 있다가 손을 흔들며 인사한다. 서로 말이 통하지 않아 몸짓으로만 인사가 오간다.");
             meet.group = true;   // QA D-A3: 네 사람이 나란히(SetTeamRow)
             c.lines.Add(meet);
             c.lines.Add(Inner("말이 안 통하니까... 내가 잘 챙겨줘야겠다. 얘네는 여기서 나보다 훨씬 불편할 테니까."));
@@ -188,8 +188,8 @@ namespace Paradox.Game
             c.lines.Add(thud);
             c.lines.Add(Inner("어? 나... 아무것도 안 보이는데. 얘네가 날 도와줘야 하는 거였어?"));   // dark 오버레이 대신 museum_dark 유지
 
-            // 씬 4 — 첫 소통 시도 (QA D-A3: 마리아(통역) 우측 초상 + 벽보 아이콘, 배경은 정전 로비 그대로)
-            var poster = N("당황한 도윤이 주변을 둘러보는 사이, 마리아가 벽에 붙은 안내문 앞에 서서 무언가 읽는 듯한 표정을 짓는다.", "첫 소통 시도", "museum_dark");
+            // 씬 4 — 첫 소통 시도 (QA D-A3: 이안(통역) 우측 초상 + 벽보 아이콘, 배경은 정전 로비 그대로)
+            var poster = N("당황한 서하린이 주변을 둘러보는 사이, 이안이 벽에 붙은 안내문 앞에 서서 무언가 읽는 듯한 표정을 짓는다.", "첫 소통 시도", "museum_dark");
             poster.portraitRight = In; poster.icon = "poster";
             c.lines.Add(poster);
             var wonder = Inner("쟤가 뭘 읽고 있는 것 같은데... 근데 나한테 뭘 전달하려는 거지?");

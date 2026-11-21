@@ -116,7 +116,7 @@ namespace Paradox.Editor
         /// 출력: 환경변수 PARADOX_BUILD_DIR(폴더) 또는 프로젝트 옆 Build/Release/STRANGER/STRANGER.exe.
         /// <c>-executeMethod Paradox.Editor.BuildClient.BuildRelease</c>
         /// </summary>
-        /// <summary>WebGL 빌드(압축 없음, 어느 정적 서버에서나 열림). PARADOX_BUILD_DIR 또는 Build/Web.</summary>
+        /// <summary>Vercel용 gzip WebGL 빌드. PARADOX_BUILD_DIR 또는 Build/Web.</summary>
         public static void BuildWebFresh() { RebuildUi(); BuildWeb(); }
 
         public static void BuildWeb()
@@ -130,8 +130,12 @@ namespace Paradox.Editor
             PlayerSettings.productName = "STRANGER";
             PlayerSettings.companyName = "PARALLAX";
             PlayerSettings.runInBackground = true;
-            PlayerSettings.WebGL.compressionFormat = WebGLCompressionFormat.Disabled;
+            PlayerSettings.WebGL.compressionFormat = WebGLCompressionFormat.Gzip;
             PlayerSettings.WebGL.decompressionFallback = false;
+            // Unity 로고 스플래시 끄기(게임에 자체 로고 화면이 있다) — 첫 화면이 몇 초 빨라지고 로고 그림(약 2.7MB)도 빠진다
+            PlayerSettings.SplashScreen.show = false;
+            // 첫 로딩 화면: STRANGER 제목 · 진행 막대(%) · "처음 로딩은 조금 걸려요"(Assets/WebGLTemplates/Stranger)
+            if (Directory.Exists(Path.Combine(Application.dataPath, "WebGLTemplates", "Stranger"))) PlayerSettings.WebGL.template = "PROJECT:Stranger";
 
             var opts = new BuildPlayerOptions
             {
@@ -143,7 +147,22 @@ namespace Paradox.Editor
             BuildReport report = BuildPipeline.BuildPlayer(opts);
             BuildSummary s = report.summary;
             Debug.Log($"[BuildClient] 웹 결과 {s.result} · 오류 {s.totalErrors} · {s.totalTime.TotalSeconds:0}초 → {dir}");
-            if (s.result == BuildResult.Succeeded) PatchWebIndex(dir);
+            if (s.result == BuildResult.Succeeded)
+            {
+                PatchWebIndex(dir);
+                string headers = Path.Combine(Application.dataPath, "..", "Web", "vercel.json");
+                string target = Path.Combine(dir, "vercel.json");
+                if (!string.Equals(Path.GetFullPath(headers), Path.GetFullPath(target), StringComparison.OrdinalIgnoreCase))
+                    File.Copy(headers, target, true);
+                // 온라인 랭킹 서버 함수(Web/api/*.js → 빌드 폴더/api, Vercel 이 서버리스 함수로 올린다)
+                string apiSrc = Path.GetFullPath(Path.Combine(Application.dataPath, "..", "Web", "api"));
+                string apiDst = Path.Combine(dir, "api");
+                if (Directory.Exists(apiSrc) && !string.Equals(apiSrc, Path.GetFullPath(apiDst), StringComparison.OrdinalIgnoreCase))
+                {
+                    Directory.CreateDirectory(apiDst);
+                    foreach (var f in Directory.GetFiles(apiSrc, "*.js")) File.Copy(f, Path.Combine(apiDst, Path.GetFileName(f)), true);
+                }
+            }
             if (s.result != BuildResult.Succeeded)
             {
                 if (Application.isBatchMode) EditorApplication.Exit(1);
@@ -165,6 +184,12 @@ namespace Paradox.Editor
     </style>
   </head>";
             if (!s.Contains("#unity-footer { display: none")) s = s.Replace("  </head>", css);
+            // 옛 vercel 주소(stranger-*.vercel.app)로 들어오면 대표 주소로 보낸다.
+            const string redirect = "<script>if(/^stranger-.*\\.vercel\\.app$/.test(location.hostname)&&location.hostname!==\"stranger-bssm.vercel.app\")location.replace(\"https://stranger-bssm.vercel.app/\"+location.search);</script>";
+            if (!s.Contains("stranger-bssm")) s = s.Replace("<head>", "<head>\n    " + redirect);
+            // Vercel Web Analytics (방문자 수). 프로젝트에서 Analytics 를 켜 두면 집계된다.
+            const string analytics = "<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};</script><script defer src=\"/_vercel/insights/script.js\"></script>\n";
+            if (!s.Contains("_vercel/insights")) s = s.Replace("</head>", analytics + "</head>");
             s = s.Replace("canvas.style.width = \"960px\";", "canvas.style.width = \"100%\";").Replace("canvas.style.height = \"600px\";", "canvas.style.height = \"100%\";");
             const string focus = @"
       // 키보드 포커스: 클릭·터치하면 캔버스로 (iframe 안에서도 방향키/WASD 가 먹도록)

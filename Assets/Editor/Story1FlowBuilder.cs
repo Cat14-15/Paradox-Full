@@ -8,7 +8,7 @@ using static Paradox.Editor.PrologueSceneBuilder;
 
 namespace Paradox.Editor
 {
-    /// <summary>Story1 의 목표 표시 · 도윤의 속마음 · 엔딩 UI 를 만든다. 메뉴: Paradox ▸ Add Story1 Flow.</summary>
+    /// <summary>Story1 의 목표 표시 · 서하린의 속마음 · 엔딩 UI 를 만든다. 메뉴: Paradox ▸ Add Story1 Flow.</summary>
     public static class Story1FlowBuilder
     {
         private const string ScenePath = "Assets/Scenes/Story1.unity";
@@ -61,7 +61,7 @@ namespace Paradox.Editor
                 ntag.gameObject.SetActive(false);
             }
 
-            // ---- 도윤의 속마음 (위 가운데)
+            // ---- 서하린의 속마음 (위 가운데)
             var th = Node("Thought", fr); At(th, 250, 470, 900, 96);   // 오른쪽 위 단추 줄과 겹치지 않게 왼쪽으로
             var tg = Group(th);
             Sliced(Node("Back", th).Also(Stretch), PanelFill, new Color(0.05f, 0.07f, 0.1f, 0.92f));

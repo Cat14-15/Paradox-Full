@@ -197,20 +197,20 @@ namespace Paradox.Net
         {
             Task<StartGameResult> task;
             try { task = runner.StartGame(args); }
-            catch (Exception e) { Debug.LogWarning("[NetHub] StartGame 예외: " + e.Message); Fail(OfflineMessage); yield break; }
+            catch (Exception e) { Debug.LogWarning("[NetHub] StartGame 예외: " + e.Message); if (!TryCreateAgain()) Fail(OfflineMessage); yield break; }
 
             float t0 = Time.realtimeSinceStartup;
             while (!task.IsCompleted)
             {
                 if (runner != Runner) yield break;   // 그 사이 Shutdown 됨
-                if (Time.realtimeSinceStartup - t0 > ConnectAttempts) { Fail(OfflineMessage); yield break; }
+                if (Time.realtimeSinceStartup - t0 > ConnectAttempts) { if (!TryCreateAgain()) Fail(TimeoutMessage); yield break; }
                 yield return null;
             }
             if (runner != Runner) yield break;
             if (task.IsFaulted || task.IsCanceled)
             {
                 Debug.LogWarning("[NetHub] StartGame 실패: " + (task.Exception != null ? task.Exception.GetBaseException().Message : "취소"));
-                Fail(OfflineMessage);
+                if (!TryCreateAgain()) Fail(OfflineMessage);
                 yield break;
             }
 
@@ -219,6 +219,10 @@ namespace Paradox.Net
             {
                 Debug.LogWarning($"[NetHub] StartGame 실패 reason={res.ShutdownReason} msg={res.ErrorMessage}");
                 if (_creating && res.ShutdownReason == ShutdownReason.GameIdAlreadyExists && !IsSolo) { RetryNewName(); yield break; }
+                // 서버 한도 · 방 없음 · 가득 참 · 진행 중은 다시 해도 같으니 바로 알린다. 그 밖의 방 만들기 실패는 한 번 더 자동으로
+                bool final = res.ShutdownReason == ShutdownReason.MaxCcuReached || res.ShutdownReason == ShutdownReason.GameIsFull
+                             || res.ShutdownReason == ShutdownReason.GameClosed || res.ShutdownReason == ShutdownReason.GameNotFound;
+                if (!final && TryCreateAgain()) yield break;
                 Fail(MessageFor(res.ShutdownReason));
                 yield break;
             }
@@ -233,6 +237,7 @@ namespace Paradox.Net
                 if (_creating) SetRoomCode(BuildCode(region, _joinName));
             }
             _connected = true;
+            _createRetried = false;
 
             if (runner.IsSinglePlayer || runner.IsSharedModeMasterClient)
             {
@@ -255,16 +260,34 @@ namespace Paradox.Net
             StartHost(false);
         }
 
+        public const string TimeoutMessage = "서버 응답이 늦어요 — 인터넷을 확인하고 다시 시도하세요";
+
+        /// <summary>방 만들기가 타임아웃 · 연결 오류로 실패했으면 새 코드로 한 번만 자동으로 다시 시도한다.</summary>
+        private bool _createRetried;
+        private bool TryCreateAgain()
+        {
+            if (!_creating || IsSolo || _createRetried) return false;
+            _createRetried = true;
+            Debug.LogWarning("[NetHub] 방 만들기 실패 — 한 번 더 시도");
+            Teardown();
+            _active = false;
+            StartHost(false);
+            SetStatus("방을 다시 만드는 중… (한 번 더 시도)");
+            return true;
+        }
+
         private static string MessageFor(ShutdownReason r)
         {
             switch (r)
             {
                 case ShutdownReason.GameNotFound: return ConnectFailedMessage;
-                case ShutdownReason.GameIsFull: return "방이 가득 찼어요 (4명)";
-                case ShutdownReason.GameClosed: return "이미 게임이 시작된 방이에요 — 다음 판에 들어와요";
-                case ShutdownReason.MaxCcuReached: return "지금 서버가 가득 찼어요 — 잠시 뒤에 다시 시도하세요";
+                case ShutdownReason.GameIsFull: return "방이 가득 찼어요 (4명) — 다른 방 코드로 들어오거나 새 방을 만드세요";
+                case ShutdownReason.GameClosed: return "이미 게임이 시작된 방이에요 — 다음 판에 들어오거나 새 방을 만드세요";
+                case ShutdownReason.MaxCcuReached: return "지금 접속한 사람이 너무 많아 서버가 가득 찼어요 — 잠시 뒤 다시 시도하거나 '혼자 하기'로 즐겨요";
                 case ShutdownReason.InvalidRegion: return "방의 지역에 접속하지 못했어요 — 방 코드를 확인하세요";
-                default: return "방에 들어가지 못했어요 — 방 코드를 확인하고 다시 해 보세요";
+                case ShutdownReason.PhotonCloudTimeout: case ShutdownReason.OperationTimeout: return TimeoutMessage;
+                case ShutdownReason.ConnectionRefused: case ShutdownReason.ConnectionTimeout: return OfflineMessage;
+                default: return "방에 들어가지 못했어요 (" + r + ") — 다시 시도해 주세요";
             }
         }
 
@@ -277,6 +300,7 @@ namespace Paradox.Net
             Teardown();
             _active = false;
             _retries = 0;
+            _createRetried = false;
             LastDisconnectWasConnectFailure = false;
             SetRoomCode("");
             Session.Reset();
@@ -301,6 +325,7 @@ namespace Paradox.Net
         {
             Teardown();
             _active = false;
+            _createRetried = false;
             LastDisconnectWasConnectFailure = true;
             SetRoomCode("");
             Session.Reset();
@@ -394,6 +419,7 @@ namespace Paradox.Net
             if (!_connected && shutdownReason != ShutdownReason.Ok)
             {
                 if (!_active || (_creating && shutdownReason == ShutdownReason.GameIdAlreadyExists)) return;   // 후자는 StartRoutine 이 코드를 바꿔 다시 시도한다
+                if (shutdownReason != ShutdownReason.MaxCcuReached && TryCreateAgain()) return;   // 방 만들기 도중 끊김: 한 번 더
                 Fail(MessageFor(shutdownReason));
                 return;
             }

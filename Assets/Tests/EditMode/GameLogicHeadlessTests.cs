@@ -15,6 +15,54 @@ namespace Paradox.Tests
         private const int Op = 0, In = 1, Na = 2, Ob = 3;
         private const long HostClient = 1;
 
+        [Test]
+        public void LobbyLaunchFillsEmptySeatsWithBots()
+        {
+            // 2~3명이어도 사람이 모두 준비했으면 방장이 시작할 수 있고, 빈 자리는 AI 가 맡는다
+            var game = new GameLogic();
+            void Send(int slot, string type, int value = 0) =>
+                game.Apply(new Cmd { slot = slot, type = type, a = value }, slot == 0);
+            for (int slot = 0; slot < 3; slot++)
+            {
+                Assert.AreEqual(slot, game.Join(slot + 1, "P" + slot));
+                Send(slot, "Ready", 1);
+            }
+            Send(2, "Launch");   // 방장이 아니면 못 시작
+            Assert.AreEqual(Phase.Lobby, game.S.phase);
+            Send(0, "Launch");
+            Assert.AreEqual(Phase.StageIntro, game.S.phase);
+            Assert.IsTrue(game.S.players[3].present && game.S.players[3].isBot);
+            Assert.IsFalse(game.S.players[0].isBot);
+        }
+
+        [Test]
+        public void LobbyLaunchRequiresAllHumansReadyAndHost()
+        {
+            var game = new GameLogic();
+            void Send(int slot, string type, int value = 0) =>
+                game.Apply(new Cmd { slot = slot, type = type, a = value }, slot == 0);
+            for (int slot = 0; slot < 3; slot++)
+            {
+                Assert.AreEqual(slot, game.Join(slot + 1, "P" + slot));
+                Send(slot, "Ready", 1);
+            }
+            game.Join(4, "P3");
+            Send(0, "Launch");
+            Assert.AreEqual(Phase.Lobby, game.S.phase);
+            Send(3, "Ready", 1);
+            Send(2, "Launch");
+            Send(2, "Ready", 0);
+            Send(0, "Launch");
+            Assert.AreEqual(Phase.Lobby, game.S.phase);
+            game.Leave(4);
+            game.Join(5, "P4");
+            Assert.IsFalse(game.S.players[3].ready);
+            Send(2, "Ready", 1);
+            Send(3, "Ready", 1);
+            Send(0, "Launch");
+            Assert.AreEqual(Phase.StageIntro, game.S.phase);
+        }
+
         /// <summary>호스트 1명 + 봇 3명 세션. 명령은 전부 호스트 권한(fromHost=true)으로 넣는다.</summary>
         private sealed class Headless
         {

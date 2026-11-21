@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Paradox.Client
@@ -31,12 +33,33 @@ namespace Paradox.Client
             return _inst;
         }
 
+        private static readonly Dictionary<string, AudioClip> _cache = new Dictionary<string, AudioClip>();
+
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        private static void ResetStatics() { _cache.Clear(); _inst = null; }
+
+        /// <summary>다음에 틀 곡을 미리(백그라운드로) 불러 둔다. 장면이 바뀌는 순간 곡을 읽느라 화면과 소리가 멈추지 않게.</summary>
+        public static void Preload(string track)
+        {
+            if (string.IsNullOrEmpty(track) || _cache.ContainsKey(track)) return;
+            _cache[track] = null;   // 중복 요청 방지
+            Get().StartCoroutine(LoadAsync(track));
+        }
+
+        private static IEnumerator LoadAsync(string track)
+        {
+            var rq = Resources.LoadAsync<AudioClip>("Music/" + track);
+            yield return rq;
+            if (rq.asset != null) _cache[track] = (AudioClip)rq.asset; else _cache.Remove(track);
+        }
+
         public static void Play(string track, float volume = 0.35f)
         {
             var m = Get();
             if (string.IsNullOrEmpty(track)) { Stop(); return; }
             if (m._cur == track) { m._vol = volume; return; }
-            var clip = Resources.Load<AudioClip>("Music/" + track);
+            _cache.TryGetValue(track, out var clip);
+            if (clip == null) clip = Resources.Load<AudioClip>("Music/" + track);
             if (clip == null) { Debug.LogWarning("[Bgm] 곡을 찾을 수 없음: " + track); return; }
             m.StartSwap();
             m._pending = clip; m._cur = track; m._vol = volume; m._gap = Gap;

@@ -106,17 +106,23 @@ namespace Paradox.Client
             if (show) prompt.text = text;
         }
 
-        private void Update()
+        public static Vector2 ReadMovement(Keyboard kb)
         {
-            var kb = Keyboard.current;
             Vector2 d = Vector2.zero;
-            if (!Busy && !InputLocked && kb != null)
+            if (kb != null)
             {
                 if (kb.leftArrowKey.isPressed || kb.aKey.isPressed) d.x -= 1f;
                 if (kb.rightArrowKey.isPressed || kb.dKey.isPressed) d.x += 1f;
                 if (kb.upArrowKey.isPressed || kb.wKey.isPressed) d.y += 1f;
                 if (kb.downArrowKey.isPressed || kb.sKey.isPressed) d.y -= 1f;
             }
+            return d;
+        }
+
+        private void Update()
+        {
+            var kb = Keyboard.current;
+            Vector2 d = !Busy && !InputLocked ? ReadMovement(kb) : Vector2.zero;
             if (!Busy && !InputLocked && testInput != Vector2.zero) d = testInput;
             _move = d.normalized;
 

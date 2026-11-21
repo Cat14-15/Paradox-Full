@@ -2,3 +2,7 @@
 - Kenney "Interface Sounds" 1.0 — https://opengameart.org/content/interface-sounds (CC0)
 - rubberduck "100 CC0 SFX" — https://opengameart.org/content/100-cc0-sfx (CC0)
 Assets/Resources/Sfx 의 ui_*, click, chime, alarm, fuse_pop, clear, power_on 은 위 파일을 변환·합성한 것.
+
+[크레딧에 넣을 문구 — 걷기·문·책 효과음]
+- Kenney (Kenney Vleugels), "RPG Audio" — https://www.kenney.nl/assets/rpg-audio  (OpenGameArt 미러: https://opengameart.org/content/50-rpg-sound-effects) · CC0 1.0 (표기 의무 없음, 감사 표시 권장)
+  Assets/Resources/Sfx 의 step_1~5(footstep00/02/04/06/08), door_open·door_open2(doorOpen_1/2 앞부분만 잘라 끝을 줄이고 -6dB), door_close·door_close2(doorClose_1/2, 지금은 쓰지 않음), book_open(bookOpen), book_close(bookClose). 잘라 낸 것 외에는 원본 그대로.

@@ -53,15 +53,45 @@ namespace Paradox.Client
         private static readonly Color Dim = new Color(0.55f, 0.62f, 0.66f);
         private static readonly Color Off = new Color(0.32f, 0.36f, 0.40f);
 
+        /// <summary>박물관에서 단풍이를 다 찾은 적이 있으면 타이틀 발판 옆에 단풍이가 앉아 있다(영구 보상).</summary>
+        private void AddDanpung()
+        {
+            int on = 0; try { on = PlayerPrefs.GetInt("stranger.danpung.friend", 0); } catch { }
+            if (on != 1 || plates == null) return;
+            var sp = Resources.Load<Sprite>("Danpung/danpung_sit");
+            if (sp == null) return;
+            // 맨 아래 발판 바로 오른쪽(카펫 위)에 앉힌다 · 로고 · 메뉴 글자와 겹치지 않는 자리
+            RectTransform low = null;
+            foreach (Transform c in plates.transform)
+            {
+                var pr = c as RectTransform;
+                if (pr != null && (low == null || pr.anchoredPosition.y < low.anchoredPosition.y)) low = pr;
+            }
+            var go = new GameObject("Danpung", typeof(RectTransform));
+            go.transform.SetParent(plates.transform, false);
+            var r = (RectTransform)go.transform;
+            if (low != null)
+            {
+                r.anchorMin = low.anchorMin; r.anchorMax = low.anchorMax; r.pivot = new Vector2(0.5f, 0f);
+                r.anchoredPosition = low.anchoredPosition + new Vector2(low.rect.width * 0.5f + 90f, -low.rect.height * 0.5f);
+            }
+            else { r.anchorMin = r.anchorMax = new Vector2(0.5f, 0.5f); r.pivot = new Vector2(0.5f, 0f); r.anchoredPosition = new Vector2(160f, -230f); }
+            r.sizeDelta = new Vector2(112f, 112f);
+            var img = go.AddComponent<Image>(); img.sprite = sp; img.raycastTarget = false; img.preserveAspect = true;
+        }
+
         private void Start()
         {
             var font = UIFontHelper.Load();
             foreach (var t in GetComponentsInChildren<Text>(true)) t.font = font;
             SetAll(0f, credit, background, dust, logo, tagline, prompt, menu, toast, plates);
+            AddDanpung();
             _zoom = zoomStart;
             black.alpha = 0f;
             logoRect.anchoredPosition = logoTitlePos;      // 로고는 처음부터 최종 자리에서 켜진다
             logoRect.localScale = Vector3.one * logoTitleScale;
+            // 이어하기: 이야기(프롤로그·캠프)를 한 번 봤거나 클리어했으면 켠다 → 로비에서 혼자 하기로 시작하면 박물관부터
+            if (menuEnabled != null && menuEnabled.Length > 1) menuEnabled[1] = Progress.CanContinue;
             if (SkipToMenu) { SkipToMenu = false; _run = StartCoroutine(ResumeAtMenu()); }
             else _run = StartCoroutine(Play());
         }
@@ -144,13 +174,14 @@ namespace Paradox.Client
         private bool AnyPress()
         {
             var kb = Keyboard.current; var m = Mouse.current;
-            return (kb != null && kb.anyKey.wasPressedThisFrame) || (m != null && m.leftButton.wasPressedThisFrame);
+            return (kb != null && kb.anyKey.wasPressedThisFrame) || StoryText.Tap();   // 마우스·터치 공통
         }
 
         private void Update()
         {
             _t += Time.deltaTime;
-            if (SettingsPanel.IsOpen) return;
+            UpdateRankButton();
+            if (SettingsPanel.IsOpen || RankPanel.IsOpen || Time.frameCount <= RankPanel.ClosedFrame + 1) return;
             // 배경은 아주 천천히 움직인다
             if (backgroundRect != null && background.alpha > 0f)
             {
@@ -171,6 +202,39 @@ namespace Paradox.Client
                 case State.Menu:
                     UpdateMenu();
                     break;
+            }
+        }
+
+        // ---- 오른쪽 위 "랭킹  R" 단추(메뉴가 보일 때만)
+        private RectTransform _rankBtn; private Image _rankBg;
+
+        private void UpdateRankButton()
+        {
+            if (_rankBtn == null)
+            {
+                var cv = menu != null ? menu.GetComponentInParent<Canvas>() : null;
+                if (cv == null) return;
+                var go = new GameObject("RankButton", typeof(RectTransform));
+                go.transform.SetParent(cv.rootCanvas.transform, false);
+                _rankBtn = (RectTransform)go.transform;
+                _rankBtn.anchorMin = _rankBtn.anchorMax = _rankBtn.pivot = new Vector2(1f, 1f);
+                _rankBtn.anchoredPosition = new Vector2(-32f, -32f); _rankBtn.sizeDelta = new Vector2(240f, 64f);
+                _rankBg = go.AddComponent<Image>(); _rankBg.raycastTarget = false;
+                var tr = new GameObject("Label", typeof(RectTransform)); tr.transform.SetParent(_rankBtn, false);
+                var rt = (RectTransform)tr.transform; rt.anchorMin = Vector2.zero; rt.anchorMax = Vector2.one; rt.offsetMin = rt.offsetMax = Vector2.zero;
+                var t = tr.AddComponent<PixelText>(); t.scale = 3; t.align = TextAnchor.MiddleCenter; t.color = new Color(0.949f, 0.773f, 0.447f); t.text = "랭킹  R"; t.raycastTarget = false; t.maxWidth = 224f;
+            }
+            float a = _state == State.Menu && menu != null ? menu.alpha : 0f;
+            _rankBtn.gameObject.SetActive(a > 0.01f && !RankPanel.IsOpen);
+            if (!_rankBtn.gameObject.activeSelf) return;
+            bool over = StoryText.Over(_rankBtn);
+            _rankBg.color = over ? new Color(0.16f, 0.2f, 0.26f, 0.92f * a) : new Color(0.04f, 0.05f, 0.08f, 0.72f * a);
+            if (SettingsPanel.IsOpen || a < 0.9f) return;
+            var kb = Keyboard.current; var ms = Mouse.current;
+            if ((over && ms != null && ms.leftButton.wasPressedThisFrame) || (kb != null && kb.rKey.wasPressedThisFrame))
+            {
+                Paradox.Core.Sfx.Play("ui_select");
+                RankPanel.Open();
             }
         }
 
@@ -231,8 +295,11 @@ namespace Paradox.Client
             Paradox.Core.Sfx.Play(menuEnabled[i] ? "ui_select" : "ui_back");
             switch (i)
             {
-                case 0: StartCoroutine(Leave()); break;
-                case 1: Toast(0); break;
+                case 0: LobbyScene.SkipStory = false; StartCoroutine(Leave()); break;
+                case 1:
+                    if (menuEnabled[1]) { LobbyScene.SkipStory = true; StartCoroutine(Leave()); }
+                    else Toast(0);
+                    break;
                 case 2: { var sp = FindFirstObjectByType<SettingsPanel>(); if (sp != null) sp.Open(); else Toast(1); break; }
                 case 3:
 #if UNITY_EDITOR
@@ -265,7 +332,7 @@ namespace Paradox.Client
         {
             _state = State.Leaving;
             yield return Fade(black, 1f, 0.6f);
-            SceneManager.LoadScene(nextScene);
+            SceneManager.LoadSceneAsync(nextScene);
         }
     }
 }

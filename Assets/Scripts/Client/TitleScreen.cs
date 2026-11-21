@@ -32,7 +32,7 @@ namespace Paradox.Client
             _continue = MenuButton(menu, "이어하기", false, () => LocalNav.Go(LocalScreen.StageSelect));
             MenuButton(menu, "설정", false, () => LocalNav.Go(LocalScreen.Settings));
 
-            UI.Label(Root, "v0.1 · 4인 협동 · PC", 13, Skin.Dim,
+            UI.Label(Root, "v1.0 · 4인 협동", 13, Skin.Dim,
                 new Vector2(1f, 0f), new Vector2(-36f, 22f), new Vector2(400f, 22f), TextAnchor.MiddleRight, new Vector2(1f, 0f));
             UI.Label(Root, "부산소프트웨어마이스터고 · UNESCO 청소년 프로젝트", 12, Skin.Alpha(Skin.Dim, 0.7f),
                 new Vector2(0f, 0f), new Vector2(36f, 22f), new Vector2(600f, 22f), TextAnchor.MiddleLeft, new Vector2(0f, 0f));

@@ -69,9 +69,10 @@ namespace Paradox.Client
         public override Texture mainTexture => PixelFontData.Texture;
 
         public string text { get => _text; set { if (_text == value) return; _text = value ?? ""; SetVerticesDirty(); } }
-        public int scale { get => _scale; set { _scale = Mathf.Max(1, value); SetVerticesDirty(); } }
-        public TextAnchor align { get => _align; set { _align = value; SetVerticesDirty(); } }
-        public int spacing { get => _spacing; set { _spacing = value; SetVerticesDirty(); } }
+        // 같은 값이면 다시 그리지 않는다(화면 코드가 매 프레임 같은 값을 넣어도 렉이 없게)
+        public int scale { get => _scale; set { int v = Mathf.Max(1, value); if (_scale == v) return; _scale = v; SetVerticesDirty(); } }
+        public TextAnchor align { get => _align; set { if (_align == value) return; _align = value; SetVerticesDirty(); } }
+        public int spacing { get => _spacing; set { if (_spacing == value) return; _spacing = value; SetVerticesDirty(); } }
 
         /// <summary>0 보다 크면: 가장 긴 줄이 이 폭(캔버스 단위)을 넘을 때 글씨 배율을 줄여 UI 밖으로 나가지 않게 한다.</summary>
         public float maxWidth;

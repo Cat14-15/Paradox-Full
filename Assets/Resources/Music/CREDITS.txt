@@ -6,3 +6,7 @@ prologue.ogg  - "Forget Me Not" (looped) by mentassss  https://opengameart.org/c
 camp.mp3 — "Happy Adventure (Loop)" (OpenGameArt, CC0) https://opengameart.org/content/happy-adventure-loop
 
 story1.mp3 — "Mysterious Ambience (song21)" (OpenGameArt, CC0) https://opengameart.org/content/mysterious-ambience-song21
+
+museum_b1.ogg — "Unsolved Investigation" by isaiah658 (OpenGameArt, CC0) https://opengameart.org/content/unsolved-investigation
+museum_1f.ogg — "Kingdom of a Million Elephants under a White Parasol" by Spring Spring (Julie Damsgaard) (OpenGameArt, CC0) https://opengameart.org/content/kingdom-of-a-million-elephants-under-a-white-parasol  (volume -10dB, re-encoded to ogg)
+museum_2f.ogg — "Once Upon a Time (loop)" by Tad (OpenGameArt, CC0) https://opengameart.org/content/once-upon-a-time-loop  (volume -3.5dB, mp3 -> ogg)

@@ -38,5 +38,7 @@ namespace Paradox.Client
 
         public static void Cycle() { if (Solo) _solo = (_solo + 1) % Roles.Count; }
         public static void Reset() { _solo = (int)GameRole.Operator; }
+        /// <summary>온라인이 끊겨 혼자 이어 갈 때, 하던 역할(슬롯)을 그대로 지킨다.</summary>
+        public static void Keep(int slot) { if (Roles.Valid(slot)) _solo = slot; }
     }
 }

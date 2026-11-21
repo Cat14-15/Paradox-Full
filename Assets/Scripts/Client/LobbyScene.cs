@@ -87,7 +87,6 @@ namespace Paradox.Client
         private string NickComposing => _hgOn ? _hg.Current : _ime;
 
         private void FlushHangul() { if (_hg.Active) { AddNick(_hg.Current); _hg.Reset(); } }
-        private bool _sentReady;
         private bool _suppressDisc;
         private float _bsTimer;
         private float _msgUntil;
@@ -127,18 +126,31 @@ namespace Paradox.Client
         private void Start()
         {
             _nick = PlayerPrefs.GetString("stranger_nick", "");
+            // 지난번 방 코드를 참가 칸에 미리 채워 둔다(원래 있던 방으로 바로 돌아가기 · Enter 만 누르면 된다)
+            if (_code.Length == 0) { string last = PlayerPrefs.GetString(LastRoomKey, ""); if (NetHub.TryParseCode(last, out _, out _)) _code = last; }
             if (Web) _hgOn = true;
+            Bgm.Preload("prologue");   // 게임을 시작할 때 곡을 읽느라 멈추지 않도록 미리
             var hub = NetHub.Instance;
             hub.StatusChanged += OnStatus;
             hub.Disconnected += OnDisconnected;
 
-            solo.rect.gameObject.SetActive(Application.isEditor);       // 혼자 테스트는 에디터에서만
+            solo.rect.gameObject.SetActive(true);       // 혼자 하기: AI 친구 3명과 함께(정식 빌드에서도)
             botsBtn.rect.gameObject.SetActive(false);
             black.alpha = 1f;
             roomPanel.alpha = 1f; charPanel.alpha = 0f; busy.alpha = 0f;
             SetPanelRaycast(roomPanel, true); SetPanelRaycast(charPanel, false);
             roomStatus.text = "";
             charStatus.text = "";
+            var copy = charCodeLine.gameObject.AddComponent<PointerRelay>();
+            copy.owner = this;
+            copy.group = 10;
+            // 윗줄 오른쪽: 난이도 + 스피드런을 나란히(오른쪽 위 끝은 설정 단추 자리 · x 724 부터)
+            if (diffBtn != null && diffBtn.rect != null)
+            {
+                diffBtn.rect.anchoredPosition = new Vector2(326f, 440f); diffBtn.rect.sizeDelta = new Vector2(300f, diffBtn.rect.sizeDelta.y);
+                if (diffBtn.label != null) diffBtn.label.rectTransform.sizeDelta = new Vector2(280f, diffBtn.label.rectTransform.sizeDelta.y);
+            }
+            speedBtn = CloneButton(diffBtn, "SpeedrunButton", 11, new Vector2(598f, 440f), 228f);
 
             // 이미 접속해 있으면(예: 게임 중 돌아옴) 바로 캐릭터 선택으로
             if (hub.IsRunning && Session.Connected) EnterCharacter();
@@ -179,9 +191,10 @@ namespace Paradox.Client
                     else if (group == 3) { _nickFocus = true; }
                     else if (group == 4) LeaveRoom();
                     else if (group == 5) TryStart();
-                    else if (group == 6) FillBots();
+                    else if (group == 10) CopyCode();
                     else if (group == 8) CycleDifficulty();
                     else if (group == 9) CycleStage();
+                    else if (group == 11) ToggleSpeedrun();
                     break;
             }
         }
@@ -256,7 +269,7 @@ namespace Paradox.Client
             charPanel.alpha = Mathf.MoveTowards(charPanel.alpha, _mode == Mode.Character || _mode == Mode.Leaving ? 1f : 0f, Time.deltaTime * 4f);
             SetPanelRaycast(roomPanel, _mode == Mode.Room);
             SetPanelRaycast(charPanel, _mode == Mode.Character);
-            bool showBusy = _mode == Mode.Connecting || _mode == Mode.Leaving || (_mode == Mode.Character && (Session.State.phase == Phase.NameSetup || Session.State.phase == Phase.Ready));
+            bool showBusy = _mode == Mode.Connecting || _mode == Mode.Leaving || (_mode == Mode.Character && Session.State.phase == Phase.Ready);
             busy.alpha = Mathf.MoveTowards(busy.alpha, showBusy ? 1f : 0f, Time.deltaTime * 6f);
             busy.blocksRaycasts = showBusy;
 
@@ -348,12 +361,29 @@ namespace Paradox.Client
             if (kb.tabKey.wasPressedThisFrame) _nickFocus = true;
             if (enter) PickCard(_cardSel);
             if (esc) LeaveRoom();
-            if ((kb.ctrlKey.isPressed || kb.leftCommandKey.isPressed) && kb.cKey.wasPressedThisFrame)
-            {
-                var hub = NetHub.Instance;
-                if (hub != null && !hub.IsSolo && !string.IsNullOrEmpty(hub.RoomCode))
-                { GUIUtility.systemCopyBuffer = hub.RoomCode; Say("방 코드를 복사했어요", Mint); }
-            }
+            if ((kb.ctrlKey.isPressed || kb.leftCommandKey.isPressed || kb.rightCommandKey.isPressed) && kb.cKey.wasPressedThisFrame) CopyCode();
+        }
+
+#if UNITY_WEBGL && !UNITY_EDITOR
+        [System.Runtime.InteropServices.DllImport("__Internal")]
+        private static extern void StrangerCopyCode(string code, string receiver);
+#endif
+        private void CopyCode()
+        {
+            var hub = NetHub.Instance;
+            if (hub == null || hub.IsSolo || string.IsNullOrEmpty(hub.RoomCode)) return;
+#if UNITY_WEBGL && !UNITY_EDITOR
+            StrangerCopyCode(hub.RoomCode, gameObject.name);
+#else
+            GUIUtility.systemCopyBuffer = hub.RoomCode;
+            CopyCodeResult("ok");
+#endif
+        }
+
+        [UnityEngine.Scripting.Preserve]
+        public void CopyCodeResult(string result)
+        {
+            if (_mode == Mode.Character) Say(result == "ok" ? "방 코드를 복사했어요" : "복사 권한을 확인해 주세요", result == "ok" ? Mint : Warn);
         }
 
         // ================================================================= ① 방
@@ -365,7 +395,7 @@ namespace Paradox.Client
         }
 
         private void CreateRoom() { StartConnect(() => NetHub.Instance.StartHost(false), "방을 만드는 중…"); }
-        private void SoloTest() { StartConnect(() => NetHub.Instance.StartHost(true), "혼자 테스트를 시작하는 중…"); }
+        private void SoloTest() { StartConnect(() => NetHub.Instance.StartHost(true), "AI 친구들을 부르는 중…"); }
 
         private void StartConnect(Func<bool> start, string msg)
         {
@@ -373,7 +403,6 @@ namespace Paradox.Client
             if (hub.IsRunning) return;
             busyText.text = msg;
             busySub.text = "";
-            _sentReady = false;
             if (!start()) { Say(hub.Status, Warn); return; }
             _mode = Mode.Connecting;
         }
@@ -399,7 +428,9 @@ namespace Paradox.Client
             if (string.IsNullOrEmpty(msg)) msg = "서버와 연결이 끊어졌어요. 다시 들어와 주세요";
             _mode = Mode.Room;
             _nickFocus = false;
-            Say(msg, Warn, 6f);
+            // 실패 이유를 오래 보여 준다(같은 버튼을 다시 누르면 재시도). 긴 문장은 글씨를 줄여 칸 안에
+            if (roomStatus != null && roomStatus.maxWidth <= 0f) roomStatus.maxWidth = Mathf.Max(600f, roomStatus.rectTransform.rect.width);
+            Say(msg, Warn, 10f);
         }
 
         private void Say(string msg, Color c, float seconds = 3f)
@@ -433,21 +464,33 @@ namespace Paradox.Client
             _mode = Mode.Character;
             _cardSel = Mathf.Max(0, Session.MySlot);
             _nickFocus = false;
-            _sentReady = false;
             if (_nick.Length > 0) Session.Send("Name", 0, 0, _nick);
             var hub = NetHub.Instance;
-            charCodeLine.text = hub.IsSolo ? "혼자 테스트" : "방 코드   " + hub.RoomCode;
+            charCodeLine.text = hub.IsSolo ? "혼자 하기 · AI 친구 3명" : CodeLabel(hub.RoomCode);
+            if (!hub.IsSolo) RememberRoom(hub.RoomCode);
+            charCodeLine.raycastTarget = !hub.IsSolo;
             charCodeLine.color = hub.IsSolo ? Amber : Mint;
             hub.RoomCodeChanged -= OnCode;
             hub.RoomCodeChanged += OnCode;
             charStatus.text = "";
         }
 
+        private const string LastRoomKey = "stranger_last_room";
+
+        private static void RememberRoom(string code)
+        {
+            if (string.IsNullOrEmpty(code)) return;
+            try { PlayerPrefs.SetString(LastRoomKey, code); PlayerPrefs.Save(); } catch { }
+        }
+
         private void OnCode(string c)
         {
             var hub = NetHub.Instance;
-            if (_mode == Mode.Character && hub != null && !hub.IsSolo) charCodeLine.text = "방 코드   " + c;
+            if (hub != null && !hub.IsSolo) RememberRoom(c);
+            if (_mode == Mode.Character && hub != null && !hub.IsSolo) charCodeLine.text = CodeLabel(c);
         }
+
+        private static string CodeLabel(string code) => string.IsNullOrEmpty(code) ? "방 코드 생성 중" : "방 코드   " + code + "   ·   클릭해서 복사";
 
         private void OnState()
         {
@@ -455,15 +498,6 @@ namespace Paradox.Client
             var S = Session.State;
             if (_mode == Mode.Character)
             {
-                if (S.phase == Phase.NameSetup && !_sentReady && Session.MySlot >= 0)
-                {
-                    _sentReady = true;
-                    busyText.text = "게임을 준비하고 있어요…";
-                    busySub.text = "";
-                    if (_nick.Length > 0) Session.Send("Name", 0, 0, _nick);
-                    Session.Send("Ready", 1);
-                }
-                // 옛 "네 명 모두 준비됐습니다" 화면(Ready)은 건너뛰고 오프닝 컷씬이 시작될 때 넘어간다.
                 if ((int)S.phase >= (int)Phase.StageIntro) StartCoroutine(HandOff());
             }
         }
@@ -475,8 +509,18 @@ namespace Paradox.Client
             busyText.text = "시작합니다";
             busySub.text = "";
             yield return FadeBlack(1f, 0.6f);
-            SceneManager.LoadScene("Prologue");   // 프롤로그를 보고 난 뒤 Paradox 로 넘어간다
+            // 타이틀 "이어하기"로 온 혼자 하기: 이미 본 프롤로그·캠프를 건너뛰고 박물관으로 바로(온라인은 다 같이 보므로 그대로)
+            var hub = NetHub.Instance;
+            bool skip = (SkipStory && hub != null && hub.IsSolo) || Story1Net.Speedrun;   // 스피드런: 모두 같은 설정이라 다 같이 박물관으로 바로
+            SkipStory = false;
+            SceneManager.LoadSceneAsync(skip ? "MainStory1" : "Prologue");   // 프롤로그를 보고 난 뒤 캠프 → 박물관으로 넘어간다
         }
+
+        /// <summary>타이틀 "이어하기": 혼자 하기라면 프롤로그·캠프 이야기를 건너뛴다.</summary>
+        public static bool SkipStory;
+
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        private static void ResetStatics() { SkipStory = false; }
 
         private void PickCard(int i)
         {
@@ -489,12 +533,16 @@ namespace Paradox.Client
 
         private void TryStart()
         {
-            if (!Session.IsHost) { Say("방장이 시작할 때까지 기다려 주세요", Dim); return; }
-            if (Session.State.PresentCount < 4) Session.Send("FillBots");   // 빈 자리는 봇으로 채우고
-            Session.Send("StartGame");
+            if (Session.IsHost && Session.State.HumansReady) Session.Send("Launch");   // 빈 자리는 서버가 AI 로 채운다
+            else ToggleReady();
         }
 
-        private void FillBots() { Session.Send("FillBots"); }
+        private void ToggleReady()
+        {
+            int me = Session.MySlot;
+            if (me >= 0 && (Session.State.phase == Phase.Lobby || Session.State.phase == Phase.NameSetup))
+                Session.Send("Ready", Session.State.players[me].ready ? 0 : 1);
+        }
 
         private void BackToTitle() { IntroSequence.SkipToMenu = true; StartCoroutine(LeaveScene("Intro")); }
 
@@ -515,7 +563,37 @@ namespace Paradox.Client
         private void CycleDifficulty()
         {
             if (!Session.IsHost) { Paradox.Core.Sfx.Play("ui_back", 0.6f); return; }
-            Story1Net.SetDifficulty((Story1Net.Difficulty + 1) % Story1Rules.Count);
+            int d = (Story1Net.Difficulty + 1) % Story1Rules.Count;
+            Story1Net.SetDifficulty(d);
+            Say(Story1Rules.Names[d] + " · " + Story1Rules.Blurbs[d], d == Story1Rules.Easy ? Mint : Amber);
+        }
+
+        // 스피드런: 이야기를 모두 건너뛰고 구간 기록을 잰다(랭킹도 따로). 방장만 바꾼다.
+        private Btn speedBtn;
+
+        private void ToggleSpeedrun()
+        {
+            if (!Session.IsHost) { Paradox.Core.Sfx.Play("ui_back", 0.6f); return; }
+            bool on = !Story1Net.Speedrun;
+            Story1Net.SetSpeedrun(on);
+            Say(on ? "스피드런 · 이야기를 건너뛰고 시간만 잰다 · 랭킹 따로" : "스토리 모드 · 이야기와 함께", on ? Amber : Mint);
+        }
+
+        /// <summary>씬에 있는 단추를 복제해 새 단추를 만든다(씬 빌더를 다시 돌리지 않아도 되게).</summary>
+        private Btn CloneButton(Btn src, string name, int group, Vector2 pos, float width)
+        {
+            if (src == null || src.rect == null) return null;
+            var go = Instantiate(src.rect.gameObject, src.rect.parent);
+            go.name = name;
+            var r = (RectTransform)go.transform;
+            r.anchoredPosition = pos;
+            r.sizeDelta = new Vector2(width, r.sizeDelta.y);
+            var relay = go.GetComponent<PointerRelay>();
+            if (relay != null) { relay.owner = this; relay.group = group; relay.id = 0; }
+            var b = new Btn { rect = r, fill = go.GetComponent<Image>() };
+            var br = go.transform.Find("Border"); if (br != null) b.border = br.GetComponent<Image>();
+            var lb = go.transform.Find("Label"); if (lb != null) { b.label = lb.GetComponent<PixelText>(); ((RectTransform)lb).sizeDelta = new Vector2(width - 20f, ((RectTransform)lb).sizeDelta.y); }
+            return b;
         }
 
         private void CommitNick()
@@ -537,7 +615,6 @@ namespace Paradox.Client
             _suppressDisc = false;
             _mode = Mode.Room;
             _nickFocus = false;
-            _sentReady = false;
         }
 
         private IEnumerator LeaveScene(string scene)
@@ -545,7 +622,7 @@ namespace Paradox.Client
             _mode = Mode.Leaving;
             busyText.text = "";
             yield return FadeBlack(1f, 0.45f);
-            SceneManager.LoadScene(scene);
+            SceneManager.LoadSceneAsync(scene);
         }
 
         private void RefreshChar()
@@ -553,6 +630,7 @@ namespace Paradox.Client
             var S = Session.State;
             int me = Session.MySlot;
             int present = S.PresentCount;
+            int ready = 0;
             for (int i = 0; i < 4; i++)
             {
                 var c = cards[i];
@@ -562,14 +640,18 @@ namespace Paradox.Client
                 bool taken = p.present && !p.isBot && !mine;
                 bool focus = _cardSel == i;
                 Style(c.btn, focus, rc, true, mine);
-                c.tag.text = i == S.hostSlot && p.present && !p.isBot ? "방장" : "";
+                if (p.present && p.ready) ready++;
+                c.tag.text = !p.present ? "" : p.ready ? "준비 완료" : "입장";
+                c.tag.rectTransform.sizeDelta = new Vector2(220f, 36f);
+                c.tag.rectTransform.anchoredPosition = new Vector2(18f, 234f);
+                c.tag.color = p.ready ? Mint : Amber;
                 c.name.text = Roles.DefaultName(i);
                 c.name.color = mine || p.present ? Ink : Dim;
                 c.role.text = Roles.Name(i);
                 c.role.color = rc;
-                string who = p.present ? (p.isBot ? "봇 · 눌러서 선택" : p.name) : "눌러서 선택";
+                string who = p.present ? (p.isBot ? "AI 친구" : p.name) : "빈 자리";
                 if (mine) who = (string.IsNullOrEmpty(p.name) ? Roles.DefaultName(i) : p.name);
-                c.owner.text = (mine ? "★ " : "") + who;
+                c.owner.text = (mine ? "★ " : "") + (p.present && i == S.hostSlot ? "방장 " : "") + who;
                 c.owner.color = mine ? Amber : (p.present ? Ink : Dim);
                 // 초상: 비어 있으면 실루엣, 가져간 캐릭터는 밝게, 선택 중이면 살짝 크게
                 c.portrait.color = p.present ? Color.white : new Color(0.16f, 0.18f, 0.22f, 1f);
@@ -577,7 +659,8 @@ namespace Paradox.Client
                 c.portrait.rectTransform.localScale = new Vector3(ps, ps, 1f);
                 _ = taken;
             }
-            charTitle.text = "캐릭터 선택";
+            charTitle.scale = 2;
+            charTitle.text = "입장 " + present + "/4   ·   준비 " + ready + "/4";
 
             // 닉네임
             bool blink = (int)(Time.time * 2f) % 2 == 0;
@@ -598,11 +681,13 @@ namespace Paradox.Client
             // 버튼
             Style(leaveBtn, false, Warn, true);
             bool host = Session.IsHost;
-            bool can = host;
+            bool can = me >= 0 && (S.phase == Phase.Lobby || S.phase == Phase.NameSetup);
             Style(startBtn, can, Mint, can);
-            if (host) startBtn.label.text = present >= 4 ? "게임 시작" : "게임 시작  (빈 자리 " + (4 - present) + "명은 봇)";
-            else startBtn.label.text = "방장 대기 중   " + present + " / 4";
-            startBtn.label.scale = can && present >= 4 ? 3 : 2;
+            startBtn.label.text = host && S.HumansReady ? (present < 4 ? "AI와 시작" : "게임 시작") : can && S.players[me].ready ? "준비 취소" : "준비하기";
+            if (host && S.HumansReady && present < 4 && _msgUntil <= 0f && charStatus.text.Length == 0)
+            { charStatus.text = "빈 자리 " + (4 - present) + "개는 AI 친구가 맡아요"; charStatus.color = Dim; }
+            else if (!(host && S.HumansReady && present < 4) && _msgUntil <= 0f && charStatus.text.StartsWith("빈 자리")) charStatus.text = "";
+            startBtn.label.scale = 3;
             startBtn.label.color = can ? Mint : Dim;
             stageBtn.label.text = "Stage " + (_stage + 1) + "  " + StageNames[_stage];
             stageBtn.label.color = host ? Mint : Dim;
@@ -611,9 +696,13 @@ namespace Paradox.Client
             diffBtn.label.text = "난이도  " + Story1Rules.Names[dl];
             diffBtn.label.color = host ? Amber : Dim;
             Style(diffBtn, false, host ? Amber : Dim, true);
-            bool needBots = host && present < 4;
-            botsBtn.rect.gameObject.SetActive(needBots);
-            Style(botsBtn, false, Amber, needBots);
+            if (speedBtn != null && speedBtn.label != null)
+            {
+                bool sp = Story1Net.Speedrun;
+                speedBtn.label.text = sp ? "스피드런 ON" : "스피드런 OFF";
+                speedBtn.label.color = !host ? Dim : sp ? Amber : Mint;
+                Style(speedBtn, sp, !host ? Dim : sp ? Amber : Mint, true);
+            }
         }
 
         // ================================================================= 공통 스타일

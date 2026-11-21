@@ -118,7 +118,7 @@ namespace Paradox.Client
             _busy = true;
             if (scene == backScene) IntroSequence.SkipToMenu = true;   // 로고 연출 없이 타이틀 메뉴로 복귀
             yield return Fade(1f, 0.5f);
-            SceneManager.LoadScene(scene);
+            SceneManager.LoadSceneAsync(scene);
         }
     }
 }

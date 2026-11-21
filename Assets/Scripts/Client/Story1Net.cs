@@ -17,10 +17,22 @@ namespace Paradox.Client
     /// </summary>
     public static class Story1Net
     {
-        public const int Clear = 1, Say = 2, Round = 3, FinalGo = 4, FinalPress = 5, FinalResult = 6, Pos = 7, Signal = 8, Break = 9, Pump = 10;
+        public const int Clear = 1, Say = 2, Round = 3, FinalGo = 4, FinalPress = 5, FinalResult = 6, Pos = 7, Signal = 8, Break = 9, Pump = 10, Chat = 11, ValveSet = 12, GasSet = 13, BreakerSet = 14;
         public const int PFuse = 0, PGallery = 1, PRelic = 2, PWater = 3, PFinal = 4;
 
         public static event Action<GameEvent> Received;
+
+        /// <summary>자유 채팅 한 줄(보낸 사람 슬롯, 내용). 내가 보낸 것도 서버를 한 바퀴 돌아 같은 경로로 들어온다.</summary>
+        public static event Action<int, string> ChatLine;
+        public const int ChatMax = 60;
+
+        public static void SendChat(string text)
+        {
+            text = (text ?? "").Trim();
+            if (text.Length == 0) return;
+            if (text.Length > ChatMax) text = text.Substring(0, ChatMax);
+            Send(Chat, 0, text);
+        }
 
         /// <summary>퍼즐별로 마지막으로 받은 조작자의 진행 한 줄.</summary>
         public static readonly string[] SayText = new string[5];
@@ -116,6 +128,28 @@ namespace Paradox.Client
             if (Online && Session.IsHost) Session.Send(Cmd.Make("Diff", d));
         }
 
+        // ---- 스피드런 --------------------------------------------------------------
+        private const string SpeedKey = "stranger.speedrun";
+        private static int _localSpeed = -1;
+
+        /// <summary>스피드런 모드(이야기 건너뛰기 · 구간 기록 · 따로 집계하는 랭킹). 온라인은 방장이 정한 값.</summary>
+        public static bool Speedrun
+        {
+            get
+            {
+                if (Online) return Session.State.speedrun;
+                if (_localSpeed < 0) { try { _localSpeed = PlayerPrefs.GetInt(SpeedKey, 0); } catch { _localSpeed = 0; } }
+                return _localSpeed == 1;
+            }
+        }
+
+        public static void SetSpeedrun(bool on)
+        {
+            _localSpeed = on ? 1 : 0;
+            try { PlayerPrefs.SetInt(SpeedKey, _localSpeed); PlayerPrefs.Save(); } catch { }
+            if (Online && Session.IsHost) Session.Send(Cmd.Make("Speed", on ? 1 : 0));
+        }
+
         /// <summary>이 클라이언트가 센 "푼 횟수"(내가 푼 것 + 동료가 푼 이벤트). 서버 상태와 큰 쪽을 쓴다(이벤트를 놓친 PC 도 따라잡도록).</summary>
         private static readonly int[] _roundsDone = new int[5];
 
@@ -147,7 +181,7 @@ namespace Paradox.Client
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         private static void Reset()
         {
-            Received = null;
+            Received = null; ChatLine = null;
             for (int i = 0; i < SayText.Length; i++) SayText[i] = "";
             SayVersion = 0; FinalRound = 0; FinalGoing = false; BreakUntil = PumpUntil = 0f;
             for (int i = 0; i < _roundsDone.Length; i++) _roundsDone[i] = 0; RoundAdvanced = null;
@@ -216,6 +250,7 @@ namespace Paradox.Client
                 case Say:
                     if (e.b >= 0 && e.b < SayText.Length) { SayText[e.b] = e.s ?? ""; SayVersion++; }
                     break;
+                case Chat: if (Roles.Valid(e.slot) && !string.IsNullOrEmpty(e.s)) ChatLine?.Invoke(e.slot, e.s); break;
                 case Break: BreakUntil = Now + 2.2f; break;
                 case Pump: PumpUntil = Now + 4f; break;
                 case Round:

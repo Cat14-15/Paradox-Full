@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Paradox.Game
 {
@@ -8,10 +8,10 @@ namespace Paradox.Game
     /// </summary>
     public enum GameRole
     {
-        Operator = 0,    // 조작자 (한국인 · 도윤) — 스위치·레버 조작, 자유 채팅
-        Interpreter = 1, // 통역 (필리핀인 · 마리아) — 표지판·벽보 해독, 모두의 채팅 해독, 숫자·방향 카드
+        Operator = 0,    // 조작자 (한국인 · 서하린) — 스위치·레버 조작, 자유 채팅
+        Interpreter = 1, // 통역 (필리핀인 · 이안) — 표지판·벽보 해독, 모두의 채팅 해독, 숫자·방향 카드
         Navigator = 2,   // 내비게이터 (베트남인 · 린) — 맵·침수 현황, 이동 지시
-        Observer = 3     // 관측자 (남아공인 · 아이샤) — 색 구분
+        Observer = 3     // 관측자 (남아공인 · 카이) — 색 구분
     }
 
     public static class Roles
@@ -23,14 +23,14 @@ namespace Paradox.Game
         public static readonly string[] Nations = { "한국인", "필리핀인", "베트남인", "남아공인" };
         public static readonly string[] Countries = { "한국", "필리핀", "베트남", "남아공" };
         public static readonly string[] Codes = { "KOR", "PHL", "VNM", "ZAF" };
-        public static readonly string[] DefaultNames = { "도윤", "마리아", "린", "아이샤" };
+        public static readonly string[] DefaultNames = { "서하린", "이안", "린", "카이" };
 
         public static readonly string[] Jobs =
         {
-            "스위치와 레버를 조작할 수 있는 유일한 사람. 자유롭게 채팅하지만, 이 나라의 글자는 읽지 못한다.",
-            "이 스테이지의 표지판·벽보를 읽을 수 있는 유일한 사람. 모두의 채팅을 읽고 쓸 수 있고, 숫자·방향 카드를 보낸다.",
-            "맵과 침수 상황을 볼 수 있다. 팀이 어디로 가야 하는지는 너만 안다.",
-            "램프와 패널의 색을 구분할 수 있다. 색은 너만 볼 수 있다."
+            "장치의 최종 작동(나침반 돌리기, 보관장 입력)을 맡는다. 이 나라 글자는 읽지 못한다.",
+            "외국어 명판과 채팅 낱말의 뜻이 보인다. 한국어만은 읽지 못한다.",
+            "박물관 지도(M)와 다음 목표 방향이 보인다. 팀을 목적지로 이끈다.",
+            "퍼즐에서 맞은 칸과 틀린 칸이 보인다."
         };
 
         /// <summary>역할 색(HTML F2C572 / 5FD3C4 / E98A8A / 9F8FE0).</summary>
